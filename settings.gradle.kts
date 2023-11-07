@@ -14,4 +14,4 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "compose-style-sheet"
-include(":compose-style-sheet-core")
+include(":compose-stylesheet-core")

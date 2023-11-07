@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="compose-stylesheet-core-desktop">
+    <output-path>$PROJECT_DIR$/compose-stylesheet-core/build/libs</output-path>
+    <root id="archive" name="compose-stylesheet-core-desktop.jar">
+      <element id="module-output" name="compose-style-sheet.compose-stylesheet-core.desktopMain" />
+    </root>
+  </artifact>
+</component>
