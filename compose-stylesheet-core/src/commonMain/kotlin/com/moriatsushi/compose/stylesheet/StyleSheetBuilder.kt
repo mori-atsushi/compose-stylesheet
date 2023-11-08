@@ -5,6 +5,7 @@ import com.moriatsushi.compose.stylesheet.color.ColorsBuilder
 /**
  * A builder for [StyleSheet].
  */
+@StyleSheetBuilderMarker
 class StyleSheetBuilder internal constructor() {
     private val colorsBuilder = ColorsBuilder()
     private val commonBuilder = CommonStyleBuilder()

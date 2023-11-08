@@ -1,10 +1,12 @@
 package com.moriatsushi.compose.stylesheet.color
 
 import androidx.compose.ui.graphics.Color
+import com.moriatsushi.compose.stylesheet.StyleSheetBuilderMarker
 
 /**
  * A builder for colors in [com.moriatsushi.compose.stylesheet.StyleSheet].
  */
+@StyleSheetBuilderMarker
 class ColorsBuilder internal constructor() {
     private val colors = mutableMapOf<ColorToken, ColorToken>()
 
