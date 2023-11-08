@@ -40,5 +40,14 @@ class StyleSheet internal constructor(
         @Composable
         fun getColor(token: ColorToken): Color =
             LocalStyleSheet.current.getColor(token)
+
+        /**
+         * Creates a new [StyleSheet] using the given [builder].
+         */
+        operator fun invoke(builder: StyleSheetBuilder.() -> Unit): StyleSheet {
+            val styleSheetBuilder = StyleSheetBuilder()
+            builder(styleSheetBuilder)
+            return styleSheetBuilder.build()
+        }
     }
 }

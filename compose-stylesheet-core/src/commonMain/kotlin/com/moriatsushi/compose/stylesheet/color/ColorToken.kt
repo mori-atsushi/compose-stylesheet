@@ -13,3 +13,5 @@ class ColorToken(
 ) {
     override fun toString(): String = "ColorToken($name, default=$default)"
 }
+
+internal fun Color.toToken(): ColorToken = ColorToken(toString(), this)
