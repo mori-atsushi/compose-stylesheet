@@ -10,7 +10,7 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/compose-style-sheet-core" />
+            <option value="$PROJECT_DIR$/compose-stylesheet-core" />
           </set>
         </option>
       </GradleProjectSettings>

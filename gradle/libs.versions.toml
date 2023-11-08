@@ -1,4 +1,6 @@
 [versions]
+agp = "8.1.0"
+compose-multiplatform = "1.5.10"
 kotlin = "1.9.20"
 ktlint = "0.48.1"
 spotless = "6.22.0"
@@ -6,5 +8,7 @@ spotless = "6.22.0"
 [libraries]
 
 [plugins]
+android-library = { id = "com.android.library", version.ref = "agp" }
+compose-multiplatform = { id = "org.jetbrains.compose", version.ref = "compose-multiplatform" }
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }

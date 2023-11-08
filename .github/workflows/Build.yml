@@ -81,10 +81,8 @@ jobs:
 
       - name: Run local tests
         run: |
-          ./gradlew iosX64Test iosSimulatorArm64Test \
-          macosX64Test macosArm64Test \
-          watchosX64Test watchosSimulatorArm64Test \
-          tvosX64Test tvosSimulatorArm64Test --stacktrace
+          ./gradlew uikitX64Test uikitSimArm64Test \
+          macosX64Test macosArm64Test --stacktrace
 
       - name: Upload test reports
         if: always()
