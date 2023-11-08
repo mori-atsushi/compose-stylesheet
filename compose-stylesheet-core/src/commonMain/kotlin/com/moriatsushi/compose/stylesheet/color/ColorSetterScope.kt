@@ -6,11 +6,17 @@ import androidx.compose.ui.graphics.Color
  * A scope for setting a color.
  */
 interface ColorSetterScope {
-    infix fun ColorSetter.to(token: ColorToken) {
+    /**
+     * Sets the color to the given [token].
+     */
+    operator fun ColorSetter.plusAssign(token: ColorToken) {
         this.value = token
     }
 
-    infix fun ColorSetter.to(color: Color) {
+    /**
+     * Sets the color to the given [color].
+     */
+    operator fun ColorSetter.plusAssign(color: Color) {
         this.value = color.toToken()
     }
 }

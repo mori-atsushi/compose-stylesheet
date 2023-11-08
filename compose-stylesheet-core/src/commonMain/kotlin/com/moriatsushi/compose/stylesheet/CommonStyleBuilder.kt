@@ -6,6 +6,7 @@ import com.moriatsushi.compose.stylesheet.color.ColorSetterScope
 /**
  * A builder for common styles in [com.moriatsushi.compose.stylesheet.StyleSheet].
  */
+@StyleSheetBuilderMarker
 class CommonStyleBuilder internal constructor() : ColorSetterScope {
     /**
      * A content color, which is used for text and icons.
