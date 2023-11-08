@@ -11,14 +11,14 @@ class ColorsBuilder internal constructor() {
     /**
      * Overrides the [token][this] with the given [token].
      */
-    infix fun ColorToken.to(token: ColorToken) {
+    operator fun ColorToken.plusAssign(token: ColorToken) {
         colors[this] = token
     }
 
     /**
      * Overrides the [token][this] with the given [color].
      */
-    infix fun ColorToken.to(color: Color) {
+    operator fun ColorToken.plusAssign(color: Color) {
         colors[this] = color.toToken()
     }
 

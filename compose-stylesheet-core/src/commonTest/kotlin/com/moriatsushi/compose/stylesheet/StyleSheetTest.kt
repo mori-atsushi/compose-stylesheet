@@ -10,8 +10,8 @@ class StyleSheetTest {
     fun testColors() {
         val styleSheet = StyleSheet {
             colors {
-                color2 to color1
-                color3 to Color.Green
+                color2 += color1
+                color3 += Color.Green
             }
         }
 
@@ -32,7 +32,7 @@ class StyleSheetTest {
     @Test
     fun testCommonColor() {
         val styleSheet = StyleSheet {
-            common { color to Color.Red }
+            common { color += Color.Red }
         }
 
         assertEquals(Color.Red, styleSheet.color)
@@ -48,8 +48,8 @@ class StyleSheetTest {
     @Test
     fun testCommonColor_setToken() {
         val styleSheet = StyleSheet {
-            colors { color1 to Color.Red }
-            common { color to color1 }
+            colors { color1 += Color.Red }
+            common { color += color1 }
         }
 
         assertEquals(Color.Red, styleSheet.color)
