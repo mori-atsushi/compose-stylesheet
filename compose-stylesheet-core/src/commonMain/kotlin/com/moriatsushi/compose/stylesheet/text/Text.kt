@@ -6,7 +6,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.takeOrElse
 import androidx.compose.ui.text.TextLayoutResult
-import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.TextStyle as ComposeTextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -14,6 +14,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.TextUnit
+import com.moriatsushi.compose.stylesheet.Component
 import com.moriatsushi.compose.stylesheet.StyleSheet
 
 /**
@@ -43,7 +44,7 @@ fun Text(
     BasicText(
         text = text,
         modifier = modifier,
-        style = TextStyle(
+        style = ComposeTextStyle(
             color = textColor,
             fontSize = fontSize,
             fontStyle = fontStyle,
@@ -60,4 +61,13 @@ fun Text(
         maxLines = maxLines,
         minLines = minLines,
     )
+}
+
+/**
+ * Utilities for the [Text] Composable.
+ */
+object Text : Component<TextStyle, TextStyleBuilder> {
+    override val defaultStyle: TextStyle = TextStyle()
+
+    override fun createBuilder(): TextStyleBuilder = TextStyleBuilder()
 }

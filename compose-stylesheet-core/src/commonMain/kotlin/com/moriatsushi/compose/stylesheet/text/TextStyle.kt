@@ -1,6 +1,7 @@
 package com.moriatsushi.compose.stylesheet.text
 
 import androidx.compose.runtime.Immutable
+import com.moriatsushi.compose.stylesheet.ComponentStyle
 import com.moriatsushi.compose.stylesheet.color.ColorToken
 
 /**
@@ -9,7 +10,7 @@ import com.moriatsushi.compose.stylesheet.color.ColorToken
 @Immutable
 class TextStyle(
     val color: ColorToken? = null,
-) {
+) : ComponentStyle {
     override fun hashCode(): Int = color.hashCode()
 
     override fun equals(other: Any?): Boolean {
@@ -21,5 +22,5 @@ class TextStyle(
     }
 
     override fun toString(): String = "TextStyle(" +
-            "color=$color)"
+        "color=$color)"
 }

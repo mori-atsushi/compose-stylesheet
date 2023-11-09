@@ -12,6 +12,7 @@ import com.moriatsushi.compose.stylesheet.color.ColorToken
 class StyleSheet internal constructor(
     private val colors: Map<ColorToken, ColorToken> = emptyMap(),
     private val common: CommonStyle = CommonStyle.Empty,
+    private val componentStyles: Map<Component<*, *>, ComponentStyle> = emptyMap(),
 ) {
     internal val color: Color = common.color
         ?.let(::getColor)
@@ -21,6 +22,10 @@ class StyleSheet internal constructor(
         val nextToken = colors[token] ?: return token.default
         return getColor(nextToken)
     }
+
+    @Suppress("UNCHECKED_CAST")
+    internal fun <S : ComponentStyle> getStyle(component: Component<S, *>): S =
+        (componentStyles[component] as? S) ?: component.defaultStyle
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -60,6 +65,10 @@ class StyleSheet internal constructor(
         @Composable
         fun getColor(token: ColorToken): Color =
             LocalStyleSheet.current.getColor(token)
+
+        @Composable
+        fun <S : ComponentStyle> getStyle(component: Component<S, *>): S =
+            LocalStyleSheet.current.getStyle(component)
 
         /**
          * Creates a new [StyleSheet] using the given [builder].
