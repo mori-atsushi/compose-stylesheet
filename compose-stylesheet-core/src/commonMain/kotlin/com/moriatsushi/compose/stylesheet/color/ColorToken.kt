@@ -1,7 +1,9 @@
 package com.moriatsushi.compose.stylesheet.color
 
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Color
+import com.moriatsushi.compose.stylesheet.StyleSheet
 
 /**
  * A token that represents a color.
@@ -15,3 +17,9 @@ class ColorToken(
 }
 
 internal fun Color.toToken(): ColorToken = ColorToken(toString(), this)
+
+/**
+ * Returns the color corresponding to the given [ColorToken].
+ */
+@Composable
+fun ColorToken.asColor(): Color = StyleSheet.getColor(this)

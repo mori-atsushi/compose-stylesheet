@@ -16,6 +16,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.TextUnit
 import com.moriatsushi.compose.stylesheet.Component
 import com.moriatsushi.compose.stylesheet.StyleSheet
+import com.moriatsushi.compose.stylesheet.color.asColor
 
 /**
  * An element that displays text.
@@ -39,7 +40,10 @@ fun Text(
     minLines: Int = 1,
     onTextLayout: (TextLayoutResult) -> Unit = {},
 ) {
-    val textColor = color.takeOrElse { StyleSheet.color }
+    val textStyle = StyleSheet.getStyle(Text)
+    val textColor = color
+        .takeOrElse { textStyle.color?.asColor() ?: Color.Unspecified }
+        .takeOrElse { StyleSheet.color }
 
     BasicText(
         text = text,
