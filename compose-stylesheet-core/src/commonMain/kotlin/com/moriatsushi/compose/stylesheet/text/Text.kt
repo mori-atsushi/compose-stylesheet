@@ -15,6 +15,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.TextUnit
 import com.moriatsushi.compose.stylesheet.Component
+import com.moriatsushi.compose.stylesheet.LocalContentStyle
 import com.moriatsushi.compose.stylesheet.StyleSheet
 import com.moriatsushi.compose.stylesheet.color.asColor
 
@@ -43,7 +44,7 @@ fun Text(
     val textStyle = StyleSheet.getStyle(Text)
     val textColor = color
         .takeOrElse { textStyle.color?.asColor() ?: Color.Unspecified }
-        .takeOrElse { StyleSheet.color }
+        .takeOrElse { LocalContentStyle.current.color?.asColor() ?: Color.Unspecified }
 
     BasicText(
         text = text,

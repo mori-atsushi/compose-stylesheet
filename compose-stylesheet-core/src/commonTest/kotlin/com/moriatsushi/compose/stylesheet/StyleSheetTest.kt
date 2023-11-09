@@ -4,6 +4,7 @@ import androidx.compose.ui.graphics.Color
 import com.moriatsushi.compose.stylesheet.color.ColorToken
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertNull
 
 class StyleSheetTest {
     @Test
@@ -35,14 +36,16 @@ class StyleSheetTest {
             content { color += Color.Red }
         }
 
-        assertEquals(Color.Red, styleSheet.color)
+        val actual = styleSheet.contentStyle.color?.let(styleSheet::getColor)
+        assertEquals(Color.Red, actual)
     }
 
     @Test
     fun testColor_empty() {
         val styleSheet = StyleSheet.Empty
 
-        assertEquals(Color.Unspecified, styleSheet.color)
+        val actual = styleSheet.contentStyle.color?.let(styleSheet::getColor)
+        assertNull(actual)
     }
 
     @Test
@@ -52,7 +55,8 @@ class StyleSheetTest {
             content { color += color1 }
         }
 
-        assertEquals(Color.Red, styleSheet.color)
+        val actual = styleSheet.contentStyle.color?.let(styleSheet::getColor)
+        assertEquals(Color.Red, actual)
     }
 
     companion object {

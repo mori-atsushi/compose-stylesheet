@@ -11,13 +11,9 @@ import com.moriatsushi.compose.stylesheet.color.ColorToken
 @Immutable
 class StyleSheet internal constructor(
     private val colors: Map<ColorToken, ColorToken> = emptyMap(),
-    private val contentStyle: ContentStyle = ContentStyle.Empty,
+    internal val contentStyle: ContentStyle = ContentStyle.Empty,
     private val componentStyles: Map<Component<*, *>, ComponentStyle> = emptyMap(),
 ) {
-    internal val color: Color = contentStyle.color
-        ?.let(::getColor)
-        ?: Color.Unspecified
-
     internal tailrec fun getColor(token: ColorToken): Color {
         val nextToken = colors[token] ?: return token.default
         return getColor(nextToken)
@@ -54,13 +50,6 @@ class StyleSheet internal constructor(
          * Constant for an empty style sheet.
          */
         val Empty = StyleSheet()
-
-        /**
-         * A content color, which is used for text and icons.
-         */
-        val color: Color
-            @Composable
-            get() = LocalStyleSheet.current.color
 
         /**
          * Returns the color corresponding to the given [token].
