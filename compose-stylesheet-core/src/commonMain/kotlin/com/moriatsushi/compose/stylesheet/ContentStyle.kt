@@ -14,6 +14,13 @@ class ContentStyle(
         color = other.color ?: color,
     )
 
+    /**
+     * Returns a new [ContentStyle] that is a combination of this style and the style built by
+     * [builder].
+     */
+    fun merge(builder: ContentStyleBuilder.() -> Unit): ContentStyle =
+        merge(ContentStyleBuilder().apply(builder).build())
+
     override fun hashCode(): Int = color.hashCode()
 
     override fun equals(other: Any?): Boolean {
@@ -32,11 +39,5 @@ class ContentStyle(
          * Constant for a default [ContentStyle].
          */
         val Default = ContentStyle()
-
-        /**
-         * Creates a new [ContentStyle] using the given [builder].
-         */
-        operator fun invoke(builder: ContentStyleBuilder.() -> Unit): ContentStyle =
-            ContentStyleBuilder().apply(builder).build()
     }
 }
