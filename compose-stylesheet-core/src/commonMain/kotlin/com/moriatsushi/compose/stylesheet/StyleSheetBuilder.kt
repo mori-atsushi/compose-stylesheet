@@ -8,7 +8,7 @@ import com.moriatsushi.compose.stylesheet.color.ColorsBuilder
 @StyleSheetBuilderMarker
 class StyleSheetBuilder internal constructor() {
     private val colorsBuilder = ColorsBuilder()
-    private val commonBuilder = CommonStyleBuilder()
+    private val commonBuilder = ContentStyleBuilder()
     private val componentStyles = mutableMapOf<Component<*, *>, ComponentStyle>()
 
     /**
@@ -19,9 +19,9 @@ class StyleSheetBuilder internal constructor() {
     }
 
     /**
-     * Defines common styles.
+     * Defines content styles.
      */
-    fun common(builder: CommonStyleBuilder.() -> Unit) {
+    fun content(builder: ContentStyleBuilder.() -> Unit) {
         commonBuilder.builder()
     }
 
@@ -36,7 +36,7 @@ class StyleSheetBuilder internal constructor() {
 
     internal fun build(): StyleSheet = StyleSheet(
         colors = colorsBuilder.build(),
-        common = commonBuilder.build(),
+        contentStyle = commonBuilder.build(),
         componentStyles = componentStyles,
     )
 }
