@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.isSpecified
 import androidx.compose.ui.graphics.takeOrElse
 import com.moriatsushi.compose.stylesheet.Component
 import com.moriatsushi.compose.stylesheet.ProvideContentStyle
@@ -24,11 +23,9 @@ fun Surface(
 ) {
     val style = StyleSheet.getStyle(Surface)
     val surfaceBackgroundColor = backgroundColor
-        .takeOrElse { style.backgroundColor?.asColor() ?: Color.Unspecified }
+        .takeOrElse { style.backgroundColor.asColor() }
     val contentStyle = style.contentStyle.merge {
-        if (contentColor.isSpecified) {
-            color += contentColor
-        }
+        color += contentColor
     }
 
     Box(

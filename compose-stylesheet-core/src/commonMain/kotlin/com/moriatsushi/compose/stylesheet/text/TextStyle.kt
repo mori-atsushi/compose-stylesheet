@@ -9,7 +9,7 @@ import com.moriatsushi.compose.stylesheet.color.ColorToken
  */
 @Immutable
 class TextStyle(
-    val color: ColorToken? = null,
+    val color: ColorToken = ColorToken.Unspecified,
 ) : ComponentStyle {
     override fun hashCode(): Int = color.hashCode()
 
