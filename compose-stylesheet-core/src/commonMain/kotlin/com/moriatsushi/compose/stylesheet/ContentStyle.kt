@@ -2,16 +2,17 @@ package com.moriatsushi.compose.stylesheet
 
 import androidx.compose.runtime.Immutable
 import com.moriatsushi.compose.stylesheet.color.ColorToken
+import com.moriatsushi.compose.stylesheet.color.isSpecified
 
 @Immutable
 class ContentStyle(
-    val color: ColorToken? = null,
+    val color: ColorToken = ColorToken.Unspecified,
 ) {
     /**
      * Returns a new [ContentStyle] that is a combination of this style and the given [other] style.
      */
     fun merge(other: ContentStyle): ContentStyle = ContentStyle(
-        color = other.color ?: color,
+        color = if (other.color.isSpecified) other.color else color,
     )
 
     /**
@@ -19,7 +20,7 @@ class ContentStyle(
      * [builder].
      */
     fun merge(builder: ContentStyleBuilder.() -> Unit): ContentStyle =
-        merge(ContentStyleBuilder().apply(builder).build())
+        merge(ContentStyle(builder))
 
     override fun hashCode(): Int = color.hashCode()
 
@@ -39,5 +40,8 @@ class ContentStyle(
          * Constant for a default [ContentStyle].
          */
         val Default = ContentStyle()
+
+        operator fun invoke(builder: ContentStyleBuilder.() -> Unit): ContentStyle =
+            ContentStyleBuilder().apply(builder).build()
     }
 }

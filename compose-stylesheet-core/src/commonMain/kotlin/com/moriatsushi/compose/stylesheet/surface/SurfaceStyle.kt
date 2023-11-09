@@ -10,7 +10,7 @@ import com.moriatsushi.compose.stylesheet.color.ColorToken
  */
 @Immutable
 class SurfaceStyle(
-    val backgroundColor: ColorToken? = null,
+    val backgroundColor: ColorToken = ColorToken.Unspecified,
     val contentStyle: ContentStyle = ContentStyle.Default,
 ) : ComponentStyle {
     override fun hashCode(): Int {

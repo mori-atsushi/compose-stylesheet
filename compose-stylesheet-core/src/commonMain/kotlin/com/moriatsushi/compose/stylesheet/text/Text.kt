@@ -43,8 +43,8 @@ fun Text(
 ) {
     val textStyle = StyleSheet.getStyle(Text)
     val textColor = color
-        .takeOrElse { textStyle.color?.asColor() ?: Color.Unspecified }
-        .takeOrElse { LocalContentStyle.current.color?.asColor() ?: Color.Unspecified }
+        .takeOrElse { textStyle.color.asColor() }
+        .takeOrElse { LocalContentStyle.current.color.asColor() }
 
     BasicText(
         text = text,
