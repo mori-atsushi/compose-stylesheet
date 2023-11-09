@@ -11,7 +11,7 @@ import com.moriatsushi.compose.stylesheet.color.ColorToken
 @Immutable
 class StyleSheet internal constructor(
     private val colors: Map<ColorToken, ColorToken> = emptyMap(),
-    internal val contentStyle: ContentStyle = ContentStyle.Empty,
+    internal val contentStyle: ContentStyle = ContentStyle.Default,
     private val componentStyles: Map<Component<*, *>, ComponentStyle> = emptyMap(),
 ) {
     internal tailrec fun getColor(token: ColorToken): Color {

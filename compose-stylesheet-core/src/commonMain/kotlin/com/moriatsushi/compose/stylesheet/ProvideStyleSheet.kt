@@ -20,4 +20,4 @@ fun ProvideStyleSheet(
 }
 
 internal val LocalStyleSheet = compositionLocalOf { StyleSheet.Empty }
-internal val LocalContentStyle = compositionLocalOf { ContentStyle.Empty }
+val LocalContentStyle = compositionLocalOf { ContentStyle.Default }
