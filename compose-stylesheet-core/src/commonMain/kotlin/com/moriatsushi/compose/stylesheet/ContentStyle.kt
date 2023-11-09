@@ -4,10 +4,10 @@ import androidx.compose.runtime.Immutable
 import com.moriatsushi.compose.stylesheet.color.ColorToken
 
 @Immutable
-internal data class CommonStyle(
+internal data class ContentStyle(
     val color: ColorToken? = null,
 ) {
     companion object {
-        val Empty = CommonStyle()
+        val Empty = ContentStyle()
     }
 }

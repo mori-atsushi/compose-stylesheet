@@ -30,26 +30,26 @@ class StyleSheetTest {
     }
 
     @Test
-    fun testCommonColor() {
+    fun testColor() {
         val styleSheet = StyleSheet {
-            common { color += Color.Red }
+            content { color += Color.Red }
         }
 
         assertEquals(Color.Red, styleSheet.color)
     }
 
     @Test
-    fun testCommonColor_empty() {
+    fun testColor_empty() {
         val styleSheet = StyleSheet.Empty
 
         assertEquals(Color.Unspecified, styleSheet.color)
     }
 
     @Test
-    fun testCommonColor_setToken() {
+    fun testColor_setToken() {
         val styleSheet = StyleSheet {
             colors { color1 += Color.Red }
-            common { color += color1 }
+            content { color += color1 }
         }
 
         assertEquals(Color.Red, styleSheet.color)

@@ -11,10 +11,10 @@ import com.moriatsushi.compose.stylesheet.color.ColorToken
 @Immutable
 class StyleSheet internal constructor(
     private val colors: Map<ColorToken, ColorToken> = emptyMap(),
-    private val common: CommonStyle = CommonStyle.Empty,
+    private val contentStyle: ContentStyle = ContentStyle.Empty,
     private val componentStyles: Map<Component<*, *>, ComponentStyle> = emptyMap(),
 ) {
-    internal val color: Color = common.color
+    internal val color: Color = contentStyle.color
         ?.let(::getColor)
         ?: Color.Unspecified
 
@@ -32,21 +32,21 @@ class StyleSheet internal constructor(
         if (other !is StyleSheet) return false
 
         if (colors != other.colors) return false
-        if (common != other.common) return false
+        if (contentStyle != other.contentStyle) return false
         if (componentStyles != other.componentStyles) return false
         return true
     }
 
     override fun hashCode(): Int {
         var result = colors.hashCode()
-        result = 31 * result + common.hashCode()
+        result = 31 * result + contentStyle.hashCode()
         result = 31 * result + componentStyles.hashCode()
         return result
     }
 
     override fun toString(): String = "StyleSheet(" +
         "colors=$colors," +
-        "common=$common," +
+        "contentStyle=$contentStyle," +
         "componentStyles=$componentStyles)"
 
     companion object {
