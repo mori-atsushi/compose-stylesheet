@@ -10,17 +10,17 @@ class TextStyleTest {
     @Test
     fun testGetStyle() {
         val styleSheet = StyleSheet {
-            Text {
+            text {
                 color += colorToken
             }
         }
-        assertEquals(colorToken, styleSheet.getStyle(Text).color)
+        assertEquals(colorToken, styleSheet.getStyle(text).color)
     }
 
     @Test
     fun testGetStyle_default() {
         val styleSheet = StyleSheet.Empty
-        assertEquals(ColorToken.Unspecified, styleSheet.getStyle(Text).color)
+        assertEquals(ColorToken.Unspecified, styleSheet.getStyle(text).color)
     }
 
     companion object {

@@ -41,9 +41,8 @@ fun Text(
     minLines: Int = 1,
     onTextLayout: (TextLayoutResult) -> Unit = {},
 ) {
-    val textStyle = StyleSheet.getStyle(Text)
     val textColor = color
-        .takeOrElse { textStyle.color.asColor() }
+        .takeOrElse { localTextStyle.color.asColor() }
         .takeOrElse { LocalContentStyle.current.color.asColor() }
 
     BasicText(
@@ -68,11 +67,15 @@ fun Text(
     )
 }
 
-/**
- * Utilities for the [Text] Composable.
- */
-object Text : Component<TextStyle, TextStyleBuilder> {
-    override val defaultStyle: TextStyle = TextStyle()
+private val localTextStyle: TextStyle
+    @Composable
+    get() = StyleSheet.getStyle(text)
 
-    override fun createBuilder(): TextStyleBuilder = TextStyleBuilder()
-}
+/**
+ * A symbol for [Text].
+ */
+val text = Component(
+    name = "Text",
+    defaultStyle = TextStyle(),
+    createBuilder = ::TextStyleBuilder,
+)

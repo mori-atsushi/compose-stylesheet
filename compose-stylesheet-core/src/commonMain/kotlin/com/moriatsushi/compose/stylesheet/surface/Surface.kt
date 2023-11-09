@@ -21,7 +21,7 @@ fun Surface(
     contentColor: Color = Color.Unspecified,
     content: @Composable () -> Unit,
 ) {
-    val style = StyleSheet.getStyle(Surface)
+    val style = StyleSheet.getStyle(surface)
     val surfaceBackgroundColor = backgroundColor
         .takeOrElse { style.backgroundColor.asColor() }
     val contentStyle = style.contentStyle.merge {
@@ -40,10 +40,10 @@ fun Surface(
 }
 
 /**
- * Utilities for the [Surface] Composable.
+ * A symbol for [Surface].
  */
-object Surface : Component<SurfaceStyle, SurfaceStyleBuilder> {
-    override val defaultStyle: SurfaceStyle = SurfaceStyle()
-
-    override fun createBuilder(): SurfaceStyleBuilder = SurfaceStyleBuilder()
-}
+val surface = Component(
+    name = "Surface",
+    defaultStyle = SurfaceStyle(),
+    createBuilder = ::SurfaceStyleBuilder,
+)
