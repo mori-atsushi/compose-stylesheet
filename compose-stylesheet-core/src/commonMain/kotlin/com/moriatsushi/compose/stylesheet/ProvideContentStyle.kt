@@ -5,18 +5,19 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.compositionLocalOf
 
 /**
- * Sets the given [styleSheet] as the current style sheet.
+ * Sets the given [contentStyle] as the current content style.
  */
 @Composable
-fun ProvideStyleSheet(
-    styleSheet: StyleSheet,
+fun ProvideContentStyle(
+    contentStyle: ContentStyle,
     content: @Composable () -> Unit,
 ) {
+    val mergedContentStyle = LocalContentStyle.current.merge(contentStyle)
+
     CompositionLocalProvider(
-        LocalStyleSheet provides styleSheet,
-        LocalContentStyle provides styleSheet.contentStyle,
+        LocalContentStyle provides mergedContentStyle,
         content = content,
     )
 }
 
-internal val LocalStyleSheet = compositionLocalOf { StyleSheet.Empty }
+val LocalContentStyle = compositionLocalOf { ContentStyle.Default }
