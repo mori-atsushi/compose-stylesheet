@@ -7,6 +7,13 @@ import com.moriatsushi.compose.stylesheet.color.ColorToken
 class ContentStyle(
     val color: ColorToken? = null,
 ) {
+    /**
+     * Returns a new [ContentStyle] that is a combination of this style and the given [other] style.
+     */
+    fun merge(other: ContentStyle): ContentStyle = ContentStyle(
+        color = other.color ?: color,
+    )
+
     override fun hashCode(): Int = color.hashCode()
 
     override fun equals(other: Any?): Boolean {
