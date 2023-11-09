@@ -33,18 +33,21 @@ class StyleSheet internal constructor(
 
         if (colors != other.colors) return false
         if (common != other.common) return false
+        if (componentStyles != other.componentStyles) return false
         return true
     }
 
     override fun hashCode(): Int {
         var result = colors.hashCode()
         result = 31 * result + common.hashCode()
+        result = 31 * result + componentStyles.hashCode()
         return result
     }
 
     override fun toString(): String = "StyleSheet(" +
         "colors=$colors," +
-        "common=$common)"
+        "common=$common," +
+        "componentStyles=$componentStyles)"
 
     companion object {
         /**
