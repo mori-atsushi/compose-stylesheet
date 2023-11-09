@@ -7,6 +7,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.takeOrElse
 import com.moriatsushi.compose.stylesheet.Component
+import com.moriatsushi.compose.stylesheet.ContentStyle
+import com.moriatsushi.compose.stylesheet.ProvideContentStyle
 import com.moriatsushi.compose.stylesheet.StyleSheet
 import com.moriatsushi.compose.stylesheet.color.asColor
 
@@ -17,16 +19,25 @@ import com.moriatsushi.compose.stylesheet.color.asColor
 fun Surface(
     modifier: Modifier = Modifier,
     backgroundColor: Color = Color.Unspecified,
+    contentColor: Color = Color.Unspecified,
     content: @Composable () -> Unit,
 ) {
     val style = StyleSheet.getStyle(Surface)
     val surfaceBackgroundColor = backgroundColor
         .takeOrElse { style.backgroundColor?.asColor() ?: Color.Unspecified }
+    val contentStyle = ContentStyle {
+        color += contentColor
+    }
 
     Box(
         modifier = modifier.background(surfaceBackgroundColor),
         propagateMinConstraints = true,
-    ) { content() }
+    ) {
+        ProvideContentStyle(
+            contentStyle = contentStyle,
+            content = content,
+        )
+    }
 }
 
 /**

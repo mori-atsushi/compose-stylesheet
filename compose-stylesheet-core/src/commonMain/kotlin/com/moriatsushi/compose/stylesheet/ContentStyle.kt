@@ -32,5 +32,11 @@ class ContentStyle(
          * Constant for a default [ContentStyle].
          */
         val Default = ContentStyle()
+
+        /**
+         * Creates a new [ContentStyle] using the given [builder].
+         */
+        operator fun invoke(builder: ContentStyleBuilder.() -> Unit): ContentStyle =
+            ContentStyleBuilder().apply(builder).build()
     }
 }
