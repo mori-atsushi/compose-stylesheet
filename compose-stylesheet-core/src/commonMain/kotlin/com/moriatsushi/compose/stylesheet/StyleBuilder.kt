@@ -1,11 +1,14 @@
-package com.moriatsushi.compose.stylesheet.color
+package com.moriatsushi.compose.stylesheet
 
 import androidx.compose.ui.graphics.Color
+import com.moriatsushi.compose.stylesheet.color.ColorSetter
+import com.moriatsushi.compose.stylesheet.color.ColorToken
+import com.moriatsushi.compose.stylesheet.color.toToken
 
 /**
- * A scope for setting a color.
+ * An interface for building a [style][T].
  */
-interface ColorSetterScope {
+interface StyleBuilder<T> {
     /**
      * Sets the color to the given [token].
      */
@@ -19,4 +22,6 @@ interface ColorSetterScope {
     operator fun ColorSetter.plusAssign(color: Color) {
         this.value = color.toToken()
     }
+
+    fun build(): T
 }
