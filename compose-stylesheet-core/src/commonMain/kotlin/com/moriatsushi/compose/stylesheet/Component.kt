@@ -3,25 +3,25 @@ package com.moriatsushi.compose.stylesheet
 /**
  * A symbol of a component, which has a style and a style builder.
  */
-interface Component<S : ComponentStyle, SB : ComponentStyleBuilder<S>> {
-    val defaultStyle: S
+interface Component<CS : ComponentStyle, SB : StyleBuilder<CS>> {
+    val defaultStyle: CS
     fun createBuilder(): SB
 }
 
 /**
  * Creates a symbol of a component.
  */
-fun <S : ComponentStyle, SB : ComponentStyleBuilder<S>> Component(
+fun <CS : ComponentStyle, SB : StyleBuilder<CS>> Component(
     name: String,
-    defaultStyle: S,
+    defaultStyle: CS,
     createBuilder: () -> SB,
-): Component<S, SB> = ComponentImpl(name, defaultStyle, createBuilder)
+): Component<CS, SB> = ComponentImpl(name, defaultStyle, createBuilder)
 
-private class ComponentImpl<S : ComponentStyle, SB : ComponentStyleBuilder<S>>(
+private class ComponentImpl<CS : ComponentStyle, SB : StyleBuilder<CS>>(
     private val name: String,
-    override val defaultStyle: S,
+    override val defaultStyle: CS,
     private val builder: () -> SB,
-) : Component<S, SB> {
+) : Component<CS, SB> {
     override fun createBuilder(): SB = builder()
 
     override fun toString(): String = "Component($name)"

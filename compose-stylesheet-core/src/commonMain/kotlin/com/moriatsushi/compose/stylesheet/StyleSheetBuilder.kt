@@ -28,7 +28,7 @@ class StyleSheetBuilder internal constructor() {
     /**
      * Defines a component style.
      */
-    operator fun <SB : ComponentStyleBuilder<*>> Component<*, SB>.invoke(
+    operator fun <CS : ComponentStyle, SB : StyleBuilder<CS>> Component<CS, SB>.invoke(
         builder: SB.() -> Unit,
     ) {
         componentStyles[this] = createBuilder().apply(builder).build()
