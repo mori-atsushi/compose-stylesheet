@@ -17,8 +17,8 @@ import androidx.compose.ui.unit.TextUnit
 import com.moriatsushi.compose.stylesheet.Component
 import com.moriatsushi.compose.stylesheet.LocalContentStyle
 import com.moriatsushi.compose.stylesheet.StyleSheet
-import com.moriatsushi.compose.stylesheet.color.asColor
 import com.moriatsushi.compose.stylesheet.tag.TagModifier
+import com.moriatsushi.compose.stylesheet.token.value
 
 /**
  * An element that displays text.
@@ -44,8 +44,8 @@ fun Text(
     onTextLayout: (TextLayoutResult) -> Unit = {},
 ) {
     val textColor = color
-        .takeOrElse { localTextStyle(tags).color.asColor() }
-        .takeOrElse { LocalContentStyle.current.color.asColor() }
+        .takeOrElse { localTextStyle(tags).color?.value ?: Color.Unspecified }
+        .takeOrElse { LocalContentStyle.current.color?.value ?: Color.Unspecified }
 
     BasicText(
         text = text,

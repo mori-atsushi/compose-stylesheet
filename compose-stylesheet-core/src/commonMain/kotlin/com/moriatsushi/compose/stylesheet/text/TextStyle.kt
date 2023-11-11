@@ -1,15 +1,16 @@
 package com.moriatsushi.compose.stylesheet.text
 
 import androidx.compose.runtime.Immutable
+import androidx.compose.ui.graphics.Color
 import com.moriatsushi.compose.stylesheet.ComponentStyle
-import com.moriatsushi.compose.stylesheet.color.ColorToken
+import com.moriatsushi.compose.stylesheet.token.Token
 
 /**
  * A style for [Text].
  */
 @Immutable
 class TextStyle(
-    val color: ColorToken = ColorToken.Unspecified,
+    val color: Token<Color>? = null,
 ) : ComponentStyle {
     override fun hashCode(): Int = color.hashCode()
 

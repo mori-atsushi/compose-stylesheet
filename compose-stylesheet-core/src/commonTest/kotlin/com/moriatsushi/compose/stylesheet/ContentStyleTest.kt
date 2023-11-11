@@ -1,7 +1,7 @@
 package com.moriatsushi.compose.stylesheet
 
 import androidx.compose.ui.graphics.Color
-import com.moriatsushi.compose.stylesheet.color.ColorToken
+import com.moriatsushi.compose.stylesheet.token.Token
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -31,7 +31,7 @@ class ContentStyleTest {
     }
 
     companion object {
-        private val color1 = ColorToken("color1", Color.Red)
-        private val color2 = ColorToken("color2", Color.Blue)
+        private val color1 = Token("color1", Color.Red)
+        private val color2 = Token("color2", Color.Blue)
     }
 }

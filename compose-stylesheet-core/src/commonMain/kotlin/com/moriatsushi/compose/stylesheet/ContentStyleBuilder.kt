@@ -1,6 +1,7 @@
 package com.moriatsushi.compose.stylesheet
 
-import com.moriatsushi.compose.stylesheet.color.ColorSetter
+import androidx.compose.ui.graphics.Color
+import com.moriatsushi.compose.stylesheet.token.TokenSetter
 
 /**
  * A builder for common styles in [com.moriatsushi.compose.stylesheet.StyleSheet].
@@ -10,13 +11,13 @@ class ContentStyleBuilder internal constructor() : StyleBuilder<ContentStyle> {
     /**
      * A content color, which is used for text and icons.
      */
-    val color: ColorSetter = ColorSetter()
+    val color: TokenSetter<Color> = TokenSetter()
 
     override fun plusAssign(other: ContentStyle) {
         color += other.color
     }
 
     override fun build(): ContentStyle = ContentStyle(
-        color = color.value,
+        color = color.token,
     )
 }

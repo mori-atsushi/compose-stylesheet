@@ -96,7 +96,6 @@ class StyleSheet internal constructor(
          */
         val Empty = StyleSheet()
 
-
         /**
          * Returns the value corresponding to the given [token].
          */

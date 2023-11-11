@@ -1,10 +1,10 @@
 package com.moriatsushi.compose.stylesheet
 
 import androidx.compose.ui.graphics.Color
-import com.moriatsushi.compose.stylesheet.color.ColorToken
 import com.moriatsushi.compose.stylesheet.token.Token
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertNull
 
 class StyleSheetTest {
     @Test
@@ -34,7 +34,7 @@ class StyleSheetTest {
             content { color += Color.Red }
         }
 
-        val actual = styleSheet.contentStyle.color.let(styleSheet::getColor)
+        val actual = styleSheet.contentStyle.color?.let(styleSheet::getValue)
         assertEquals(Color.Red, actual)
     }
 
@@ -42,18 +42,19 @@ class StyleSheetTest {
     fun testColor_empty() {
         val styleSheet = StyleSheet.Empty
 
-        val actual = styleSheet.contentStyle.color.let(styleSheet::getColor)
-        assertEquals(Color.Unspecified, actual)
+        val actual = styleSheet.contentStyle.color?.let(styleSheet::getValue)
+        assertNull(actual)
     }
 
     @Test
     fun testColor_setToken() {
         val styleSheet = StyleSheet {
-            colors { color1 += Color.Red }
-            content { color += color1 }
+            colorToken1 += Color.Red
+
+            content { color += colorToken1 }
         }
 
-        val actual = styleSheet.contentStyle.color.let(styleSheet::getColor)
+        val actual = styleSheet.contentStyle.color?.let(styleSheet::getValue)
         assertEquals(Color.Red, actual)
     }
 
@@ -61,9 +62,5 @@ class StyleSheetTest {
         private val colorToken1 = Token("colorToken1", Color.Black)
         private val colorToken2 = Token("colorToken1", Color.Red)
         private val colorToken3 = Token("colorToken1", Color.Blue)
-
-        private val color1 = ColorToken("color1", Color.Black)
-        private val color2 = ColorToken("color2", Color.Red)
-        private val color3 = ColorToken("color3", Color.Blue)
     }
 }

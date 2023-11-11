@@ -9,8 +9,8 @@ import androidx.compose.ui.graphics.takeOrElse
 import com.moriatsushi.compose.stylesheet.Component
 import com.moriatsushi.compose.stylesheet.ProvideContentStyle
 import com.moriatsushi.compose.stylesheet.StyleSheet
-import com.moriatsushi.compose.stylesheet.color.asColor
 import com.moriatsushi.compose.stylesheet.tag.TagModifier
+import com.moriatsushi.compose.stylesheet.token.value
 
 /**
  * An element that draws a [backgroundColor] behind its [content].
@@ -25,7 +25,7 @@ fun Surface(
 ) {
     val style = StyleSheet.getStyle(surface, tags)
     val surfaceBackgroundColor = backgroundColor
-        .takeOrElse { style.backgroundColor.asColor() }
+        .takeOrElse { style.backgroundColor?.value ?: Color.Unspecified }
     val contentStyle = style.contentStyle.merge {
         color += contentColor
     }

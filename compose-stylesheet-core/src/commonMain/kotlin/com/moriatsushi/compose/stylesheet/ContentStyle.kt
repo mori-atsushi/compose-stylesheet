@@ -1,11 +1,12 @@
 package com.moriatsushi.compose.stylesheet
 
 import androidx.compose.runtime.Immutable
-import com.moriatsushi.compose.stylesheet.color.ColorToken
+import androidx.compose.ui.graphics.Color
+import com.moriatsushi.compose.stylesheet.token.Token
 
 @Immutable
 class ContentStyle(
-    val color: ColorToken = ColorToken.Unspecified,
+    val color: Token<Color>? = null,
 ) {
     /**
      * Returns a new [ContentStyle] that is a combination of this style and the given [other] style.
