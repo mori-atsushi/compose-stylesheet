@@ -1,8 +1,10 @@
 package com.moriatsushi.compose.stylesheet
 
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.isSpecified
 import com.moriatsushi.compose.stylesheet.color.ColorSetter
 import com.moriatsushi.compose.stylesheet.color.ColorToken
+import com.moriatsushi.compose.stylesheet.color.isSpecified
 import com.moriatsushi.compose.stylesheet.color.toToken
 
 /**
@@ -10,18 +12,29 @@ import com.moriatsushi.compose.stylesheet.color.toToken
  */
 interface StyleBuilder<T> {
     /**
-     * Sets the color to the given [token].
+     * Sets the color to the given [token]. If the [token] is [ColorToken.Unspecified], the color is
+     * not set.
      */
     operator fun ColorSetter.plusAssign(token: ColorToken) {
-        this.value = token
+        if (token.isSpecified) {
+            this.value = token
+        }
     }
 
     /**
-     * Sets the color to the given [color].
+     * Sets the color to the given [color]. If the [color] is [Color.Unspecified], the color is not
+     * set.
      */
     operator fun ColorSetter.plusAssign(color: Color) {
-        this.value = color.toToken()
+        if (color.isSpecified) {
+            this.value = color.toToken()
+        }
     }
+
+    /**
+     * Merges this style with the given [other] style.
+     */
+    operator fun plusAssign(other: T)
 
     fun build(): T
 }

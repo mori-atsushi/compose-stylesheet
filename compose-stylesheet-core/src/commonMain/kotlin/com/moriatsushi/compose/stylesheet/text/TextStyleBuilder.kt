@@ -14,6 +14,10 @@ class TextStyleBuilder internal constructor() : StyleBuilder<TextStyle> {
      */
     val color: ColorSetter = ColorSetter()
 
+    override fun plusAssign(other: TextStyle) {
+        color += other.color
+    }
+
     override fun build(): TextStyle = TextStyle(
         color = color.value,
     )

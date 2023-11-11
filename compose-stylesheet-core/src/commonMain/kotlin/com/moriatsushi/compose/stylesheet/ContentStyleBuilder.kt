@@ -12,6 +12,10 @@ class ContentStyleBuilder internal constructor() : StyleBuilder<ContentStyle> {
      */
     val color: ColorSetter = ColorSetter()
 
+    override fun plusAssign(other: ContentStyle) {
+        color += other.color
+    }
+
     override fun build(): ContentStyle = ContentStyle(
         color = color.value,
     )
