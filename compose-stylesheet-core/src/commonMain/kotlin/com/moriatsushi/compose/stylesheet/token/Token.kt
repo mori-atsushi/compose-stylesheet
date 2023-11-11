@@ -1,5 +1,8 @@
 package com.moriatsushi.compose.stylesheet.token
 
+import androidx.compose.runtime.Composable
+import com.moriatsushi.compose.stylesheet.StyleSheet
+
 /**
  * A token that represents a value.
  */
@@ -26,6 +29,13 @@ internal class SourceToken<T>(val value: T) : Token<T>() {
 
     override fun hashCode(): Int = value.hashCode()
 }
+
+/**
+ * Returns the value corresponding to the given [Token] from the current [StyleSheet].
+ */
+val <T> Token<T>.value: T
+    @Composable
+    get() = StyleSheet.getValue(this)
 
 /**
  * Returns a [Token] which has the given [name] and the given [default] token.

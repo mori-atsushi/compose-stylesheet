@@ -5,16 +5,39 @@ import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Color
 import com.moriatsushi.compose.stylesheet.color.ColorToken
 import com.moriatsushi.compose.stylesheet.tag.TagModifier
+import com.moriatsushi.compose.stylesheet.token.ReferenceToken
+import com.moriatsushi.compose.stylesheet.token.SourceToken
+import com.moriatsushi.compose.stylesheet.token.Token
 
 /**
  * A style sheet that contains style definitions.
  */
 @Immutable
 class StyleSheet internal constructor(
+    private val tokens: Map<Token<*>, Token<*>> = emptyMap(),
     private val colors: Map<ColorToken, ColorToken> = emptyMap(),
     internal val contentStyle: ContentStyle = ContentStyle.Default,
     private val componentStyles: Map<Component<*, *>, ComponentStyleDefinition<*>> = emptyMap(),
 ) {
+    internal tailrec fun <T> getValue(token: Token<T>): T {
+        @Suppress("UNCHECKED_CAST")
+        var nextToken = tokens[token] as? Token<T>
+
+        if (nextToken == null) {
+            when (token) {
+                is ReferenceToken -> {
+                    nextToken = token.default
+                }
+
+                is SourceToken -> {
+                    return token.value
+                }
+            }
+        }
+
+        return getValue(nextToken)
+    }
+
     internal tailrec fun getColor(token: ColorToken): Color {
         val nextToken = colors[token] ?: return token.default
         return getColor(nextToken)
@@ -54,13 +77,15 @@ class StyleSheet internal constructor(
     }
 
     override fun hashCode(): Int {
-        var result = colors.hashCode()
+        var result = tokens.hashCode()
+        result = 31 * result + colors.hashCode()
         result = 31 * result + contentStyle.hashCode()
         result = 31 * result + componentStyles.hashCode()
         return result
     }
 
     override fun toString(): String = "StyleSheet(" +
+        "tokens=$tokens," +
         "colors=$colors," +
         "contentStyle=$contentStyle," +
         "componentStyles=$componentStyles)"
@@ -70,6 +95,14 @@ class StyleSheet internal constructor(
          * Constant for an empty style sheet.
          */
         val Empty = StyleSheet()
+
+
+        /**
+         * Returns the value corresponding to the given [token].
+         */
+        @Composable
+        fun <T> getValue(token: Token<T>): T =
+            LocalStyleSheet.current.getValue(token)
 
         /**
          * Returns the color corresponding to the given [token].
