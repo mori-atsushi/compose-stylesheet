@@ -9,7 +9,9 @@ import com.moriatsushi.compose.stylesheet.ComponentStyle
 class Tag<CS : ComponentStyle> internal constructor(
     private val name: String,
     private val componentName: String,
-) {
+) : TagModifier<CS> {
+    override val tags: List<Tag<CS>> = listOf(this)
+
     override fun toString(): String = "Tag($name, component=$componentName)"
 }
 
