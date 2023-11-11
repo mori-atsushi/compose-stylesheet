@@ -27,6 +27,11 @@ class SurfaceStyleBuilder internal constructor() : StyleBuilder<SurfaceStyle> {
         content.builder()
     }
 
+    override fun plusAssign(other: SurfaceStyle) {
+        backgroundColor += other.backgroundColor
+        content += other.contentStyle
+    }
+
     override fun build(): SurfaceStyle = SurfaceStyle(
         backgroundColor = backgroundColor.value,
         contentStyle = content.build(),

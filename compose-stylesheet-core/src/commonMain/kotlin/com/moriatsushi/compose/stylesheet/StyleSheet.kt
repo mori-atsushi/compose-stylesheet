@@ -21,12 +21,21 @@ class StyleSheet internal constructor(
     }
 
     @Suppress("UNCHECKED_CAST")
-    internal fun <S : ComponentStyle> getStyle(
-        component: Component<S, *>,
-        tag: Tag<S>? = null,
-    ): S = (componentStyles[component] as? ComponentStyleDefinition<S>)
-        ?.getStyle(tag)
-        ?: component.defaultStyle
+    internal fun <CS : ComponentStyle, SB : StyleBuilder<CS>> getStyle(
+        component: Component<CS, SB>,
+        tag: Tag<CS>? = null,
+    ): CS {
+        val styleDefinition = componentStyles[component] as? ComponentStyleDefinition<CS>
+            ?: return component.defaultStyle
+
+        val tagStyle = tag?.let { styleDefinition.getTagStyle(it) }
+            ?: return styleDefinition.commonStyle
+
+        return component.createBuilder().apply {
+            this += styleDefinition.commonStyle
+            this += tagStyle
+        }.build()
+    }
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -63,11 +72,15 @@ class StyleSheet internal constructor(
         fun getColor(token: ColorToken): Color =
             LocalStyleSheet.current.getColor(token)
 
+        /**
+         * Returns the [component] style. If [tag] is specified, returns the style merged with the
+         * [tag] style.
+         */
         @Composable
-        fun <S : ComponentStyle> getStyle(
-            component: Component<S, *>,
-            tag: Tag<S>? = null,
-        ): S = LocalStyleSheet.current.getStyle(component, tag)
+        fun <CS : ComponentStyle, SB : StyleBuilder<CS>> getStyle(
+            component: Component<CS, SB>,
+            tag: Tag<CS>? = null,
+        ): CS = LocalStyleSheet.current.getStyle(component, tag)
 
         /**
          * Creates a new [StyleSheet] using the given [builder].
