@@ -27,10 +27,15 @@ class StyleSheet internal constructor(
     ): CS {
         val styleDefinition = componentStyles[component] as? ComponentStyleDefinition<CS>
             ?: return component.defaultStyle
+
+        if (tags.tags.isEmpty() || styleDefinition.tagStyles.isEmpty()) {
+            return styleDefinition.commonStyle
+        }
+
         return component.createBuilder().apply {
             this += styleDefinition.commonStyle
             for (tag in tags.tags) {
-                val tagStyle = styleDefinition.getTagStyle(tag)
+                val tagStyle = styleDefinition.tagStyles[tag]
                 if (tagStyle != null) {
                     this += tagStyle
                 }
