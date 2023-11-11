@@ -18,6 +18,7 @@ import com.moriatsushi.compose.stylesheet.Component
 import com.moriatsushi.compose.stylesheet.LocalContentStyle
 import com.moriatsushi.compose.stylesheet.StyleSheet
 import com.moriatsushi.compose.stylesheet.color.asColor
+import com.moriatsushi.compose.stylesheet.tag.Tag
 
 /**
  * An element that displays text.
@@ -26,6 +27,7 @@ import com.moriatsushi.compose.stylesheet.color.asColor
 fun Text(
     text: String,
     modifier: Modifier = Modifier,
+    tag: Tag<TextStyle>? = null,
     color: Color = Color.Unspecified,
     fontSize: TextUnit = TextUnit.Unspecified,
     fontStyle: FontStyle? = null,
@@ -42,7 +44,7 @@ fun Text(
     onTextLayout: (TextLayoutResult) -> Unit = {},
 ) {
     val textColor = color
-        .takeOrElse { localTextStyle.color.asColor() }
+        .takeOrElse { localTextStyle(tag).color.asColor() }
         .takeOrElse { LocalContentStyle.current.color.asColor() }
 
     BasicText(
@@ -67,9 +69,9 @@ fun Text(
     )
 }
 
-private val localTextStyle: TextStyle
-    @Composable
-    get() = StyleSheet.getStyle(text)
+@Composable
+private fun localTextStyle(tag: Tag<TextStyle>?): TextStyle =
+    StyleSheet.getStyle(text, tag)
 
 /**
  * A symbol for [Text].

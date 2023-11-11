@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Color
 import com.moriatsushi.compose.stylesheet.color.ColorToken
+import com.moriatsushi.compose.stylesheet.tag.Tag
 
 /**
  * A style sheet that contains style definitions.
@@ -12,7 +13,7 @@ import com.moriatsushi.compose.stylesheet.color.ColorToken
 class StyleSheet internal constructor(
     private val colors: Map<ColorToken, ColorToken> = emptyMap(),
     internal val contentStyle: ContentStyle = ContentStyle.Default,
-    private val componentStyles: Map<Component<*, *>, ComponentStyle> = emptyMap(),
+    private val componentStyles: Map<Component<*, *>, ComponentStyleDefinition<*>> = emptyMap(),
 ) {
     internal tailrec fun getColor(token: ColorToken): Color {
         val nextToken = colors[token] ?: return token.default
@@ -20,8 +21,12 @@ class StyleSheet internal constructor(
     }
 
     @Suppress("UNCHECKED_CAST")
-    internal fun <S : ComponentStyle> getStyle(component: Component<S, *>): S =
-        (componentStyles[component] as? S) ?: component.defaultStyle
+    internal fun <S : ComponentStyle> getStyle(
+        component: Component<S, *>,
+        tag: Tag<S>? = null,
+    ): S = (componentStyles[component] as? ComponentStyleDefinition<S>)
+        ?.getStyle(tag)
+        ?: component.defaultStyle
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -59,8 +64,10 @@ class StyleSheet internal constructor(
             LocalStyleSheet.current.getColor(token)
 
         @Composable
-        fun <S : ComponentStyle> getStyle(component: Component<S, *>): S =
-            LocalStyleSheet.current.getStyle(component)
+        fun <S : ComponentStyle> getStyle(
+            component: Component<S, *>,
+            tag: Tag<S>? = null,
+        ): S = LocalStyleSheet.current.getStyle(component, tag)
 
         /**
          * Creates a new [StyleSheet] using the given [builder].
