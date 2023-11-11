@@ -6,6 +6,10 @@ internal class ComponentStyleDefinition<T : ComponentStyle>(
     val commonStyle: T,
     val tagStyles: Map<Tag<T, *>, T> = emptyMap(),
 ) {
+    fun getStyle(tag: Tag<T, *>?): T =
+        tag?.let { tagStyles[tag] }
+            ?: commonStyle
+
     fun updatedCommonStyle(style: T): ComponentStyleDefinition<T> =
         ComponentStyleDefinition(
             commonStyle = style,
