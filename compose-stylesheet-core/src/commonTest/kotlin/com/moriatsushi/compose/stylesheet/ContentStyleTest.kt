@@ -1,7 +1,7 @@
 package com.moriatsushi.compose.stylesheet
 
 import androidx.compose.ui.graphics.Color
-import com.moriatsushi.compose.stylesheet.color.ColorToken
+import com.moriatsushi.compose.stylesheet.token.Token
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -19,19 +19,17 @@ class ContentStyleTest {
     }
 
     @Test
-    fun testMerge_unspecified() {
+    fun testMerge_empty() {
         val style1 = ContentStyle {
             color += color1
         }
-        val style2 = ContentStyle {
-            color += Color.Unspecified
-        }
+        val style2 = ContentStyle.Default
         val mergedStyle = style1.merge(style2)
         assertEquals(color1, mergedStyle.color)
     }
 
     companion object {
-        private val color1 = ColorToken("color1", Color.Red)
-        private val color2 = ColorToken("color2", Color.Blue)
+        private val color1 = Token("color1", Color.Red)
+        private val color2 = Token("color2", Color.Blue)
     }
 }

@@ -1,9 +1,10 @@
 package com.moriatsushi.compose.stylesheet.surface
 
+import androidx.compose.ui.graphics.Color
 import com.moriatsushi.compose.stylesheet.ContentStyleBuilder
 import com.moriatsushi.compose.stylesheet.StyleBuilder
 import com.moriatsushi.compose.stylesheet.StyleSheetBuilderMarker
-import com.moriatsushi.compose.stylesheet.color.ColorSetter
+import com.moriatsushi.compose.stylesheet.token.TokenSetter
 
 /**
  * A builder for [SurfaceStyle].
@@ -13,7 +14,7 @@ class SurfaceStyleBuilder internal constructor() : StyleBuilder<SurfaceStyle> {
     /**
      * A background color.
      */
-    val backgroundColor: ColorSetter = ColorSetter()
+    val backgroundColor: TokenSetter<Color> = TokenSetter()
 
     /**
      * A content style.
@@ -33,7 +34,7 @@ class SurfaceStyleBuilder internal constructor() : StyleBuilder<SurfaceStyle> {
     }
 
     override fun build(): SurfaceStyle = SurfaceStyle(
-        backgroundColor = backgroundColor.value,
+        backgroundColor = backgroundColor.token,
         contentStyle = content.build(),
     )
 }

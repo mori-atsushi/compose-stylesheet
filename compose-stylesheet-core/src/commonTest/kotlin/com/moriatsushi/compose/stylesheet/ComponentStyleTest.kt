@@ -1,9 +1,9 @@
 package com.moriatsushi.compose.stylesheet
 
 import androidx.compose.ui.graphics.Color
-import com.moriatsushi.compose.stylesheet.color.ColorSetter
-import com.moriatsushi.compose.stylesheet.color.ColorToken
 import com.moriatsushi.compose.stylesheet.tag.Tag
+import com.moriatsushi.compose.stylesheet.token.Token
+import com.moriatsushi.compose.stylesheet.token.TokenSetter
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -53,13 +53,13 @@ class ComponentStyleTest {
     }
 
     private class SampleComponentStyle(
-        val color1: ColorToken = ColorToken.Unspecified,
-        val color2: ColorToken = ColorToken.Unspecified,
+        val color1: Token<Color>? = null,
+        val color2: Token<Color>? = null,
     ) : ComponentStyle
 
     private class SampleComponentStyleBuilder : StyleBuilder<SampleComponentStyle> {
-        val color1: ColorSetter = ColorSetter()
-        val color2: ColorSetter = ColorSetter()
+        val color1: TokenSetter<Color> = TokenSetter()
+        val color2: TokenSetter<Color> = TokenSetter()
 
         override fun plusAssign(other: SampleComponentStyle) {
             color1 += other.color1
@@ -67,15 +67,15 @@ class ComponentStyleTest {
         }
 
         override fun build(): SampleComponentStyle = SampleComponentStyle(
-            color1 = color1.value,
-            color2 = color2.value,
+            color1 = color1.token,
+            color2 = color2.token,
         )
     }
 
     companion object {
-        private val colorToken1 = ColorToken("color1", Color.Black)
-        private val colorToken2 = ColorToken("color2", Color.Red)
-        private val colorToken3 = ColorToken("color3", Color.Blue)
+        private val colorToken1 = Token("color1", Color.Black)
+        private val colorToken2 = Token("color2", Color.Red)
+        private val colorToken3 = Token("color3", Color.Blue)
 
         private val sampleComponent = Component(
             name = "SampleComponent",

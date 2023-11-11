@@ -1,16 +1,17 @@
 package com.moriatsushi.compose.stylesheet.surface
 
 import androidx.compose.runtime.Immutable
+import androidx.compose.ui.graphics.Color
 import com.moriatsushi.compose.stylesheet.ComponentStyle
 import com.moriatsushi.compose.stylesheet.ContentStyle
-import com.moriatsushi.compose.stylesheet.color.ColorToken
+import com.moriatsushi.compose.stylesheet.token.Token
 
 /**
  * A style for [Surface].
  */
 @Immutable
 class SurfaceStyle(
-    val backgroundColor: ColorToken = ColorToken.Unspecified,
+    val backgroundColor: Token<Color>? = null,
     val contentStyle: ContentStyle = ContentStyle.Default,
 ) : ComponentStyle {
     override fun hashCode(): Int {
