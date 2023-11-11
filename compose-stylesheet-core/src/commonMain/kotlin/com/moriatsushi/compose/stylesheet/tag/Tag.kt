@@ -1,11 +1,13 @@
 package com.moriatsushi.compose.stylesheet.tag
 
+import androidx.compose.runtime.Immutable
 import com.moriatsushi.compose.stylesheet.Component
 import com.moriatsushi.compose.stylesheet.ComponentStyle
 
 /**
  * A symbol for decorating a [Component].
  */
+@Immutable
 class Tag<CS : ComponentStyle> internal constructor(
     private val name: String,
     private val componentName: String,
