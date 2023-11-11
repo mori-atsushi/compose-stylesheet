@@ -6,6 +6,8 @@ import com.moriatsushi.compose.stylesheet.color.ColorSetter
 import com.moriatsushi.compose.stylesheet.color.ColorToken
 import com.moriatsushi.compose.stylesheet.color.isSpecified
 import com.moriatsushi.compose.stylesheet.color.toToken
+import com.moriatsushi.compose.stylesheet.token.Token
+import com.moriatsushi.compose.stylesheet.token.TokenSetter
 
 /**
  * An interface for building a [style][T].
@@ -29,6 +31,22 @@ interface StyleBuilder<T> {
         if (color.isSpecified) {
             this.value = color.toToken()
         }
+    }
+
+    /**
+     * Sets the given [token] to [this].
+     */
+    operator fun <T> TokenSetter<T>.plusAssign(token: Token<T>?) {
+        if (token != null) {
+            this.token = token
+        }
+    }
+
+    /**
+     * Sets the given [value] to [this].
+     */
+    operator fun <T> TokenSetter<T>.plusAssign(value: T) {
+        this.token = Token(value)
     }
 
     /**
