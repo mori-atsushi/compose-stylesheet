@@ -2,8 +2,6 @@ package com.moriatsushi.compose.stylesheet
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
-import androidx.compose.ui.graphics.Color
-import com.moriatsushi.compose.stylesheet.color.ColorToken
 import com.moriatsushi.compose.stylesheet.tag.TagModifier
 import com.moriatsushi.compose.stylesheet.token.ReferenceToken
 import com.moriatsushi.compose.stylesheet.token.SourceToken
@@ -15,7 +13,6 @@ import com.moriatsushi.compose.stylesheet.token.Token
 @Immutable
 class StyleSheet internal constructor(
     private val tokens: Map<Token<*>, Token<*>> = emptyMap(),
-    private val colors: Map<ColorToken, ColorToken> = emptyMap(),
     internal val contentStyle: ContentStyle = ContentStyle.Default,
     private val componentStyles: Map<Component<*, *>, ComponentStyleDefinition<*>> = emptyMap(),
 ) {
@@ -36,11 +33,6 @@ class StyleSheet internal constructor(
         }
 
         return getValue(nextToken)
-    }
-
-    internal tailrec fun getColor(token: ColorToken): Color {
-        val nextToken = colors[token] ?: return token.default
-        return getColor(nextToken)
     }
 
     @Suppress("UNCHECKED_CAST")
@@ -70,7 +62,6 @@ class StyleSheet internal constructor(
         if (this === other) return true
         if (other !is StyleSheet) return false
 
-        if (colors != other.colors) return false
         if (contentStyle != other.contentStyle) return false
         if (componentStyles != other.componentStyles) return false
         return true
@@ -78,7 +69,6 @@ class StyleSheet internal constructor(
 
     override fun hashCode(): Int {
         var result = tokens.hashCode()
-        result = 31 * result + colors.hashCode()
         result = 31 * result + contentStyle.hashCode()
         result = 31 * result + componentStyles.hashCode()
         return result
@@ -86,7 +76,6 @@ class StyleSheet internal constructor(
 
     override fun toString(): String = "StyleSheet(" +
         "tokens=$tokens," +
-        "colors=$colors," +
         "contentStyle=$contentStyle," +
         "componentStyles=$componentStyles)"
 
@@ -102,13 +91,6 @@ class StyleSheet internal constructor(
         @Composable
         fun <T> getValue(token: Token<T>): T =
             LocalStyleSheet.current.getValue(token)
-
-        /**
-         * Returns the color corresponding to the given [token].
-         */
-        @Composable
-        fun getColor(token: ColorToken): Color =
-            LocalStyleSheet.current.getColor(token)
 
         /**
          * Returns the [component] style, which is merged with the given [tags].

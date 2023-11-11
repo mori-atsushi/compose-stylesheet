@@ -1,6 +1,5 @@
 package com.moriatsushi.compose.stylesheet
 
-import com.moriatsushi.compose.stylesheet.color.ColorsBuilder
 import com.moriatsushi.compose.stylesheet.tag.Tag
 import com.moriatsushi.compose.stylesheet.token.SourceToken
 import com.moriatsushi.compose.stylesheet.token.Token
@@ -11,16 +10,8 @@ import com.moriatsushi.compose.stylesheet.token.Token
 @StyleSheetBuilderMarker
 class StyleSheetBuilder internal constructor() {
     private val tokens = mutableMapOf<Token<*>, Token<*>>()
-    private val colorsBuilder = ColorsBuilder()
     private val commonBuilder = ContentStyleBuilder()
     private val componentStyles = mutableMapOf<Component<*, *>, ComponentStyleDefinition<*>>()
-
-    /**
-     * Defines colors.
-     */
-    fun colors(builder: ColorsBuilder.() -> Unit) {
-        colorsBuilder.builder()
-    }
 
     /**
      * Overrides the [this] token with the given [token].
@@ -68,7 +59,6 @@ class StyleSheetBuilder internal constructor() {
 
     internal fun build(): StyleSheet = StyleSheet(
         tokens = tokens,
-        colors = colorsBuilder.build(),
         contentStyle = commonBuilder.build(),
         componentStyles = componentStyles,
     )
