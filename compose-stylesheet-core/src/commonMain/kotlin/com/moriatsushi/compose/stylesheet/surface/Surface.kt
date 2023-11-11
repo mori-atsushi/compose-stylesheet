@@ -10,7 +10,7 @@ import com.moriatsushi.compose.stylesheet.Component
 import com.moriatsushi.compose.stylesheet.ProvideContentStyle
 import com.moriatsushi.compose.stylesheet.StyleSheet
 import com.moriatsushi.compose.stylesheet.color.asColor
-import com.moriatsushi.compose.stylesheet.tag.Tag
+import com.moriatsushi.compose.stylesheet.tag.TagModifier
 
 /**
  * An element that draws a [backgroundColor] behind its [content].
@@ -18,12 +18,12 @@ import com.moriatsushi.compose.stylesheet.tag.Tag
 @Composable
 fun Surface(
     modifier: Modifier = Modifier,
-    tag: Tag<SurfaceStyle>? = null,
+    tags: TagModifier<SurfaceStyle> = TagModifier(),
     backgroundColor: Color = Color.Unspecified,
     contentColor: Color = Color.Unspecified,
     content: @Composable () -> Unit,
 ) {
-    val style = StyleSheet.getStyle(surface, tag)
+    val style = StyleSheet.getStyle(surface, tags)
     val surfaceBackgroundColor = backgroundColor
         .takeOrElse { style.backgroundColor.asColor() }
     val contentStyle = style.contentStyle.merge {

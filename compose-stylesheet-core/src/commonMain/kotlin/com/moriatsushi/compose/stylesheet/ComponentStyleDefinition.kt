@@ -4,10 +4,8 @@ import com.moriatsushi.compose.stylesheet.tag.Tag
 
 internal class ComponentStyleDefinition<T : ComponentStyle>(
     val commonStyle: T,
-    private val tagStyles: Map<Tag<T>, T> = emptyMap(),
+    val tagStyles: Map<Tag<T>, T> = emptyMap(),
 ) {
-    fun getTagStyle(tag: Tag<T>): T? = tagStyles[tag]
-
     fun updatedCommonStyle(style: T): ComponentStyleDefinition<T> =
         ComponentStyleDefinition(
             commonStyle = style,
