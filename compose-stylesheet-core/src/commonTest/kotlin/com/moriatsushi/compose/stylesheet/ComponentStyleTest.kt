@@ -30,6 +30,9 @@ class ComponentStyleTest {
 
         val tag2Style = styleSheet.getStyle(sampleComponent, tag2)
         assertEquals(colorToken3, tag2Style.color1)
+
+        val multiTagStyle = styleSheet.getStyle(sampleComponent, tag1 + tag2)
+        assertEquals(colorToken3, multiTagStyle.color1)
     }
 
     @Test

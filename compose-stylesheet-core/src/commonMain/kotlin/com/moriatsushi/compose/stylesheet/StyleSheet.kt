@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Color
 import com.moriatsushi.compose.stylesheet.color.ColorToken
-import com.moriatsushi.compose.stylesheet.tag.Tag
+import com.moriatsushi.compose.stylesheet.tag.TagModifier
 
 /**
  * A style sheet that contains style definitions.
@@ -23,17 +23,18 @@ class StyleSheet internal constructor(
     @Suppress("UNCHECKED_CAST")
     internal fun <CS : ComponentStyle, SB : StyleBuilder<CS>> getStyle(
         component: Component<CS, SB>,
-        tag: Tag<CS>? = null,
+        tags: TagModifier<CS> = TagModifier(),
     ): CS {
         val styleDefinition = componentStyles[component] as? ComponentStyleDefinition<CS>
             ?: return component.defaultStyle
-
-        val tagStyle = tag?.let { styleDefinition.getTagStyle(it) }
-            ?: return styleDefinition.commonStyle
-
         return component.createBuilder().apply {
             this += styleDefinition.commonStyle
-            this += tagStyle
+            for (tag in tags.tags) {
+                val tagStyle = styleDefinition.getTagStyle(tag)
+                if (tagStyle != null) {
+                    this += tagStyle
+                }
+            }
         }.build()
     }
 
@@ -73,14 +74,13 @@ class StyleSheet internal constructor(
             LocalStyleSheet.current.getColor(token)
 
         /**
-         * Returns the [component] style. If [tag] is specified, returns the style merged with the
-         * [tag] style.
+         * Returns the [component] style, which is merged with the given [tags].
          */
         @Composable
         fun <CS : ComponentStyle, SB : StyleBuilder<CS>> getStyle(
             component: Component<CS, SB>,
-            tag: Tag<CS>? = null,
-        ): CS = LocalStyleSheet.current.getStyle(component, tag)
+            tags: TagModifier<CS> = TagModifier(),
+        ): CS = LocalStyleSheet.current.getStyle(component, tags)
 
         /**
          * Creates a new [StyleSheet] using the given [builder].
