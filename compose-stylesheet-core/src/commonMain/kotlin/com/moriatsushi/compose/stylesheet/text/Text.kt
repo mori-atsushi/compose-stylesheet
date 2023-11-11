@@ -27,7 +27,7 @@ import com.moriatsushi.compose.stylesheet.tag.Tag
 fun Text(
     text: String,
     modifier: Modifier = Modifier,
-    tag: Tag<TextStyle, TextStyleBuilder>? = null,
+    tag: Tag<TextStyle>? = null,
     color: Color = Color.Unspecified,
     fontSize: TextUnit = TextUnit.Unspecified,
     fontStyle: FontStyle? = null,
@@ -70,7 +70,7 @@ fun Text(
 }
 
 @Composable
-private fun localTextStyle(tag: Tag<TextStyle, TextStyleBuilder>?): TextStyle =
+private fun localTextStyle(tag: Tag<TextStyle>?): TextStyle =
     StyleSheet.getStyle(text, tag)
 
 /**

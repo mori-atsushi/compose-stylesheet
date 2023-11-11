@@ -31,25 +31,20 @@ class StyleSheetBuilder internal constructor() {
      */
     @Suppress("UNCHECKED_CAST")
     operator fun <CS : ComponentStyle, SB : StyleBuilder<CS>> Component<CS, SB>.invoke(
+        tag: Tag<CS>? = null,
         builder: SB.() -> Unit,
     ) {
         val style = createBuilder().apply(builder).build()
-        componentStyles[this] = (componentStyles[this] as? ComponentStyleDefinition<CS>)
-            ?.updatedCommonStyle(style)
-            ?: ComponentStyleDefinition(style)
-    }
-
-    /**
-     * Defines a component style for the this [Tag].
-     */
-    @Suppress("UNCHECKED_CAST")
-    operator fun <CS : ComponentStyle, SB : StyleBuilder<CS>> Tag<CS, SB>.invoke(
-        builder: SB.() -> Unit,
-    ) {
-        val style = component.createBuilder().apply(builder).build()
-        componentStyles[component] = (componentStyles[component] as? ComponentStyleDefinition<CS>)
-            ?.addedTagStyle(this, style)
-            ?: ComponentStyleDefinition.fromTag(this, style)
+        val currentDefinition = componentStyles[this] as? ComponentStyleDefinition<CS>
+        componentStyles[this] = if (tag != null) {
+            currentDefinition
+                ?.addedTagStyle(tag, style)
+                ?: ComponentStyleDefinition.fromTag(tag, style, defaultStyle)
+        } else {
+            currentDefinition
+                ?.updatedCommonStyle(style)
+                ?: ComponentStyleDefinition(style)
+        }
     }
 
     internal fun build(): StyleSheet = StyleSheet(

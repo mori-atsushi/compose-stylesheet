@@ -18,7 +18,7 @@ import com.moriatsushi.compose.stylesheet.tag.Tag
 @Composable
 fun Surface(
     modifier: Modifier = Modifier,
-    tag: Tag<SurfaceStyle, SurfaceStyleBuilder>? = null,
+    tag: Tag<SurfaceStyle>? = null,
     backgroundColor: Color = Color.Unspecified,
     contentColor: Color = Color.Unspecified,
     content: @Composable () -> Unit,

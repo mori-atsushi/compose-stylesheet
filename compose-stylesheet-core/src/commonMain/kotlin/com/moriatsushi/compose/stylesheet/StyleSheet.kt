@@ -23,7 +23,7 @@ class StyleSheet internal constructor(
     @Suppress("UNCHECKED_CAST")
     internal fun <S : ComponentStyle> getStyle(
         component: Component<S, *>,
-        tag: Tag<S, *>? = null,
+        tag: Tag<S>? = null,
     ): S = (componentStyles[component] as? ComponentStyleDefinition<S>)
         ?.getStyle(tag)
         ?: component.defaultStyle
@@ -66,7 +66,7 @@ class StyleSheet internal constructor(
         @Composable
         fun <S : ComponentStyle> getStyle(
             component: Component<S, *>,
-            tag: Tag<S, *>? = null,
+            tag: Tag<S>? = null,
         ): S = LocalStyleSheet.current.getStyle(component, tag)
 
         /**
