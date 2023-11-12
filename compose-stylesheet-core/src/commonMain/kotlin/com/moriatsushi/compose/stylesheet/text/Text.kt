@@ -14,8 +14,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.TextUnit
-import com.moriatsushi.compose.stylesheet.Component
 import com.moriatsushi.compose.stylesheet.StyleSheet
+import com.moriatsushi.compose.stylesheet.component.Component
 import com.moriatsushi.compose.stylesheet.content.ContentStyle
 import com.moriatsushi.compose.stylesheet.content.LocalContentStyle
 import com.moriatsushi.compose.stylesheet.tag.TagModifier

@@ -23,7 +23,7 @@ import androidx.compose.ui.text.style.TextIndent
 import androidx.compose.ui.text.style.TextMotion
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.TextUnit
-import com.moriatsushi.compose.stylesheet.ComponentStyle
+import com.moriatsushi.compose.stylesheet.component.ComponentStyle
 import com.moriatsushi.compose.stylesheet.token.Token
 
 /**

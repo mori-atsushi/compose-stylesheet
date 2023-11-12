@@ -1,8 +1,8 @@
 package com.moriatsushi.compose.stylesheet.tag
 
 import androidx.compose.runtime.Immutable
-import com.moriatsushi.compose.stylesheet.Component
-import com.moriatsushi.compose.stylesheet.ComponentStyle
+import com.moriatsushi.compose.stylesheet.component.Component
+import com.moriatsushi.compose.stylesheet.component.ComponentStyle
 
 /**
  * A symbol for decorating a [Component].

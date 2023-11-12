@@ -1,4 +1,4 @@
-package com.moriatsushi.compose.stylesheet
+package com.moriatsushi.compose.stylesheet.component
 
 import com.moriatsushi.compose.stylesheet.tag.Tag
 
