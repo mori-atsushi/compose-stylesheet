@@ -12,7 +12,11 @@ fun ProvideContentStyle(
     contentStyle: ContentStyle,
     content: @Composable () -> Unit,
 ) {
-    val mergedContentStyle = LocalContentStyle.current.merge(contentStyle)
+    val currentContentStyle = LocalContentStyle.current
+    val mergedContentStyle = ContentStyle {
+        this += currentContentStyle
+        this += contentStyle
+    }
 
     CompositionLocalProvider(
         LocalContentStyle provides mergedContentStyle,

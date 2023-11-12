@@ -8,29 +8,6 @@ import com.moriatsushi.compose.stylesheet.token.Token
 class ContentStyle(
     val color: Token<Color>? = null,
 ) {
-    /**
-     * Returns a new [ContentStyle] that is a combination of this style and the given [other] style.
-     */
-    fun merge(other: ContentStyle): ContentStyle {
-        val currentStyle = this
-        return ContentStyleBuilder().apply {
-            this += currentStyle
-            this += other
-        }.build()
-    }
-
-    /**
-     * Returns a new [ContentStyle] that is a combination of this style and the style built by
-     * [builder].
-     */
-    fun merge(builder: ContentStyleBuilder.() -> Unit): ContentStyle {
-        val currentStyle = this
-        return ContentStyleBuilder().apply {
-            this += currentStyle
-            builder()
-        }.build()
-    }
-
     override fun hashCode(): Int = color.hashCode()
 
     override fun equals(other: Any?): Boolean {
@@ -49,8 +26,11 @@ class ContentStyle(
          * Constant for a default [ContentStyle].
          */
         val Default = ContentStyle()
-
-        operator fun invoke(builder: ContentStyleBuilder.() -> Unit): ContentStyle =
-            ContentStyleBuilder().apply(builder).build()
     }
 }
+
+/**
+ * Creates a new [ContentStyle] using the given [builder].
+ */
+fun ContentStyle(builder: ContentStyleBuilder.() -> Unit): ContentStyle =
+    ContentStyleBuilder().apply(builder).build()
