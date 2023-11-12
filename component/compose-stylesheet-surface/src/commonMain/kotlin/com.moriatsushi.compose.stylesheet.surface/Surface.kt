@@ -68,9 +68,9 @@ fun Surface(
 
     Box(
         modifier = modifier.surface(
-            shape = mergedStyle.shape?.value ?: RectangleShape,
-            backgroundColor = mergedStyle.background?.value ?: Color.Unspecified,
-            border = mergedStyle.border?.value,
+            shape = mergedStyle.commonStyle.shape?.value ?: RectangleShape,
+            backgroundColor = mergedStyle.commonStyle.background?.value ?: Color.Unspecified,
+            border = mergedStyle.commonStyle.border?.value,
         ),
         propagateMinConstraints = true,
     ) {
