@@ -1,8 +1,10 @@
 package com.moriatsushi.compose.stylesheet.surface
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import com.moriatsushi.compose.stylesheet.ComponentStyle
 import com.moriatsushi.compose.stylesheet.ContentStyle
 import com.moriatsushi.compose.stylesheet.token.Token
@@ -12,7 +14,9 @@ import com.moriatsushi.compose.stylesheet.token.Token
  */
 @Stable
 interface SurfaceStyle : ComponentStyle {
-    val backgroundColor: Token<Color>?
+    val background: Token<Color>?
+    val shape: Token<Shape?>?
+    val border: Token<BorderStroke?>?
     val contentStyle: ContentStyle
 
     companion object {
@@ -30,15 +34,21 @@ fun SurfaceStyle(builder: SurfaceStyleBuilder.() -> Unit): SurfaceStyle =
     SurfaceStyleBuilder().apply(builder).build()
 
 internal fun SurfaceStyle(
-    backgroundColor: Token<Color>? = null,
+    background: Token<Color>? = null,
+    shape: Token<Shape?>? = null,
+    border: Token<BorderStroke?>? = null,
     contentStyle: ContentStyle = ContentStyle.Default,
 ): SurfaceStyle = SurfaceStyleImpl(
-    backgroundColor = backgroundColor,
+    background = background,
+    shape = shape,
+    border = border,
     contentStyle = contentStyle,
 )
 
 @Immutable
 private data class SurfaceStyleImpl(
-    override val backgroundColor: Token<Color>?,
+    override val background: Token<Color>?,
+    override val shape: Token<Shape?>?,
+    override val border: Token<BorderStroke?>?,
     override val contentStyle: ContentStyle,
 ) : SurfaceStyle
