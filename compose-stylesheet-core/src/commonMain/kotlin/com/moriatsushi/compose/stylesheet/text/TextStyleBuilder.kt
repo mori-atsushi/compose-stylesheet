@@ -63,6 +63,29 @@ class TextStyleBuilder internal constructor() : StyleBuilder<TextStyle> {
 
     internal operator fun plusAssign(contentStyle: ContentStyle) {
         color += contentStyle.color
+        fontSize += contentStyle.fontSize
+        fontWeight += contentStyle.fontWeight
+        fontStyle += contentStyle.fontStyle
+        fontSynthesis += contentStyle.fontSynthesis
+        fontFamily += contentStyle.fontFamily
+        fontFeatureSettings += contentStyle.fontFeatureSettings
+        letterSpacing += contentStyle.letterSpacing
+        baselineShift += contentStyle.baselineShift
+        textGeometricTransform += contentStyle.textGeometricTransform
+        localeList += contentStyle.localeList
+        textBackground += contentStyle.textBackground
+        textDecoration += contentStyle.textDecoration
+        textShadow += contentStyle.textShadow
+        textDrawStyle += contentStyle.textDrawStyle
+        textAlign += contentStyle.textAlign
+        textDirection += contentStyle.textDirection
+        lineHeight += contentStyle.lineHeight
+        textIndent += contentStyle.textIndent
+        platformTextStyle += contentStyle.platformTextStyle
+        lineHeightStyle += contentStyle.lineHeightStyle
+        lineBreak += contentStyle.lineBreak
+        hyphens += contentStyle.hyphens
+        textMotion += contentStyle.textMotion
     }
 
     override fun plusAssign(other: TextStyle) {
