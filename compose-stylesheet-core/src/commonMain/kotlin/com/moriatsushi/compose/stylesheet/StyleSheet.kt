@@ -62,6 +62,7 @@ class StyleSheet internal constructor(
         if (this === other) return true
         if (other !is StyleSheet) return false
 
+        if (tokens != other.tokens) return false
         if (contentStyle != other.contentStyle) return false
         if (componentStyles != other.componentStyles) return false
         return true

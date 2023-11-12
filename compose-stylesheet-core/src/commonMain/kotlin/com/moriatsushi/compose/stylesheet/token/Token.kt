@@ -18,7 +18,7 @@ internal class ReferenceToken<T>(
     private val name: String,
     val default: Token<T>,
 ) : Token<T>() {
-    override fun toString(): String = "RefToken($name, default=$default)"
+    override fun toString(): String = "ReferenceToken($name, default=$default)"
 }
 
 @Immutable
