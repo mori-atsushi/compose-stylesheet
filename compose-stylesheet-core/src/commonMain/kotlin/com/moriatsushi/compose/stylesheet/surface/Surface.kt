@@ -10,6 +10,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.isSpecified
 import com.moriatsushi.compose.stylesheet.StyleSheet
 import com.moriatsushi.compose.stylesheet.component.Component
 import com.moriatsushi.compose.stylesheet.content.ContentStyle
@@ -51,10 +52,18 @@ fun Surface(
         this += localStyle
         this += surfaceStyle
 
-        this.background += background
-        this.shape += shape
-        this.border += border
-        this.content.color += contentColor
+        if (background.isSpecified) {
+            this.background += background
+        }
+        if (shape != null) {
+            this.shape += shape
+        }
+        if (border != null) {
+            this.border += border
+        }
+        if (contentColor.isSpecified) {
+            this.content.color += contentColor
+        }
     }
 
     Box(
