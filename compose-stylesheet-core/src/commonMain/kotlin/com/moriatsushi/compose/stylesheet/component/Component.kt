@@ -1,4 +1,6 @@
-package com.moriatsushi.compose.stylesheet
+package com.moriatsushi.compose.stylesheet.component
+
+import com.moriatsushi.compose.stylesheet.StyleBuilder
 
 /**
  * A symbol of a component, which has a style and a style builder.
