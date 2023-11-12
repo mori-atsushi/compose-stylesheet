@@ -25,6 +25,12 @@ kotlin {
                 implementation(kotlin("test"))
             }
         }
+
+        all {
+            languageSettings.optIn(
+                "com.moriatsushi.compose.stylesheet.component.StylesheetComponentApi",
+            )
+        }
     }
 }
 

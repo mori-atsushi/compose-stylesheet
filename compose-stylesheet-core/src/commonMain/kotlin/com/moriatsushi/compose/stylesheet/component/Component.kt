@@ -14,6 +14,7 @@ interface Component<CS : ComponentStyle, SB : StyleBuilder<CS>> {
 /**
  * Creates a symbol of a component.
  */
+@StylesheetComponentApi
 fun <CS : ComponentStyle, SB : StyleBuilder<CS>> Component(
     name: String,
     defaultStyle: CS,
