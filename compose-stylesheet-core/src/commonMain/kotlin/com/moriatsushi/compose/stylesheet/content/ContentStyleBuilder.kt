@@ -28,7 +28,7 @@ import com.moriatsushi.compose.stylesheet.token.TokenSetter
  * A builder for common styles in [com.moriatsushi.compose.stylesheet.StyleSheet].
  */
 @StyleSheetBuilderMarker
-class ContentStyleBuilder internal constructor() : StyleBuilder<ContentStyle> {
+class ContentStyleBuilder : StyleBuilder<ContentStyle> {
     val color: TokenSetter<Color> = TokenSetter()
     val fontSize: TokenSetter<TextUnit> = TokenSetter()
     val fontWeight: TokenSetter<FontWeight?> = TokenSetter()

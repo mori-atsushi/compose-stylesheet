@@ -16,3 +16,4 @@ dependencyResolutionManagement {
 rootProject.name = "compose-style-sheet"
 include(":compose-stylesheet-core")
 include(":component:compose-stylesheet-text")
+include(":component:compose-stylesheet-surface")
