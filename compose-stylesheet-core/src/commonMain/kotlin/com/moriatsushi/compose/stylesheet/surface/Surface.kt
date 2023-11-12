@@ -1,10 +1,15 @@
 package com.moriatsushi.compose.stylesheet.surface
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.graphics.Shape
 import com.moriatsushi.compose.stylesheet.Component
 import com.moriatsushi.compose.stylesheet.ContentStyle
 import com.moriatsushi.compose.stylesheet.LocalContentStyle
@@ -14,11 +19,11 @@ import com.moriatsushi.compose.stylesheet.tag.TagModifier
 import com.moriatsushi.compose.stylesheet.token.value
 
 /**
- * An element that draws a [backgroundColor] behind its [content].
+ * An element that draws a [background] behind its [content].
  *
  * The surface style is applied in the following order:
  *
- * 1. The specified arguments to this function, such as [backgroundColor], etc.
+ * 1. The specified arguments to this function, such as [background], [shape], etc.
  * 2. The specified [surfaceStyle] argument to this function.
  * 3. Styles specified by [tags].
  * 4. The current [SurfaceStyle] from [StyleSheet].
@@ -35,7 +40,9 @@ import com.moriatsushi.compose.stylesheet.token.value
 fun Surface(
     modifier: Modifier = Modifier,
     tags: TagModifier<SurfaceStyle> = TagModifier(),
-    backgroundColor: Color = Color.Unspecified,
+    background: Color = Color.Unspecified,
+    shape: Shape? = null,
+    border: BorderStroke? = null,
     contentColor: Color = Color.Unspecified,
     surfaceStyle: SurfaceStyle = SurfaceStyle.Default,
     content: @Composable () -> Unit,
@@ -45,13 +52,18 @@ fun Surface(
         this += localStyle
         this += surfaceStyle
 
-        this.background += backgroundColor
+        this.background += background
+        this.shape += shape
+        this.border += border
         this.content.color += contentColor
     }
 
     Box(
-        modifier = modifier
-            .background(mergedStyle.background?.value ?: Color.Unspecified),
+        modifier = modifier.surface(
+            shape = mergedStyle.shape?.value ?: RectangleShape,
+            backgroundColor = mergedStyle.background?.value ?: Color.Unspecified,
+            border = mergedStyle.border?.value,
+        ),
         propagateMinConstraints = true,
     ) {
         ProvideContentStyle(
@@ -60,6 +72,15 @@ fun Surface(
         )
     }
 }
+
+private fun Modifier.surface(
+    shape: Shape,
+    backgroundColor: Color,
+    border: BorderStroke?,
+): Modifier = this
+    .then(if (border != null) Modifier.border(border, shape) else Modifier)
+    .background(color = backgroundColor, shape = shape)
+    .clip(shape)
 
 /**
  * A symbol for [Surface].
