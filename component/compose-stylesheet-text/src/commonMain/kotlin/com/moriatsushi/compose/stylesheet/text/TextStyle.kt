@@ -23,6 +23,7 @@ import androidx.compose.ui.text.style.TextIndent
 import androidx.compose.ui.text.style.TextMotion
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.TextUnit
+import com.moriatsushi.compose.stylesheet.component.ComponentCommonStyle
 import com.moriatsushi.compose.stylesheet.component.ComponentStyle
 import com.moriatsushi.compose.stylesheet.token.Token
 
@@ -59,7 +60,6 @@ sealed interface TextStyle : ComponentStyle {
     val softWrap: Token<Boolean?>?
     val maxLines: Token<Int?>?
     val minLines: Token<Int?>?
-    val background: Token<Color>?
 
     companion object {
         /**
@@ -104,7 +104,7 @@ internal fun TextStyle(
     softWrap: Token<Boolean?>? = null,
     maxLines: Token<Int?>? = null,
     minLines: Token<Int?>? = null,
-    background: Token<Color>? = null,
+    commonStyle: ComponentCommonStyle = ComponentCommonStyle.Default,
 ): TextStyle = TextStyleImpl(
     color = color,
     fontSize = fontSize,
@@ -134,7 +134,7 @@ internal fun TextStyle(
     softWrap = softWrap,
     maxLines = maxLines,
     minLines = minLines,
-    background = background,
+    commonStyle = commonStyle,
 )
 
 @Immutable
@@ -167,5 +167,5 @@ private data class TextStyleImpl(
     override val softWrap: Token<Boolean?>?,
     override val maxLines: Token<Int?>?,
     override val minLines: Token<Int?>?,
-    override val background: Token<Color>?,
+    override val commonStyle: ComponentCommonStyle,
 ) : TextStyle
