@@ -25,7 +25,6 @@ abstract class ComponentStyleBuilder<T : ComponentStyle> : StyleBuilder<T> {
      */
     val border: TokenSetter<BorderStroke?> = TokenSetter()
 
-
     @StylesheetComponentApi
     operator fun plusAssign(other: ComponentCommonStyle) {
         background += other.background
