@@ -4,6 +4,10 @@ import androidx.compose.runtime.Stable
 import androidx.compose.ui.graphics.Color
 import com.moriatsushi.compose.stylesheet.token.Token
 
+/**
+ * A common style that can be applied to a component. This is provided by [LocalContentStyle] and
+ * can be customized using [ProvideContentStyle].
+ */
 @Stable
 sealed interface ContentStyle {
     val color: Token<Color>?
