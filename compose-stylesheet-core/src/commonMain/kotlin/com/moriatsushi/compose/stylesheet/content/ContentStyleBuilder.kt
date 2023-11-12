@@ -22,13 +22,14 @@ import androidx.compose.ui.text.style.TextMotion
 import androidx.compose.ui.unit.TextUnit
 import com.moriatsushi.compose.stylesheet.StyleBuilder
 import com.moriatsushi.compose.stylesheet.StyleSheetBuilderMarker
+import com.moriatsushi.compose.stylesheet.component.StylesheetComponentApi
 import com.moriatsushi.compose.stylesheet.token.TokenSetter
 
 /**
  * A builder for common styles in [com.moriatsushi.compose.stylesheet.StyleSheet].
  */
 @StyleSheetBuilderMarker
-class ContentStyleBuilder internal constructor() : StyleBuilder<ContentStyle> {
+class ContentStyleBuilder @StylesheetComponentApi constructor() : StyleBuilder<ContentStyle> {
     val color: TokenSetter<Color> = TokenSetter()
     val fontSize: TokenSetter<TextUnit> = TokenSetter()
     val fontWeight: TokenSetter<FontWeight?> = TokenSetter()

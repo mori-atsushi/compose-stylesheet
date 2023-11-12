@@ -16,7 +16,9 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation(compose.foundation)
+                api(project(":compose-stylesheet-core"))
+                api(project(":component:compose-stylesheet-text"))
+                api(project(":component:compose-stylesheet-surface"))
             }
         }
 
@@ -24,12 +26,6 @@ kotlin {
             dependencies {
                 implementation(kotlin("test"))
             }
-        }
-
-        all {
-            languageSettings.optIn(
-                "com.moriatsushi.compose.stylesheet.component.StylesheetComponentApi",
-            )
         }
     }
 }

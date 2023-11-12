@@ -17,6 +17,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation(compose.foundation)
+                implementation(project(":compose-stylesheet-core"))
             }
         }
 
@@ -35,7 +36,7 @@ kotlin {
 }
 
 android {
-    namespace = "com.moriatsushi.compose.stylesheet"
+    namespace = "com.moriatsushi.compose.stylesheet.text"
     compileSdk = 33
     defaultConfig {
         minSdk = 21
