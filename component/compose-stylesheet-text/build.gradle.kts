@@ -1,0 +1,43 @@
+plugins {
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.compose.multiplatform)
+    alias(libs.plugins.kotlin.multiplatform)
+}
+
+kotlin {
+    androidTarget()
+    jvm("desktop")
+    iosX64("uikitX64")
+    iosArm64("uikitArm64")
+    iosSimulatorArm64("uikitSimArm64")
+    macosX64()
+    macosArm64()
+
+    sourceSets {
+        val commonMain by getting {
+            dependencies {
+                implementation(compose.foundation)
+                implementation(project(":compose-stylesheet-core"))
+            }
+        }
+
+        val commonTest by getting {
+            dependencies {
+                implementation(kotlin("test"))
+            }
+        }
+    }
+}
+
+android {
+    namespace = "com.moriatsushi.compose.stylesheet.text"
+    compileSdk = 33
+    defaultConfig {
+        minSdk = 21
+    }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+}
