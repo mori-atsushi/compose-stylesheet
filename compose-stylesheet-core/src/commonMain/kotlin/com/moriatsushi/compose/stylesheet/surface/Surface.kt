@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.takeOrElse
 import com.moriatsushi.compose.stylesheet.Component
 import com.moriatsushi.compose.stylesheet.ProvideContentStyle
 import com.moriatsushi.compose.stylesheet.StyleSheet
@@ -21,21 +20,25 @@ fun Surface(
     tags: TagModifier<SurfaceStyle> = TagModifier(),
     backgroundColor: Color = Color.Unspecified,
     contentColor: Color = Color.Unspecified,
+    surfaceStyle: SurfaceStyle = SurfaceStyle.Default,
     content: @Composable () -> Unit,
 ) {
-    val style = StyleSheet.getStyle(surface, tags)
-    val surfaceBackgroundColor = backgroundColor
-        .takeOrElse { style.backgroundColor?.value ?: Color.Unspecified }
-    val contentStyle = style.contentStyle.merge {
-        color += contentColor
+    val localStyle = StyleSheet.getStyle(surface, tags)
+    val mergedStyle = SurfaceStyle {
+        this += localStyle
+        this += surfaceStyle
+
+        this.backgroundColor += backgroundColor
+        this.content.color += contentColor
     }
 
     Box(
-        modifier = modifier.background(surfaceBackgroundColor),
+        modifier = modifier
+            .background(mergedStyle.backgroundColor?.value ?: Color.Unspecified),
         propagateMinConstraints = true,
     ) {
         ProvideContentStyle(
-            contentStyle = contentStyle,
+            contentStyle = mergedStyle.contentStyle,
             content = content,
         )
     }
