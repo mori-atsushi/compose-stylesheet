@@ -15,6 +15,9 @@
             <option value="$PROJECT_DIR$/component/compose-stylesheet-text" />
             <option value="$PROJECT_DIR$/compose-stylesheet" />
             <option value="$PROJECT_DIR$/compose-stylesheet-core" />
+            <option value="$PROJECT_DIR$/sample" />
+            <option value="$PROJECT_DIR$/sample/android" />
+            <option value="$PROJECT_DIR$/sample/mylibrary" />
           </set>
         </option>
       </GradleProjectSettings>
