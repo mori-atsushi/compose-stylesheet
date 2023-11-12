@@ -44,13 +44,13 @@ sealed interface TextStyle : ComponentStyle {
     val localeList: Token<LocaleList?>?
     val textBackground: Token<Color?>?
     val textDecoration: Token<TextDecoration?>?
-    val shadow: Token<Shadow?>?
-    val drawStyle: Token<DrawStyle?>?
+    val textShadow: Token<Shadow?>?
+    val textDrawStyle: Token<DrawStyle?>?
     val textAlign: Token<TextAlign?>?
     val textDirection: Token<TextDirection?>?
     val lineHeight: Token<TextUnit>?
     val textIndent: Token<TextIndent?>?
-    val platformStyle: Token<PlatformTextStyle?>?
+    val platformTextStyle: Token<PlatformTextStyle?>?
     val lineHeightStyle: Token<LineHeightStyle?>?
     val lineBreak: Token<LineBreak?>?
     val hyphens: Token<Hyphens?>?
@@ -89,13 +89,13 @@ internal fun TextStyle(
     localeList: Token<LocaleList?>? = null,
     textBackground: Token<Color?>? = null,
     textDecoration: Token<TextDecoration?>? = null,
-    shadow: Token<Shadow?>? = null,
-    drawStyle: Token<DrawStyle?>? = null,
+    textShadow: Token<Shadow?>? = null,
+    textDrawStyle: Token<DrawStyle?>? = null,
     textAlign: Token<TextAlign?>? = null,
     textDirection: Token<TextDirection?>? = null,
     lineHeight: Token<TextUnit>? = null,
     textIndent: Token<TextIndent?>? = null,
-    platformStyle: Token<PlatformTextStyle?>? = null,
+    platformTextStyle: Token<PlatformTextStyle?>? = null,
     lineHeightStyle: Token<LineHeightStyle?>? = null,
     lineBreak: Token<LineBreak?>? = null,
     hyphens: Token<Hyphens?>? = null,
@@ -119,13 +119,13 @@ internal fun TextStyle(
     localeList = localeList,
     textBackground = textBackground,
     textDecoration = textDecoration,
-    shadow = shadow,
-    drawStyle = drawStyle,
+    textShadow = textShadow,
+    textDrawStyle = textDrawStyle,
     textAlign = textAlign,
     textDirection = textDirection,
     lineHeight = lineHeight,
     textIndent = textIndent,
-    platformStyle = platformStyle,
+    platformTextStyle = platformTextStyle,
     lineHeightStyle = lineHeightStyle,
     lineBreak = lineBreak,
     hyphens = hyphens,
@@ -152,13 +152,13 @@ private data class TextStyleImpl(
     override val localeList: Token<LocaleList?>?,
     override val textBackground: Token<Color?>?,
     override val textDecoration: Token<TextDecoration?>?,
-    override val shadow: Token<Shadow?>?,
-    override val drawStyle: Token<DrawStyle?>?,
+    override val textShadow: Token<Shadow?>?,
+    override val textDrawStyle: Token<DrawStyle?>?,
     override val textAlign: Token<TextAlign?>?,
     override val textDirection: Token<TextDirection?>?,
     override val lineHeight: Token<TextUnit>?,
     override val textIndent: Token<TextIndent?>?,
-    override val platformStyle: Token<PlatformTextStyle?>?,
+    override val platformTextStyle: Token<PlatformTextStyle?>?,
     override val lineHeightStyle: Token<LineHeightStyle?>?,
     override val lineBreak: Token<LineBreak?>?,
     override val hyphens: Token<Hyphens?>?,
