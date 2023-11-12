@@ -13,6 +13,7 @@
             <option value="$PROJECT_DIR$/component" />
             <option value="$PROJECT_DIR$/component/compose-stylesheet-surface" />
             <option value="$PROJECT_DIR$/component/compose-stylesheet-text" />
+            <option value="$PROJECT_DIR$/compose-stylesheet" />
             <option value="$PROJECT_DIR$/compose-stylesheet-core" />
           </set>
         </option>
