@@ -2,6 +2,7 @@ package com.moriatsushi.compose.stylesheet
 
 import androidx.compose.ui.graphics.Color
 import com.moriatsushi.compose.stylesheet.component.Component
+import com.moriatsushi.compose.stylesheet.component.ComponentCommonStyle
 import com.moriatsushi.compose.stylesheet.component.ComponentStyle
 import com.moriatsushi.compose.stylesheet.tag.Tag
 import com.moriatsushi.compose.stylesheet.token.Token
@@ -57,6 +58,7 @@ class ComponentStyleTest {
     private class SampleComponentStyle(
         val color1: Token<Color>? = null,
         val color2: Token<Color>? = null,
+        override val commonStyle: ComponentCommonStyle = ComponentCommonStyle.Default,
     ) : ComponentStyle
 
     private class SampleComponentStyleBuilder : StyleBuilder<SampleComponentStyle> {
