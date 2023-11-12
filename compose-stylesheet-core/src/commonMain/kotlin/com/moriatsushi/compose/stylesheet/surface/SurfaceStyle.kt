@@ -6,7 +6,7 @@ import androidx.compose.runtime.Stable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import com.moriatsushi.compose.stylesheet.ComponentStyle
-import com.moriatsushi.compose.stylesheet.ContentStyle
+import com.moriatsushi.compose.stylesheet.content.ContentStyle
 import com.moriatsushi.compose.stylesheet.token.Token
 
 /**

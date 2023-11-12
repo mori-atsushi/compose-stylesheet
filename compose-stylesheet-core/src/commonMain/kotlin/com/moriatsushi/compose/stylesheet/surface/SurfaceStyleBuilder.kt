@@ -3,9 +3,9 @@ package com.moriatsushi.compose.stylesheet.surface
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
-import com.moriatsushi.compose.stylesheet.ContentStyleBuilder
 import com.moriatsushi.compose.stylesheet.StyleBuilder
 import com.moriatsushi.compose.stylesheet.StyleSheetBuilderMarker
+import com.moriatsushi.compose.stylesheet.content.ContentStyleBuilder
 import com.moriatsushi.compose.stylesheet.token.TokenSetter
 
 /**
