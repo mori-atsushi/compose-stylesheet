@@ -36,7 +36,7 @@ kotlin {
 
 android {
     namespace = "com.moriatsushi.compose.stylesheet"
-    compileSdk = 33
+    compileSdk = 34
     defaultConfig {
         minSdk = 21
     }
