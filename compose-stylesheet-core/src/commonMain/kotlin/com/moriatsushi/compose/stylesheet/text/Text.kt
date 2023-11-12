@@ -1,5 +1,6 @@
 package com.moriatsushi.compose.stylesheet.text
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -77,7 +78,7 @@ fun Text(
 
     BasicText(
         text = text,
-        modifier = modifier,
+        modifier = modifier.background(mergedTextStyle.background?.value),
         style = mergedTextStyle.composeTextStyle,
         onTextLayout = onTextLayout,
         overflow = mergedTextStyle.overflow?.value ?: TextOverflow.Clip,
@@ -115,6 +116,9 @@ private val TextStyle.composeTextStyle: ComposeTextStyle
         hyphens = hyphens?.value,
         textMotion = textMotion?.value,
     )
+
+private fun Modifier.background(color: Color?): Modifier =
+    if (color != null) background(color) else this
 
 @Composable
 private fun localTextStyle(tags: TagModifier<TextStyle>): TextStyle =
