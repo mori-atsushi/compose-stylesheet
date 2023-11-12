@@ -4,6 +4,7 @@ import androidx.compose.ui.graphics.Color
 import com.moriatsushi.compose.stylesheet.component.Component
 import com.moriatsushi.compose.stylesheet.component.ComponentCommonStyle
 import com.moriatsushi.compose.stylesheet.component.ComponentStyle
+import com.moriatsushi.compose.stylesheet.component.ComponentStyleBuilder
 import com.moriatsushi.compose.stylesheet.tag.Tag
 import com.moriatsushi.compose.stylesheet.token.Token
 import com.moriatsushi.compose.stylesheet.token.TokenSetter
@@ -55,24 +56,38 @@ class ComponentStyleTest {
         assertEquals(colorToken2, style.color2)
     }
 
+    @Test
+    fun testGetStyle_commonStyle() {
+        val styleSheet = StyleSheet {
+            sampleComponent {
+                background += colorToken1
+            }
+        }
+
+        val style = styleSheet.getStyle(sampleComponent)
+        assertEquals(colorToken1, style.commonStyle.background)
+    }
+
     private class SampleComponentStyle(
         val color1: Token<Color>? = null,
         val color2: Token<Color>? = null,
         override val commonStyle: ComponentCommonStyle = ComponentCommonStyle.Default,
     ) : ComponentStyle
 
-    private class SampleComponentStyleBuilder : StyleBuilder<SampleComponentStyle> {
+    private class SampleComponentStyleBuilder : ComponentStyleBuilder<SampleComponentStyle>() {
         val color1: TokenSetter<Color> = TokenSetter()
         val color2: TokenSetter<Color> = TokenSetter()
 
         override fun plusAssign(other: SampleComponentStyle) {
             color1 += other.color1
             color2 += other.color2
+            this += other.commonStyle
         }
 
         override fun build(): SampleComponentStyle = SampleComponentStyle(
             color1 = color1.token,
             color2 = color2.token,
+            commonStyle = buildCommonStyle(),
         )
     }
 
