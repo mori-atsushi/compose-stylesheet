@@ -45,13 +45,13 @@ fun Surface(
         this += localStyle
         this += surfaceStyle
 
-        this.backgroundColor += backgroundColor
+        this.background += backgroundColor
         this.content.color += contentColor
     }
 
     Box(
         modifier = modifier
-            .background(mergedStyle.backgroundColor?.value ?: Color.Unspecified),
+            .background(mergedStyle.background?.value ?: Color.Unspecified),
         propagateMinConstraints = true,
     ) {
         ProvideContentStyle(

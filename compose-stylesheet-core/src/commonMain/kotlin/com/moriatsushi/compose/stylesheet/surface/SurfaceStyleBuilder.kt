@@ -14,7 +14,7 @@ class SurfaceStyleBuilder internal constructor() : StyleBuilder<SurfaceStyle> {
     /**
      * A background color.
      */
-    val backgroundColor: TokenSetter<Color> = TokenSetter()
+    val background: TokenSetter<Color> = TokenSetter()
 
     /**
      * A content style.
@@ -29,12 +29,12 @@ class SurfaceStyleBuilder internal constructor() : StyleBuilder<SurfaceStyle> {
     }
 
     override fun plusAssign(other: SurfaceStyle) {
-        backgroundColor += other.backgroundColor
+        background += other.background
         content += other.contentStyle
     }
 
     override fun build(): SurfaceStyle = SurfaceStyle(
-        backgroundColor = backgroundColor.token,
+        background = background.token,
         contentStyle = content.build(),
     )
 }

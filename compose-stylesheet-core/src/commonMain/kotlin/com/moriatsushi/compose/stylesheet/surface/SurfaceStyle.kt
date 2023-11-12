@@ -12,7 +12,7 @@ import com.moriatsushi.compose.stylesheet.token.Token
  */
 @Stable
 interface SurfaceStyle : ComponentStyle {
-    val backgroundColor: Token<Color>?
+    val background: Token<Color>?
     val contentStyle: ContentStyle
 
     companion object {
@@ -30,15 +30,15 @@ fun SurfaceStyle(builder: SurfaceStyleBuilder.() -> Unit): SurfaceStyle =
     SurfaceStyleBuilder().apply(builder).build()
 
 internal fun SurfaceStyle(
-    backgroundColor: Token<Color>? = null,
+    background: Token<Color>? = null,
     contentStyle: ContentStyle = ContentStyle.Default,
 ): SurfaceStyle = SurfaceStyleImpl(
-    backgroundColor = backgroundColor,
+    background = background,
     contentStyle = contentStyle,
 )
 
 @Immutable
 private data class SurfaceStyleImpl(
-    override val backgroundColor: Token<Color>?,
+    override val background: Token<Color>?,
     override val contentStyle: ContentStyle,
 ) : SurfaceStyle
