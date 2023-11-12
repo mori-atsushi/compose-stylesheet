@@ -11,7 +11,6 @@ import com.moriatsushi.compose.stylesheet.content.ContentStyle
  */
 @Stable
 interface SurfaceStyle : ComponentStyle {
-    val commonStyle: ComponentCommonStyle
     val contentStyle: ContentStyle
 
     companion object {

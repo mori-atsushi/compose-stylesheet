@@ -106,7 +106,7 @@ fun Text(
 
     BasicText(
         text = text,
-        modifier = modifier.background(mergedTextStyle.background?.value),
+        modifier = modifier.background(mergedTextStyle.commonStyle.background?.value),
         style = mergedTextStyle.composeTextStyle,
         onTextLayout = onTextLayout,
         overflow = mergedTextStyle.overflow?.value ?: TextOverflow.Clip,

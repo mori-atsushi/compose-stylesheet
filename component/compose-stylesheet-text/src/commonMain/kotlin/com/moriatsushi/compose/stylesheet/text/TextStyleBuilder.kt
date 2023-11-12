@@ -21,8 +21,8 @@ import androidx.compose.ui.text.style.TextIndent
 import androidx.compose.ui.text.style.TextMotion
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.TextUnit
-import com.moriatsushi.compose.stylesheet.StyleBuilder
 import com.moriatsushi.compose.stylesheet.StyleSheetBuilderMarker
+import com.moriatsushi.compose.stylesheet.component.ComponentStyleBuilder
 import com.moriatsushi.compose.stylesheet.content.ContentStyle
 import com.moriatsushi.compose.stylesheet.token.TokenSetter
 
@@ -30,7 +30,7 @@ import com.moriatsushi.compose.stylesheet.token.TokenSetter
  * A builder for [TextStyle].
  */
 @StyleSheetBuilderMarker
-class TextStyleBuilder internal constructor() : StyleBuilder<TextStyle> {
+class TextStyleBuilder internal constructor() : ComponentStyleBuilder<TextStyle>() {
     val color: TokenSetter<Color> = TokenSetter()
     val fontSize: TokenSetter<TextUnit> = TokenSetter()
     val fontWeight: TokenSetter<FontWeight?> = TokenSetter()
@@ -59,7 +59,6 @@ class TextStyleBuilder internal constructor() : StyleBuilder<TextStyle> {
     val softWrap: TokenSetter<Boolean?> = TokenSetter()
     val maxLines: TokenSetter<Int?> = TokenSetter()
     val minLines: TokenSetter<Int?> = TokenSetter()
-    val background: TokenSetter<Color> = TokenSetter()
 
     internal operator fun plusAssign(contentStyle: ContentStyle) {
         color += contentStyle.color
@@ -117,7 +116,7 @@ class TextStyleBuilder internal constructor() : StyleBuilder<TextStyle> {
         softWrap += other.softWrap
         maxLines += other.maxLines
         minLines += other.minLines
-        background += other.background
+        this += other.commonStyle
     }
 
     override fun build(): TextStyle = TextStyle(
@@ -149,6 +148,6 @@ class TextStyleBuilder internal constructor() : StyleBuilder<TextStyle> {
         softWrap = softWrap.token,
         maxLines = maxLines.token,
         minLines = minLines.token,
-        background = background.token,
+        commonStyle = buildCommonStyle(),
     )
 }
