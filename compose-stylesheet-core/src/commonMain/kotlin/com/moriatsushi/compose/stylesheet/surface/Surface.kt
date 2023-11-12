@@ -11,10 +11,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
 import com.moriatsushi.compose.stylesheet.Component
-import com.moriatsushi.compose.stylesheet.ContentStyle
-import com.moriatsushi.compose.stylesheet.LocalContentStyle
-import com.moriatsushi.compose.stylesheet.ProvideContentStyle
 import com.moriatsushi.compose.stylesheet.StyleSheet
+import com.moriatsushi.compose.stylesheet.content.ContentStyle
+import com.moriatsushi.compose.stylesheet.content.ProvideContentStyle
 import com.moriatsushi.compose.stylesheet.tag.TagModifier
 import com.moriatsushi.compose.stylesheet.token.value
 

@@ -2,6 +2,7 @@ package com.moriatsushi.compose.stylesheet
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
+import com.moriatsushi.compose.stylesheet.content.ContentStyle
 import com.moriatsushi.compose.stylesheet.tag.TagModifier
 import com.moriatsushi.compose.stylesheet.token.ReferenceToken
 import com.moriatsushi.compose.stylesheet.token.SourceToken

@@ -1,6 +1,8 @@
-package com.moriatsushi.compose.stylesheet
+package com.moriatsushi.compose.stylesheet.content
 
 import androidx.compose.ui.graphics.Color
+import com.moriatsushi.compose.stylesheet.StyleBuilder
+import com.moriatsushi.compose.stylesheet.StyleSheetBuilderMarker
 import com.moriatsushi.compose.stylesheet.token.TokenSetter
 
 /**

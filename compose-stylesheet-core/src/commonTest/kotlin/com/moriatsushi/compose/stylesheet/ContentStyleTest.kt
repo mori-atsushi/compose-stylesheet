@@ -1,6 +1,7 @@
 package com.moriatsushi.compose.stylesheet
 
 import androidx.compose.ui.graphics.Color
+import com.moriatsushi.compose.stylesheet.content.ContentStyle
 import com.moriatsushi.compose.stylesheet.token.Token
 import kotlin.test.Test
 import kotlin.test.assertEquals

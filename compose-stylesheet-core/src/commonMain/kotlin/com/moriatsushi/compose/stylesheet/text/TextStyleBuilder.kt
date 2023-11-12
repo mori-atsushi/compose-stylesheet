@@ -21,9 +21,9 @@ import androidx.compose.ui.text.style.TextIndent
 import androidx.compose.ui.text.style.TextMotion
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.TextUnit
-import com.moriatsushi.compose.stylesheet.ContentStyle
 import com.moriatsushi.compose.stylesheet.StyleBuilder
 import com.moriatsushi.compose.stylesheet.StyleSheetBuilderMarker
+import com.moriatsushi.compose.stylesheet.content.ContentStyle
 import com.moriatsushi.compose.stylesheet.token.TokenSetter
 
 /**

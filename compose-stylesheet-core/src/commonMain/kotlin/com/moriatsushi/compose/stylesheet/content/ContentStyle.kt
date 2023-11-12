@@ -1,4 +1,4 @@
-package com.moriatsushi.compose.stylesheet
+package com.moriatsushi.compose.stylesheet.content
 
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable

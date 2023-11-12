@@ -1,5 +1,6 @@
 package com.moriatsushi.compose.stylesheet
 
+import com.moriatsushi.compose.stylesheet.content.ContentStyleBuilder
 import com.moriatsushi.compose.stylesheet.tag.Tag
 import com.moriatsushi.compose.stylesheet.token.SourceToken
 import com.moriatsushi.compose.stylesheet.token.Token
