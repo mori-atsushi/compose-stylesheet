@@ -5,6 +5,7 @@ import androidx.compose.foundation.text.BasicText
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.isSpecified
 import androidx.compose.ui.text.TextLayoutResult
 import androidx.compose.ui.text.TextStyle as ComposeTextStyle
 import androidx.compose.ui.text.font.FontFamily
@@ -14,6 +15,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.unit.isSpecified
 import com.moriatsushi.compose.stylesheet.StyleSheet
 import com.moriatsushi.compose.stylesheet.component.Component
 import com.moriatsushi.compose.stylesheet.content.ContentStyle
@@ -61,19 +63,45 @@ fun Text(
         this += localTextStyle
         this += textStyle
 
-        this.color += color
-        this.fontSize += fontSize
-        this.fontWeight += fontWeight
-        this.fontStyle += fontStyle
-        this.fontFamily += fontFamily
-        this.letterSpacing += letterSpacing
-        this.textDecoration += textDecoration
-        this.textAlign += textAlign
-        this.lineHeight += lineHeight
-        this.overflow += overflow
-        this.softWrap += softWrap
-        this.maxLines += maxLines
-        this.minLines += minLines
+        if (color.isSpecified) {
+            this.color += color
+        }
+        if (fontSize.isSpecified) {
+            this.fontSize += fontSize
+        }
+        if (fontWeight != null) {
+            this.fontWeight += fontWeight
+        }
+        if (fontStyle != null) {
+            this.fontStyle += fontStyle
+        }
+        if (fontFamily != null) {
+            this.fontFamily += fontFamily
+        }
+        if (letterSpacing.isSpecified) {
+            this.letterSpacing += letterSpacing
+        }
+        if (textDecoration != null) {
+            this.textDecoration += textDecoration
+        }
+        if (textAlign != null) {
+            this.textAlign += textAlign
+        }
+        if (lineHeight.isSpecified) {
+            this.lineHeight += lineHeight
+        }
+        if (overflow != null) {
+            this.overflow += overflow
+        }
+        if (softWrap != null) {
+            this.softWrap += softWrap
+        }
+        if (maxLines != null) {
+            this.maxLines += maxLines
+        }
+        if (minLines != null) {
+            this.minLines += minLines
+        }
     }
 
     BasicText(
