@@ -44,13 +44,13 @@ class TextStyleBuilder internal constructor() : StyleBuilder<TextStyle> {
     val localeList: TokenSetter<LocaleList?> = TokenSetter()
     val textBackground: TokenSetter<Color?> = TokenSetter()
     val textDecoration: TokenSetter<TextDecoration?> = TokenSetter()
-    val shadow: TokenSetter<Shadow?> = TokenSetter()
-    val drawStyle: TokenSetter<DrawStyle?> = TokenSetter()
+    val textShadow: TokenSetter<Shadow?> = TokenSetter()
+    val textDrawStyle: TokenSetter<DrawStyle?> = TokenSetter()
     val textAlign: TokenSetter<TextAlign?> = TokenSetter()
     val textDirection: TokenSetter<TextDirection?> = TokenSetter()
     val lineHeight: TokenSetter<TextUnit> = TokenSetter()
     val textIndent: TokenSetter<TextIndent?> = TokenSetter()
-    val platformStyle: TokenSetter<PlatformTextStyle?> = TokenSetter()
+    val platformTextStyle: TokenSetter<PlatformTextStyle?> = TokenSetter()
     val lineHeightStyle: TokenSetter<LineHeightStyle?> = TokenSetter()
     val lineBreak: TokenSetter<LineBreak?> = TokenSetter()
     val hyphens: TokenSetter<Hyphens?> = TokenSetter()
@@ -63,6 +63,29 @@ class TextStyleBuilder internal constructor() : StyleBuilder<TextStyle> {
 
     internal operator fun plusAssign(contentStyle: ContentStyle) {
         color += contentStyle.color
+        fontSize += contentStyle.fontSize
+        fontWeight += contentStyle.fontWeight
+        fontStyle += contentStyle.fontStyle
+        fontSynthesis += contentStyle.fontSynthesis
+        fontFamily += contentStyle.fontFamily
+        fontFeatureSettings += contentStyle.fontFeatureSettings
+        letterSpacing += contentStyle.letterSpacing
+        baselineShift += contentStyle.baselineShift
+        textGeometricTransform += contentStyle.textGeometricTransform
+        localeList += contentStyle.localeList
+        textBackground += contentStyle.textBackground
+        textDecoration += contentStyle.textDecoration
+        textShadow += contentStyle.textShadow
+        textDrawStyle += contentStyle.textDrawStyle
+        textAlign += contentStyle.textAlign
+        textDirection += contentStyle.textDirection
+        lineHeight += contentStyle.lineHeight
+        textIndent += contentStyle.textIndent
+        platformTextStyle += contentStyle.platformTextStyle
+        lineHeightStyle += contentStyle.lineHeightStyle
+        lineBreak += contentStyle.lineBreak
+        hyphens += contentStyle.hyphens
+        textMotion += contentStyle.textMotion
     }
 
     override fun plusAssign(other: TextStyle) {
@@ -79,13 +102,13 @@ class TextStyleBuilder internal constructor() : StyleBuilder<TextStyle> {
         localeList += other.localeList
         textBackground += other.textBackground
         textDecoration += other.textDecoration
-        shadow += other.shadow
-        drawStyle += other.drawStyle
+        textShadow += other.textShadow
+        textDrawStyle += other.textDrawStyle
         textAlign += other.textAlign
         textDirection += other.textDirection
         lineHeight += other.lineHeight
         textIndent += other.textIndent
-        platformStyle += other.platformStyle
+        platformTextStyle += other.platformTextStyle
         lineHeightStyle += other.lineHeightStyle
         lineBreak += other.lineBreak
         hyphens += other.hyphens
@@ -111,13 +134,13 @@ class TextStyleBuilder internal constructor() : StyleBuilder<TextStyle> {
         localeList = localeList.token,
         textBackground = textBackground.token,
         textDecoration = textDecoration.token,
-        shadow = shadow.token,
-        drawStyle = drawStyle.token,
+        textShadow = textShadow.token,
+        textDrawStyle = textDrawStyle.token,
         textAlign = textAlign.token,
         textDirection = textDirection.token,
         lineHeight = lineHeight.token,
         textIndent = textIndent.token,
-        platformStyle = platformStyle.token,
+        platformTextStyle = platformTextStyle.token,
         lineHeightStyle = lineHeightStyle.token,
         lineBreak = lineBreak.token,
         hyphens = hyphens.token,

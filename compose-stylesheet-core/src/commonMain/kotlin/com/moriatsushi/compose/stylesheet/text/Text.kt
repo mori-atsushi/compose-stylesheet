@@ -30,7 +30,7 @@ import com.moriatsushi.compose.stylesheet.token.value
  * 2. The specified [textStyle] argument to this function.
  * 3. Styles specified by [tags].
  * 4. The current [TextStyle] from [StyleSheet].
- * 3. The current [ContentStyle] from [LocalContentStyle].
+ * 5. The current [ContentStyle] from [LocalContentStyle].
  */
 @Composable
 fun Text(
@@ -104,13 +104,13 @@ private val TextStyle.composeTextStyle: ComposeTextStyle
         localeList = localeList?.value,
         background = textBackground?.value ?: Color.Unspecified,
         textDecoration = textDecoration?.value,
-        shadow = shadow?.value,
-        drawStyle = drawStyle?.value,
+        shadow = textShadow?.value,
+        drawStyle = textDrawStyle?.value,
         textAlign = textAlign?.value,
         textDirection = textDirection?.value,
         lineHeight = lineHeight?.value ?: TextUnit.Unspecified,
         textIndent = textIndent?.value,
-        platformStyle = platformStyle?.value,
+        platformStyle = platformTextStyle?.value,
         lineHeightStyle = lineHeightStyle?.value,
         lineBreak = lineBreak?.value,
         hyphens = hyphens?.value,
