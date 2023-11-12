@@ -1,5 +1,6 @@
 package com.moriatsushi.compose.stylesheet
 
+import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.graphics.Color
 import com.moriatsushi.compose.stylesheet.token.Token
@@ -32,6 +33,7 @@ internal fun ContentStyle(
     color = color,
 )
 
+@Immutable
 private data class ContentStyleImpl(
     override val color: Token<Color>?,
 ) : ContentStyle
