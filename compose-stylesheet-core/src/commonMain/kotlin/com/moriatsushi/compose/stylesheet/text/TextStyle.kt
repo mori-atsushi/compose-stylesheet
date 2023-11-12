@@ -46,7 +46,7 @@ sealed interface TextStyle : ComponentStyle {
     val textDecoration: Token<TextDecoration?>?
     val shadow: Token<Shadow?>?
     val drawStyle: Token<DrawStyle?>?
-    val textAlign: Token<TextAlign>?
+    val textAlign: Token<TextAlign?>?
     val textDirection: Token<TextDirection?>?
     val lineHeight: Token<TextUnit>?
     val textIndent: Token<TextIndent?>?
@@ -60,7 +60,20 @@ sealed interface TextStyle : ComponentStyle {
     val maxLines: Token<Int?>?
     val minLines: Token<Int?>?
     val background: Token<Color>?
+
+    companion object {
+        /**
+         * Constant for a default [TextStyle].
+         */
+        val Default: TextStyle = TextStyle()
+    }
 }
+
+/**
+ * Creates a [TextStyle] with the [builder].
+ */
+fun TextStyle(builder: TextStyleBuilder.() -> Unit): TextStyle =
+    TextStyleBuilder().apply(builder).build()
 
 internal fun TextStyle(
     color: Token<Color>? = null,
@@ -78,7 +91,7 @@ internal fun TextStyle(
     textDecoration: Token<TextDecoration?>? = null,
     shadow: Token<Shadow?>? = null,
     drawStyle: Token<DrawStyle?>? = null,
-    textAlign: Token<TextAlign>? = null,
+    textAlign: Token<TextAlign?>? = null,
     textDirection: Token<TextDirection?>? = null,
     lineHeight: Token<TextUnit>? = null,
     textIndent: Token<TextIndent?>? = null,
@@ -141,7 +154,7 @@ private data class TextStyleImpl(
     override val textDecoration: Token<TextDecoration?>?,
     override val shadow: Token<Shadow?>?,
     override val drawStyle: Token<DrawStyle?>?,
-    override val textAlign: Token<TextAlign>?,
+    override val textAlign: Token<TextAlign?>?,
     override val textDirection: Token<TextDirection?>?,
     override val lineHeight: Token<TextUnit>?,
     override val textIndent: Token<TextIndent?>?,

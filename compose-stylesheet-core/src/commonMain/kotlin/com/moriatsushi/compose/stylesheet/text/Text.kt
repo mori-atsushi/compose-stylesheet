@@ -4,7 +4,6 @@ import androidx.compose.foundation.text.BasicText
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.isSpecified
 import androidx.compose.ui.text.TextLayoutResult
 import androidx.compose.ui.text.TextStyle as ComposeTextStyle
 import androidx.compose.ui.text.font.FontFamily
@@ -14,7 +13,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.TextUnit
-import androidx.compose.ui.unit.isSpecified
 import com.moriatsushi.compose.stylesheet.Component
 import com.moriatsushi.compose.stylesheet.ContentStyle
 import com.moriatsushi.compose.stylesheet.LocalContentStyle
@@ -24,6 +22,14 @@ import com.moriatsushi.compose.stylesheet.token.value
 
 /**
  * An element that displays text.
+ *
+ * The style is applied in the following order:
+ *
+ * 1. Specified arguments to this function, such as [color], [fontSize], etc.
+ * 2. The specified [textStyle] argument to this function.
+ * 3. Styles specified by [tags].
+ * 4. The current [TextStyle] from [StyleSheet].
+ * 3. The current [ContentStyle] from [LocalContentStyle].
  */
 @Composable
 fun Text(
@@ -44,89 +50,71 @@ fun Text(
     maxLines: Int? = null,
     minLines: Int? = null,
     onTextLayout: (TextLayoutResult) -> Unit = {},
+    textStyle: TextStyle = TextStyle.Default,
 ) {
     val localTextStyle = localTextStyle(tags)
+    val localContentStyle = LocalContentStyle.current
+
+    val mergedTextStyle = TextStyle {
+        this += localContentStyle
+        this += localTextStyle
+        this += textStyle
+
+        this.color += color
+        this.fontSize += fontSize
+        this.fontWeight += fontWeight
+        this.fontStyle += fontStyle
+        this.fontFamily += fontFamily
+        this.letterSpacing += letterSpacing
+        this.textDecoration += textDecoration
+        this.textAlign += textAlign
+        this.lineHeight += lineHeight
+        this.overflow += overflow
+        this.softWrap += softWrap
+        this.maxLines += maxLines
+        this.minLines += minLines
+    }
 
     BasicText(
         text = text,
         modifier = modifier,
-        style = composeTextStyle(
-            color = color,
-            fontSize = fontSize,
-            fontStyle = fontStyle,
-            fontWeight = fontWeight,
-            fontFamily = fontFamily,
-            letterSpacing = letterSpacing,
-            textDecoration = textDecoration,
-            textAlign = textAlign,
-            lineHeight = lineHeight,
-            localTextStyle = localTextStyle,
-            localContentStyle = LocalContentStyle.current,
-        ),
+        style = mergedTextStyle.composeTextStyle,
         onTextLayout = onTextLayout,
-        overflow = overflow
-            ?: localTextStyle.overflow?.value
-            ?: TextOverflow.Clip,
-        softWrap = softWrap
-            ?: localTextStyle.softWrap?.value
-            ?: true,
-        maxLines = maxLines
-            ?: localTextStyle.maxLines?.value
-            ?: Int.MAX_VALUE,
-        minLines = minLines
-            ?: localTextStyle.minLines?.value
-            ?: 1,
+        overflow = mergedTextStyle.overflow?.value ?: TextOverflow.Clip,
+        softWrap = mergedTextStyle.softWrap?.value ?: true,
+        maxLines = mergedTextStyle.maxLines?.value ?: Int.MAX_VALUE,
+        minLines = mergedTextStyle.minLines?.value ?: 1,
     )
 }
 
-@Composable
-private fun composeTextStyle(
-    color: Color = Color.Unspecified,
-    fontSize: TextUnit = TextUnit.Unspecified,
-    fontWeight: FontWeight? = null,
-    fontStyle: FontStyle? = null,
-    fontFamily: FontFamily? = null,
-    letterSpacing: TextUnit = TextUnit.Unspecified,
-    textDecoration: TextDecoration? = null,
-    textAlign: TextAlign? = null,
-    lineHeight: TextUnit = TextUnit.Unspecified,
-    localTextStyle: TextStyle,
-    localContentStyle: ContentStyle,
-): ComposeTextStyle = ComposeTextStyle(
-    color = color.takeIf { it.isSpecified }
-        ?: localTextStyle.color?.value
-        ?: localContentStyle.color?.value
-        ?: Color.Unspecified,
-    fontSize = fontSize.takeIf { it.isSpecified }
-        ?: localTextStyle.fontSize?.value
-        ?: TextUnit.Unspecified,
-    fontWeight = fontWeight ?: localTextStyle.fontWeight?.value,
-    fontStyle = fontStyle ?: localTextStyle.fontStyle?.value,
-    fontSynthesis = localTextStyle.fontSynthesis?.value,
-    fontFamily = fontFamily ?: localTextStyle.fontFamily?.value,
-    fontFeatureSettings = localTextStyle.fontFeatureSettings?.value,
-    letterSpacing = letterSpacing.takeIf { it.isSpecified }
-        ?: localTextStyle.letterSpacing?.value
-        ?: TextUnit.Unspecified,
-    baselineShift = localTextStyle.baselineShift?.value,
-    textGeometricTransform = localTextStyle.textGeometricTransform?.value,
-    localeList = localTextStyle.localeList?.value,
-    background = localTextStyle.textBackground?.value ?: Color.Unspecified,
-    textDecoration = textDecoration ?: localTextStyle.textDecoration?.value,
-    shadow = localTextStyle.shadow?.value,
-    drawStyle = localTextStyle.drawStyle?.value,
-    textAlign = textAlign ?: localTextStyle.textAlign?.value,
-    textDirection = localTextStyle.textDirection?.value,
-    lineHeight = lineHeight.takeIf { it.isSpecified }
-        ?: localTextStyle.lineHeight?.value
-        ?: TextUnit.Unspecified,
-    textIndent = localTextStyle.textIndent?.value,
-    platformStyle = localTextStyle.platformStyle?.value,
-    lineHeightStyle = localTextStyle.lineHeightStyle?.value,
-    lineBreak = localTextStyle.lineBreak?.value,
-    hyphens = localTextStyle.hyphens?.value,
-    textMotion = localTextStyle.textMotion?.value,
-)
+private val TextStyle.composeTextStyle: ComposeTextStyle
+    @Composable
+    get() = ComposeTextStyle(
+        color = color?.value ?: Color.Unspecified,
+        fontSize = fontSize?.value ?: TextUnit.Unspecified,
+        fontWeight = fontWeight?.value,
+        fontStyle = fontStyle?.value,
+        fontSynthesis = fontSynthesis?.value,
+        fontFamily = fontFamily?.value,
+        fontFeatureSettings = fontFeatureSettings?.value,
+        letterSpacing = letterSpacing?.value ?: TextUnit.Unspecified,
+        baselineShift = baselineShift?.value,
+        textGeometricTransform = textGeometricTransform?.value,
+        localeList = localeList?.value,
+        background = textBackground?.value ?: Color.Unspecified,
+        textDecoration = textDecoration?.value,
+        shadow = shadow?.value,
+        drawStyle = drawStyle?.value,
+        textAlign = textAlign?.value,
+        textDirection = textDirection?.value,
+        lineHeight = lineHeight?.value ?: TextUnit.Unspecified,
+        textIndent = textIndent?.value,
+        platformStyle = platformStyle?.value,
+        lineHeightStyle = lineHeightStyle?.value,
+        lineBreak = lineBreak?.value,
+        hyphens = hyphens?.value,
+        textMotion = textMotion?.value,
+    )
 
 @Composable
 private fun localTextStyle(tags: TagModifier<TextStyle>): TextStyle =

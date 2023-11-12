@@ -21,6 +21,7 @@ import androidx.compose.ui.text.style.TextIndent
 import androidx.compose.ui.text.style.TextMotion
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.TextUnit
+import com.moriatsushi.compose.stylesheet.ContentStyle
 import com.moriatsushi.compose.stylesheet.StyleBuilder
 import com.moriatsushi.compose.stylesheet.StyleSheetBuilderMarker
 import com.moriatsushi.compose.stylesheet.token.TokenSetter
@@ -45,7 +46,7 @@ class TextStyleBuilder internal constructor() : StyleBuilder<TextStyle> {
     val textDecoration: TokenSetter<TextDecoration?> = TokenSetter()
     val shadow: TokenSetter<Shadow?> = TokenSetter()
     val drawStyle: TokenSetter<DrawStyle?> = TokenSetter()
-    val textAlign: TokenSetter<TextAlign> = TokenSetter()
+    val textAlign: TokenSetter<TextAlign?> = TokenSetter()
     val textDirection: TokenSetter<TextDirection?> = TokenSetter()
     val lineHeight: TokenSetter<TextUnit> = TokenSetter()
     val textIndent: TokenSetter<TextIndent?> = TokenSetter()
@@ -59,6 +60,10 @@ class TextStyleBuilder internal constructor() : StyleBuilder<TextStyle> {
     val maxLines: TokenSetter<Int?> = TokenSetter()
     val minLines: TokenSetter<Int?> = TokenSetter()
     val background: TokenSetter<Color> = TokenSetter()
+
+    internal operator fun plusAssign(contentStyle: ContentStyle) {
+        color += contentStyle.color
+    }
 
     override fun plusAssign(other: TextStyle) {
         color += other.color
