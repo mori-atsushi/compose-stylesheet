@@ -1,22 +1,18 @@
 package com.moriatsushi.compose.stylesheet.surface
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.isSpecified
 import com.moriatsushi.compose.stylesheet.StyleSheet
 import com.moriatsushi.compose.stylesheet.component.Component
+import com.moriatsushi.compose.stylesheet.component.componentCommonStyle
 import com.moriatsushi.compose.stylesheet.content.ContentStyle
 import com.moriatsushi.compose.stylesheet.content.ProvideContentStyle
 import com.moriatsushi.compose.stylesheet.tag.TagModifier
-import com.moriatsushi.compose.stylesheet.token.value
 
 /**
  * An element that draws a [background] behind its [content].
@@ -67,11 +63,7 @@ fun Surface(
     }
 
     Box(
-        modifier = modifier.surface(
-            shape = mergedStyle.commonStyle.shape?.value ?: RectangleShape,
-            backgroundColor = mergedStyle.commonStyle.background?.value ?: Color.Unspecified,
-            border = mergedStyle.commonStyle.border?.value,
-        ),
+        modifier = modifier.componentCommonStyle(mergedStyle.commonStyle),
         propagateMinConstraints = true,
     ) {
         ProvideContentStyle(
@@ -80,15 +72,6 @@ fun Surface(
         )
     }
 }
-
-private fun Modifier.surface(
-    shape: Shape,
-    backgroundColor: Color,
-    border: BorderStroke?,
-): Modifier = this
-    .then(if (border != null) Modifier.border(border, shape) else Modifier)
-    .background(color = backgroundColor, shape = shape)
-    .clip(shape)
 
 /**
  * A symbol for [Surface].

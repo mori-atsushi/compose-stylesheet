@@ -1,11 +1,19 @@
 package com.moriatsushi.compose.stylesheet.component
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.composed
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.isSpecified
 import com.moriatsushi.compose.stylesheet.token.Token
+import com.moriatsushi.compose.stylesheet.token.value
 
 /**
  * A common style for all components.
@@ -41,3 +49,20 @@ private data class ComponentCommonStyleImpl(
     override val shape: Token<Shape?>?,
     override val border: Token<BorderStroke?>?,
 ) : ComponentCommonStyle
+
+
+/**
+ * Applies the specified component common [style] to [this].
+ */
+@StylesheetComponentApi
+fun Modifier.componentCommonStyle(style: ComponentCommonStyle): Modifier = this.composed {
+    // TODO: Do not use `Modifier.composed`.
+    val shape = style.shape?.value ?: RectangleShape
+    val background = style.background?.value ?: Color.Unspecified
+    val border = style.border?.value
+
+    Modifier
+        .then(if (border != null) Modifier.border(border, shape) else Modifier)
+        .then(if (background.isSpecified) Modifier.background(background, shape) else Modifier)
+        .then(if (shape != RectangleShape) Modifier.clip(shape) else Modifier)
+}
