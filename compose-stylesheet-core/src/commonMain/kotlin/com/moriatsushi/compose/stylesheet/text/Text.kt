@@ -30,7 +30,7 @@ import com.moriatsushi.compose.stylesheet.token.value
  * 2. The specified [textStyle] argument to this function.
  * 3. Styles specified by [tags].
  * 4. The current [TextStyle] from [StyleSheet].
- * 3. The current [ContentStyle] from [LocalContentStyle].
+ * 5. The current [ContentStyle] from [LocalContentStyle].
  */
 @Composable
 fun Text(
