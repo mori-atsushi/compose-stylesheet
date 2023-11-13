@@ -15,7 +15,7 @@ interface ComponentStyle {
 /**
  * Gets concrete values of [ComponentCommonStyle] to use Modifier.[componentCommonStyle].
  */
-@StylesheetComponentApi
+@StyleSheetComponentApi
 val ComponentStyle.commonStyleValues: ComponentCommonStyleValues
     @Composable
     get() = ComponentCommonStyleValues(

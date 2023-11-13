@@ -17,7 +17,7 @@ import com.moriatsushi.compose.stylesheet.token.Token
  * A common style for all components.
  */
 @Stable
-@StylesheetComponentApi
+@StyleSheetComponentApi
 sealed interface ComponentCommonStyle {
     val background: Token<Color>?
     val shape: Token<Shape?>?
@@ -52,7 +52,7 @@ private data class ComponentCommonStyleImpl(
  * Applies the component common [styleValues] to [this]. The [styleValues] need to be gotten from
  * [ComponentStyle.commonStyleValues].
  */
-@StylesheetComponentApi
+@StyleSheetComponentApi
 fun Modifier.componentCommonStyle(styleValues: ComponentCommonStyleValues): Modifier {
     val background = styleValues.background
     val shape = styleValues.shape

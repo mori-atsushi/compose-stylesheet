@@ -28,7 +28,7 @@ kotlin {
 
         all {
             languageSettings.optIn(
-                "com.moriatsushi.compose.stylesheet.component.StylesheetComponentApi",
+                "com.moriatsushi.compose.stylesheet.component.StyleSheetComponentApi",
             )
         }
     }

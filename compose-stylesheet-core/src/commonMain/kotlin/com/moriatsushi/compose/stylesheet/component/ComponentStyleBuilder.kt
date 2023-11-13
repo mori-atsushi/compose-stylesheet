@@ -25,14 +25,14 @@ abstract class ComponentStyleBuilder<T : ComponentStyle> : StyleBuilder<T> {
      */
     val border: TokenSetter<BorderStroke?> = TokenSetter()
 
-    @StylesheetComponentApi
+    @StyleSheetComponentApi
     operator fun plusAssign(other: ComponentCommonStyle) {
         background += other.background
         shape += other.shape
         border += other.border
     }
 
-    @StylesheetComponentApi
+    @StyleSheetComponentApi
     fun buildCommonStyle(): ComponentCommonStyle = ComponentCommonStyle(
         background = background.token,
         shape = shape.token,

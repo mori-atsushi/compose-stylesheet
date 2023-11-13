@@ -9,7 +9,7 @@ import androidx.compose.ui.graphics.Shape
  * Concrete values of [ComponentCommonStyle].
  */
 @Stable
-@StylesheetComponentApi
+@StyleSheetComponentApi
 sealed interface ComponentCommonStyleValues {
     val background: Color
     val shape: Shape

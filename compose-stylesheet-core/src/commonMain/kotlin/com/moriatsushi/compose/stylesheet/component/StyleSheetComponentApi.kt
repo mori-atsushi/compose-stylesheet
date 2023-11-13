@@ -8,4 +8,4 @@ package com.moriatsushi.compose.stylesheet.component
     AnnotationTarget.CONSTRUCTOR,
     AnnotationTarget.PROPERTY,
 )
-annotation class StylesheetComponentApi
+annotation class StyleSheetComponentApi
