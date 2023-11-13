@@ -2,10 +2,13 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.compose.multiplatform)
     alias(libs.plugins.kotlin.multiplatform)
+    alias(libs.plugins.maven.publish)
 }
 
 kotlin {
-    androidTarget()
+    androidTarget {
+        publishLibraryVariants("release")
+    }
     jvm("desktop")
     iosX64("uikitX64")
     iosArm64("uikitArm64")
