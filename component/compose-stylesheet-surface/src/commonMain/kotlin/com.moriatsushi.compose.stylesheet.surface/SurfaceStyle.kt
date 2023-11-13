@@ -10,7 +10,7 @@ import com.moriatsushi.compose.stylesheet.content.ContentStyle
  * A style for [Surface].
  */
 @Stable
-interface SurfaceStyle : ComponentStyle {
+sealed interface SurfaceStyle : ComponentStyle {
     val contentStyle: ContentStyle
 
     companion object {
