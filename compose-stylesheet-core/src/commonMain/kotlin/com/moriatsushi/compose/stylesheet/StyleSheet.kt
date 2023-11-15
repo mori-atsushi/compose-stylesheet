@@ -44,17 +44,17 @@ class StyleSheet internal constructor(
         component: Component<CS, SB>,
         tags: TagModifier<CS> = TagModifier(),
     ): CS {
-        val styleDefinition = componentStyles[component] as? ComponentStyleSet<CS>
+        val componentStyleSet = componentStyles[component] as? ComponentStyleSet<CS>
             ?: return component.defaultStyle
 
-        if (tags.tags.isEmpty() || styleDefinition.tagStyles.isEmpty()) {
-            return styleDefinition.commonStyle
+        if (tags.tags.isEmpty() || componentStyleSet.tagStyles.isEmpty()) {
+            return componentStyleSet.commonStyle
         }
 
         return component.createBuilder().apply {
-            this += styleDefinition.commonStyle
+            this += componentStyleSet.commonStyle
             for (tag in tags.tags) {
-                val tagStyle = styleDefinition.tagStyles[tag]
+                val tagStyle = componentStyleSet.tagStyles[tag]
                 if (tagStyle != null) {
                     this += tagStyle
                 }

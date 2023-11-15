@@ -3,6 +3,7 @@ package com.moriatsushi.compose.stylesheet
 import com.moriatsushi.compose.stylesheet.component.Component
 import com.moriatsushi.compose.stylesheet.component.ComponentStyle
 import com.moriatsushi.compose.stylesheet.component.ComponentStyleSet
+import com.moriatsushi.compose.stylesheet.component.ComponentStyleSetBuilder
 import com.moriatsushi.compose.stylesheet.content.ContentStyleBuilder
 import com.moriatsushi.compose.stylesheet.tag.Tag
 import com.moriatsushi.compose.stylesheet.token.SourceToken
@@ -15,20 +16,16 @@ import com.moriatsushi.compose.stylesheet.token.Token
 class StyleSheetBuilder internal constructor() {
     private val tokens = mutableMapOf<Token<*>, Token<*>>()
     private val commonBuilder = ContentStyleBuilder()
-    private val componentStyles = mutableMapOf<Component<*, *>, ComponentStyleSet<*>>()
+    private val componentStyleSet = mutableMapOf<Component<*, *>, ComponentStyleSetBuilder<*>>()
 
-    @Suppress("UNCHECKED_CAST")
+    /**
+     * Merges the given [other] style sheet into this style sheet.
+     */
     operator fun plusAssign(other: StyleSheet) {
         tokens += other.tokens
         commonBuilder += other.contentStyle
-        for ((component, definition) in other.componentStyles) {
-            component as Component<ComponentStyle, StyleBuilder<ComponentStyle>>
-            definition as ComponentStyleSet<ComponentStyle>
-
-            component { this += definition.commonStyle }
-            for ((tag, style) in definition.tagStyles) {
-                component(tag) { this += style }
-            }
+        for ((component, componentStyleSet) in other.componentStyles) {
+            component += componentStyleSet
         }
     }
 
@@ -62,17 +59,9 @@ class StyleSheetBuilder internal constructor() {
     operator fun <CS : ComponentStyle, SB : StyleBuilder<CS>> Component<CS, SB>.invoke(
         builder: SB.() -> Unit,
     ) {
-        val currentDefinition = componentStyles[this] as? ComponentStyleSet<CS>
-        val style = createBuilder().apply {
-            if (currentDefinition != null) {
-                this += currentDefinition.commonStyle
-            }
-            builder()
-        }.build()
-
-        componentStyles[this] = currentDefinition
-            ?.updatedCommonStyle(style)
-            ?: ComponentStyleSet(style)
+        val componentStyleSet = getOrPutComponentStyleSet(this)
+        val commonStyleBuilder = componentStyleSet.commonStyleBuilder as SB
+        commonStyleBuilder.builder()
     }
 
     /**
@@ -83,23 +72,34 @@ class StyleSheetBuilder internal constructor() {
         tag: Tag<CS>,
         builder: SB.() -> Unit,
     ) {
-        val currentDefinition = componentStyles[this] as? ComponentStyleSet<CS>
-        val currentTagStyle = currentDefinition?.tagStyles?.get(tag)
-        val style = createBuilder().apply {
-            if (currentTagStyle != null) {
-                this += currentTagStyle
-            }
-            builder()
-        }.build()
+        val componentStyleSet = getOrPutComponentStyleSet(this)
+        val tagStyleBuilder = componentStyleSet.tagStyles.getOrPut(tag) { createBuilder() } as SB
+        tagStyleBuilder.builder()
+    }
 
-        componentStyles[this] = currentDefinition
-            ?.addedTagStyle(tag, style)
-            ?: ComponentStyleSet.fromTag(tag, style, defaultStyle)
+    @Suppress("UNCHECKED_CAST")
+    private fun <CS : ComponentStyle, SB : StyleBuilder<CS>> getOrPutComponentStyleSet(
+        component: Component<CS, SB>,
+    ): ComponentStyleSetBuilder<CS> =
+        componentStyleSet.getOrPut(component) {
+            ComponentStyleSetBuilder.create(component.createBuilder())
+        } as ComponentStyleSetBuilder<CS>
+
+    @Suppress("UNCHECKED_CAST")
+    private operator fun Component<*, *>.plusAssign(componentStyleSet: ComponentStyleSet<*>) {
+        val component = this
+        component as Component<ComponentStyle, StyleBuilder<ComponentStyle>>
+        componentStyleSet as ComponentStyleSet<ComponentStyle>
+
+        component { this += componentStyleSet.commonStyle }
+        for ((tag, style) in componentStyleSet.tagStyles) {
+            component(tag) { this += style }
+        }
     }
 
     internal fun build(): StyleSheet = StyleSheet(
         tokens = tokens,
         contentStyle = commonBuilder.build(),
-        componentStyles = componentStyles,
+        componentStyles = componentStyleSet.mapValues { it.value.build() },
     )
 }
