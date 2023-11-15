@@ -2,18 +2,18 @@ package com.moriatsushi.compose.stylesheet.component
 
 import com.moriatsushi.compose.stylesheet.tag.Tag
 
-internal data class ComponentStyleDefinition<T : ComponentStyle>(
+internal data class ComponentStyleSet<T : ComponentStyle>(
     val commonStyle: T,
     val tagStyles: Map<Tag<T>, T> = emptyMap(),
 ) {
-    fun updatedCommonStyle(style: T): ComponentStyleDefinition<T> =
-        ComponentStyleDefinition(
+    fun updatedCommonStyle(style: T): ComponentStyleSet<T> =
+        ComponentStyleSet(
             commonStyle = style,
             tagStyles = tagStyles,
         )
 
-    fun addedTagStyle(tag: Tag<T>, style: T): ComponentStyleDefinition<T> =
-        ComponentStyleDefinition(
+    fun addedTagStyle(tag: Tag<T>, style: T): ComponentStyleSet<T> =
+        ComponentStyleSet(
             commonStyle = commonStyle,
             tagStyles = tagStyles + (tag to style),
         )
@@ -23,8 +23,8 @@ internal data class ComponentStyleDefinition<T : ComponentStyle>(
             tag: Tag<T>,
             style: T,
             defaultStyle: T,
-        ): ComponentStyleDefinition<T> =
-            ComponentStyleDefinition(
+        ): ComponentStyleSet<T> =
+            ComponentStyleSet(
                 commonStyle = defaultStyle,
                 tagStyles = mapOf(tag to style),
             )

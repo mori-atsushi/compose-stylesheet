@@ -2,7 +2,7 @@ package com.moriatsushi.compose.stylesheet
 
 import com.moriatsushi.compose.stylesheet.component.Component
 import com.moriatsushi.compose.stylesheet.component.ComponentStyle
-import com.moriatsushi.compose.stylesheet.component.ComponentStyleDefinition
+import com.moriatsushi.compose.stylesheet.component.ComponentStyleSet
 import com.moriatsushi.compose.stylesheet.content.ContentStyleBuilder
 import com.moriatsushi.compose.stylesheet.tag.Tag
 import com.moriatsushi.compose.stylesheet.token.SourceToken
@@ -15,7 +15,7 @@ import com.moriatsushi.compose.stylesheet.token.Token
 class StyleSheetBuilder internal constructor() {
     private val tokens = mutableMapOf<Token<*>, Token<*>>()
     private val commonBuilder = ContentStyleBuilder()
-    private val componentStyles = mutableMapOf<Component<*, *>, ComponentStyleDefinition<*>>()
+    private val componentStyles = mutableMapOf<Component<*, *>, ComponentStyleSet<*>>()
 
     @Suppress("UNCHECKED_CAST")
     operator fun plusAssign(other: StyleSheet) {
@@ -23,7 +23,7 @@ class StyleSheetBuilder internal constructor() {
         commonBuilder += other.contentStyle
         for ((component, definition) in other.componentStyles) {
             component as Component<ComponentStyle, StyleBuilder<ComponentStyle>>
-            definition as ComponentStyleDefinition<ComponentStyle>
+            definition as ComponentStyleSet<ComponentStyle>
 
             component { this += definition.commonStyle }
             for ((tag, style) in definition.tagStyles) {
@@ -62,7 +62,7 @@ class StyleSheetBuilder internal constructor() {
     operator fun <CS : ComponentStyle, SB : StyleBuilder<CS>> Component<CS, SB>.invoke(
         builder: SB.() -> Unit,
     ) {
-        val currentDefinition = componentStyles[this] as? ComponentStyleDefinition<CS>
+        val currentDefinition = componentStyles[this] as? ComponentStyleSet<CS>
         val style = createBuilder().apply {
             if (currentDefinition != null) {
                 this += currentDefinition.commonStyle
@@ -72,7 +72,7 @@ class StyleSheetBuilder internal constructor() {
 
         componentStyles[this] = currentDefinition
             ?.updatedCommonStyle(style)
-            ?: ComponentStyleDefinition(style)
+            ?: ComponentStyleSet(style)
     }
 
     /**
@@ -83,7 +83,7 @@ class StyleSheetBuilder internal constructor() {
         tag: Tag<CS>,
         builder: SB.() -> Unit,
     ) {
-        val currentDefinition = componentStyles[this] as? ComponentStyleDefinition<CS>
+        val currentDefinition = componentStyles[this] as? ComponentStyleSet<CS>
         val currentTagStyle = currentDefinition?.tagStyles?.get(tag)
         val style = createBuilder().apply {
             if (currentTagStyle != null) {
@@ -94,7 +94,7 @@ class StyleSheetBuilder internal constructor() {
 
         componentStyles[this] = currentDefinition
             ?.addedTagStyle(tag, style)
-            ?: ComponentStyleDefinition.fromTag(tag, style, defaultStyle)
+            ?: ComponentStyleSet.fromTag(tag, style, defaultStyle)
     }
 
     internal fun build(): StyleSheet = StyleSheet(
