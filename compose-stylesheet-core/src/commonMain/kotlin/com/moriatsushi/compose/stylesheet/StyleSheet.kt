@@ -6,6 +6,7 @@ import com.moriatsushi.compose.stylesheet.component.Component
 import com.moriatsushi.compose.stylesheet.component.ComponentStyle
 import com.moriatsushi.compose.stylesheet.component.ComponentStyleDefinition
 import com.moriatsushi.compose.stylesheet.content.ContentStyle
+import com.moriatsushi.compose.stylesheet.content.ContentStyleBuilder
 import com.moriatsushi.compose.stylesheet.tag.TagModifier
 import com.moriatsushi.compose.stylesheet.token.ReferenceToken
 import com.moriatsushi.compose.stylesheet.token.SourceToken
@@ -89,6 +90,28 @@ class StyleSheet internal constructor(
          * Constant for an empty style sheet.
          */
         val Empty = StyleSheet()
+
+        /**
+         * Returns a new [StyleSheet] that is merged with the given [styleSheet]s. If there are
+         * duplicated items, the latter one is used.
+         */
+        fun merge(vararg styleSheet: StyleSheet): StyleSheet {
+            val tokens = mutableMapOf<Token<*>, Token<*>>()
+            val contentStyleBuilder = ContentStyleBuilder()
+            val componentStyles = mutableMapOf<Component<*, *>, ComponentStyleDefinition<*>>()
+
+            for (item in styleSheet) {
+                tokens += item.tokens
+                contentStyleBuilder += item.contentStyle
+                componentStyles += item.componentStyles
+            }
+
+            return StyleSheet(
+                tokens = tokens,
+                contentStyle = contentStyleBuilder.build(),
+                componentStyles = componentStyles,
+            )
+        }
 
         /**
          * Returns the value corresponding to the given [token].

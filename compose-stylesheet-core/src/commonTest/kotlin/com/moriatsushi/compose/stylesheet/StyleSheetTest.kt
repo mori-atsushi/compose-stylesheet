@@ -1,12 +1,74 @@
 package com.moriatsushi.compose.stylesheet
 
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.sp
+import com.moriatsushi.compose.stylesheet.dummy.dummyComponent
 import com.moriatsushi.compose.stylesheet.token.Token
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
 
 class StyleSheetTest {
+    @Test
+    fun testMerge_token() {
+        val styleSheet1 = StyleSheet {
+            colorToken1 += Color.Red
+            colorToken2 += Color.Green
+        }
+        val styleSheet2 = StyleSheet {
+            colorToken2 += Color.Blue
+            colorToken3 += Color.Yellow
+        }
+
+        val merged = StyleSheet.merge(styleSheet1, styleSheet2)
+
+        assertEquals(Color.Red, merged.getValue(colorToken1))
+        assertEquals(Color.Blue, merged.getValue(colorToken2))
+        assertEquals(Color.Yellow, merged.getValue(colorToken3))
+    }
+
+    @Test
+    fun testMerge_content() {
+        val styleSheet1 = StyleSheet {
+            content {
+                color += Color.Red
+                fontSize += 12.sp
+            }
+        }
+        val styleSheet2 = StyleSheet {
+            content {
+                color += Color.Blue
+                fontWeight += FontWeight.Bold
+            }
+        }
+
+        val merged = StyleSheet.merge(styleSheet1, styleSheet2)
+
+        assertEquals(Color.Blue, merged.contentStyle.color?.let(merged::getValue))
+        assertEquals(12.sp, merged.contentStyle.fontSize?.let(merged::getValue))
+        assertEquals(FontWeight.Bold, merged.contentStyle.fontWeight?.let(merged::getValue))
+    }
+
+    @Test
+    fun testMerge_component() {
+        val styleSheet1 = StyleSheet {
+            dummyComponent {
+                color1 += Color.Red
+            }
+        }
+        val styleSheet2 = StyleSheet {
+            dummyComponent {
+                color1 += Color.Green
+                color2 += Color.Blue
+            }
+        }
+        val merged = StyleSheet.merge(styleSheet1, styleSheet2)
+
+        assertEquals(Color.Green, merged.getStyle(dummyComponent).color1?.let(merged::getValue))
+        assertEquals(Color.Blue, merged.getStyle(dummyComponent).color2?.let(merged::getValue))
+    }
+
     @Test
     fun testGetValue() {
         val styleSheet = StyleSheet {
