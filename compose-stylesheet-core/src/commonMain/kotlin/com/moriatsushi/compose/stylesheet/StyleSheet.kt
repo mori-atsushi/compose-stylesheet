@@ -6,7 +6,6 @@ import com.moriatsushi.compose.stylesheet.component.Component
 import com.moriatsushi.compose.stylesheet.component.ComponentStyle
 import com.moriatsushi.compose.stylesheet.component.ComponentStyleDefinition
 import com.moriatsushi.compose.stylesheet.content.ContentStyle
-import com.moriatsushi.compose.stylesheet.content.ContentStyleBuilder
 import com.moriatsushi.compose.stylesheet.tag.TagModifier
 import com.moriatsushi.compose.stylesheet.token.ReferenceToken
 import com.moriatsushi.compose.stylesheet.token.SourceToken
@@ -17,9 +16,9 @@ import com.moriatsushi.compose.stylesheet.token.Token
  */
 @Immutable
 class StyleSheet internal constructor(
-    private val tokens: Map<Token<*>, Token<*>> = emptyMap(),
+    internal val tokens: Map<Token<*>, Token<*>> = emptyMap(),
     internal val contentStyle: ContentStyle = ContentStyle.Default,
-    private val componentStyles: Map<Component<*, *>, ComponentStyleDefinition<*>> = emptyMap(),
+    internal val componentStyles: Map<Component<*, *>, ComponentStyleDefinition<*>> = emptyMap(),
 ) {
     internal tailrec fun <T> getValue(token: Token<T>): T {
         @Suppress("UNCHECKED_CAST")
@@ -95,22 +94,10 @@ class StyleSheet internal constructor(
          * Returns a new [StyleSheet] that is merged with the given [styleSheet]s. If there are
          * duplicated items, the latter one is used.
          */
-        fun merge(vararg styleSheet: StyleSheet): StyleSheet {
-            val tokens = mutableMapOf<Token<*>, Token<*>>()
-            val contentStyleBuilder = ContentStyleBuilder()
-            val componentStyles = mutableMapOf<Component<*, *>, ComponentStyleDefinition<*>>()
-
+        fun merge(vararg styleSheet: StyleSheet): StyleSheet = StyleSheet {
             for (item in styleSheet) {
-                tokens += item.tokens
-                contentStyleBuilder += item.contentStyle
-                componentStyles += item.componentStyles
+                this += item
             }
-
-            return StyleSheet(
-                tokens = tokens,
-                contentStyle = contentStyleBuilder.build(),
-                componentStyles = componentStyles,
-            )
         }
 
         /**

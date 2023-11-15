@@ -17,6 +17,21 @@ class StyleSheetBuilder internal constructor() {
     private val commonBuilder = ContentStyleBuilder()
     private val componentStyles = mutableMapOf<Component<*, *>, ComponentStyleDefinition<*>>()
 
+    @Suppress("UNCHECKED_CAST")
+    operator fun plusAssign(other: StyleSheet) {
+        tokens += other.tokens
+        commonBuilder += other.contentStyle
+        for ((component, definition) in other.componentStyles) {
+            component as Component<ComponentStyle, StyleBuilder<ComponentStyle>>
+            definition as ComponentStyleDefinition<ComponentStyle>
+
+            component { this += definition.commonStyle }
+            for ((tag, style) in definition.tagStyles) {
+                component(tag) { this += style }
+            }
+        }
+    }
+
     /**
      * Overrides the [this] token with the given [token].
      */
@@ -41,24 +56,45 @@ class StyleSheetBuilder internal constructor() {
     }
 
     /**
-     * Defines a component style.
+     * Defines a common style for the given component.
      */
     @Suppress("UNCHECKED_CAST")
     operator fun <CS : ComponentStyle, SB : StyleBuilder<CS>> Component<CS, SB>.invoke(
-        tag: Tag<CS>? = null,
         builder: SB.() -> Unit,
     ) {
-        val style = createBuilder().apply(builder).build()
         val currentDefinition = componentStyles[this] as? ComponentStyleDefinition<CS>
-        componentStyles[this] = if (tag != null) {
-            currentDefinition
-                ?.addedTagStyle(tag, style)
-                ?: ComponentStyleDefinition.fromTag(tag, style, defaultStyle)
-        } else {
-            currentDefinition
-                ?.updatedCommonStyle(style)
-                ?: ComponentStyleDefinition(style)
-        }
+        val style = createBuilder().apply {
+            if (currentDefinition != null) {
+                this += currentDefinition.commonStyle
+            }
+            builder()
+        }.build()
+
+        componentStyles[this] = currentDefinition
+            ?.updatedCommonStyle(style)
+            ?: ComponentStyleDefinition(style)
+    }
+
+    /**
+     * Defines a style for the given component and tag.
+     */
+    @Suppress("UNCHECKED_CAST")
+    operator fun <CS : ComponentStyle, SB : StyleBuilder<CS>> Component<CS, SB>.invoke(
+        tag: Tag<CS>,
+        builder: SB.() -> Unit,
+    ) {
+        val currentDefinition = componentStyles[this] as? ComponentStyleDefinition<CS>
+        val currentTagStyle = currentDefinition?.tagStyles?.get(tag)
+        val style = createBuilder().apply {
+            if (currentTagStyle != null) {
+                this += currentTagStyle
+            }
+            builder()
+        }.build()
+
+        componentStyles[this] = currentDefinition
+            ?.addedTagStyle(tag, style)
+            ?: ComponentStyleDefinition.fromTag(tag, style, defaultStyle)
     }
 
     internal fun build(): StyleSheet = StyleSheet(
