@@ -12,7 +12,7 @@ import com.moriatsushi.compose.stylesheet.surface.surface
  * @param useDarkMode Whether to use dark mode. If not specified, the system setting is used.
  */
 @Composable
-fun createThemeStyleSheet(
+fun themeStyleSheet(
     useDarkMode: Boolean = isSystemInDarkTheme(),
 ): StyleSheet = remember(useDarkMode) {
     StyleSheet {
