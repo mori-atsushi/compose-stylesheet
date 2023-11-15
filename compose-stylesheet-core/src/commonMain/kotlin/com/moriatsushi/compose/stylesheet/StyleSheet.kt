@@ -16,9 +16,9 @@ import com.moriatsushi.compose.stylesheet.token.Token
  */
 @Immutable
 class StyleSheet internal constructor(
-    private val tokens: Map<Token<*>, Token<*>> = emptyMap(),
+    internal val tokens: Map<Token<*>, Token<*>> = emptyMap(),
     internal val contentStyle: ContentStyle = ContentStyle.Default,
-    private val componentStyles: Map<Component<*, *>, ComponentStyleDefinition<*>> = emptyMap(),
+    internal val componentStyles: Map<Component<*, *>, ComponentStyleDefinition<*>> = emptyMap(),
 ) {
     internal tailrec fun <T> getValue(token: Token<T>): T {
         @Suppress("UNCHECKED_CAST")
@@ -89,6 +89,16 @@ class StyleSheet internal constructor(
          * Constant for an empty style sheet.
          */
         val Empty = StyleSheet()
+
+        /**
+         * Returns a new [StyleSheet] that is merged with the given [styleSheet]s. If there are
+         * duplicated items, the latter one is used.
+         */
+        fun merge(vararg styleSheet: StyleSheet): StyleSheet = StyleSheet {
+            for (item in styleSheet) {
+                this += item
+            }
+        }
 
         /**
          * Returns the value corresponding to the given [token].
