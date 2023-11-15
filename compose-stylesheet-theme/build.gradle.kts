@@ -21,6 +21,8 @@ kotlin {
             dependencies {
                 implementation(compose.foundation)
                 implementation(project(":compose-stylesheet-core"))
+                api(project(":component:compose-stylesheet-text"))
+                api(project(":component:compose-stylesheet-surface"))
             }
         }
 
