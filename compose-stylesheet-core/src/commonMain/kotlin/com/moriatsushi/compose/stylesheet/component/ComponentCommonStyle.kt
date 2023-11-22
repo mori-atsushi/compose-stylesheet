@@ -3,6 +3,7 @@ package com.moriatsushi.compose.stylesheet.component
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.Modifier
@@ -11,6 +12,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.isSpecified
+import androidx.compose.ui.unit.DpSize
 import com.moriatsushi.compose.stylesheet.token.Token
 
 /**
@@ -19,6 +21,7 @@ import com.moriatsushi.compose.stylesheet.token.Token
 @Stable
 @StyleSheetComponentApi
 sealed interface ComponentCommonStyle {
+    val size: Token<DpSize>?
     val background: Token<Color>?
     val shape: Token<Shape?>?
     val border: Token<BorderStroke?>?
@@ -32,10 +35,12 @@ sealed interface ComponentCommonStyle {
 }
 
 internal fun ComponentCommonStyle(
+    size: Token<DpSize>? = null,
     background: Token<Color>? = null,
     shape: Token<Shape?>? = null,
     border: Token<BorderStroke?>? = null,
 ): ComponentCommonStyle = ComponentCommonStyleImpl(
+    size = size,
     background = background,
     shape = shape,
     border = border,
@@ -43,6 +48,7 @@ internal fun ComponentCommonStyle(
 
 @Immutable
 private data class ComponentCommonStyleImpl(
+    override val size: Token<DpSize>? = null,
     override val background: Token<Color>?,
     override val shape: Token<Shape?>?,
     override val border: Token<BorderStroke?>?,
@@ -54,11 +60,13 @@ private data class ComponentCommonStyleImpl(
  */
 @StyleSheetComponentApi
 fun Modifier.componentCommonStyle(styleValues: ComponentCommonStyleValues): Modifier {
+    val size = styleValues.size
     val background = styleValues.background
     val shape = styleValues.shape
     val border = styleValues.border
 
     return this
+        .then(if (size != DpSize.Unspecified) Modifier.size(size) else Modifier)
         .then(if (border != null) Modifier.border(border, shape) else Modifier)
         .then(if (background.isSpecified) Modifier.background(background, shape) else Modifier)
         .then(if (shape != RectangleShape) Modifier.clip(shape) else Modifier)
