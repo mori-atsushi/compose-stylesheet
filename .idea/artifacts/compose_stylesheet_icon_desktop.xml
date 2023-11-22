@@ -1,0 +1,6 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="compose-stylesheet-icon-desktop">
+    <output-path>$PROJECT_DIR$/component/compose-stylesheet-icon/build/libs</output-path>
+    <root id="archive" name="compose-stylesheet-icon-desktop.jar" />
+  </artifact>
+</component>
