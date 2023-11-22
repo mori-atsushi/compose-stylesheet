@@ -11,12 +11,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.moriatsushi.compose.stylesheet.surface.Surface
 import com.moriatsushi.compose.stylesheet.text.Text
+import com.moriatsushi.compose.stylesheet.theme.surface.background
 
 @Composable
 fun SampleScreen(
     modifier: Modifier = Modifier,
 ) {
-    Surface(modifier = modifier.fillMaxSize()) {
+    Surface(
+        tags = Surface.background,
+        modifier = modifier.fillMaxSize(),
+    ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()

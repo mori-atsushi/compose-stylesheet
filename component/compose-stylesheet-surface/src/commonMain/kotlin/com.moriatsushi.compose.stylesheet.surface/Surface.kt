@@ -75,6 +75,11 @@ fun Surface(
 }
 
 /**
+ * An object for [Surface].
+ */
+object Surface
+
+/**
  * A symbol for [Surface].
  */
 val surface = Component(

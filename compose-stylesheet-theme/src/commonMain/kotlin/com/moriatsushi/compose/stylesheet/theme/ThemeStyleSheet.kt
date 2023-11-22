@@ -4,7 +4,7 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import com.moriatsushi.compose.stylesheet.StyleSheet
-import com.moriatsushi.compose.stylesheet.surface.surface
+import com.moriatsushi.compose.stylesheet.theme.surface.surfaceStyleSheet
 
 /**
  * Creates a [StyleSheet] for the default theme.
@@ -16,16 +16,15 @@ fun themeStyleSheet(
     useDarkMode: Boolean = isSystemInDarkTheme(),
 ): StyleSheet = remember(useDarkMode) {
     StyleSheet {
-        Colors.semantic.primarySurface += if (useDarkMode) Colors.black else Colors.white
-        Colors.semantic.onPrimarySurface += if (useDarkMode) Colors.white else Colors.black
+        Colors.semantic.background += if (useDarkMode) Colors.gray900 else Colors.white
+        Colors.semantic.onBackground += if (useDarkMode) Colors.white else Colors.gray900
+        Colors.semantic.primarySurface += if (useDarkMode) Colors.gray800 else Colors.gray100
+        Colors.semantic.onPrimarySurface += Colors.semantic.onBackground
 
         content {
-            color += Colors.semantic.onPrimarySurface
+            color += Colors.semantic.onBackground
         }
 
-        surface {
-            background += Colors.semantic.primarySurface
-            content.color += Colors.semantic.onPrimarySurface
-        }
+        this += surfaceStyleSheet
     }
 }
