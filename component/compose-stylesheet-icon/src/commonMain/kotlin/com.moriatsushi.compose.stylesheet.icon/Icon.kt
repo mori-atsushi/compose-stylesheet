@@ -21,7 +21,6 @@ import androidx.compose.ui.semantics.role
 import androidx.compose.ui.semantics.semantics
 import com.moriatsushi.compose.stylesheet.StyleSheet
 import com.moriatsushi.compose.stylesheet.component.Component
-import com.moriatsushi.compose.stylesheet.component.commonStyleValues
 import com.moriatsushi.compose.stylesheet.component.componentCommonStyle
 import com.moriatsushi.compose.stylesheet.content.LocalContentStyle
 import com.moriatsushi.compose.stylesheet.tag.TagModifier
@@ -111,7 +110,7 @@ fun Icon(
 
     Box(
         modifier
-            .componentCommonStyle(mergedStyle.commonStyleValues)
+            .componentCommonStyle(mergedStyle.commonStyle)
             .toolingGraphicsLayer()
             .paint(painter, colorFilter = colorFilter, contentScale = ContentScale.Fit)
             .then(semantics),

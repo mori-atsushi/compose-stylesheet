@@ -18,7 +18,6 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.isSpecified
 import com.moriatsushi.compose.stylesheet.StyleSheet
 import com.moriatsushi.compose.stylesheet.component.Component
-import com.moriatsushi.compose.stylesheet.component.commonStyleValues
 import com.moriatsushi.compose.stylesheet.component.componentCommonStyle
 import com.moriatsushi.compose.stylesheet.content.ContentStyle
 import com.moriatsushi.compose.stylesheet.content.LocalContentStyle
@@ -108,7 +107,7 @@ fun Text(
 
     BasicText(
         text = text,
-        modifier = modifier.componentCommonStyle(mergedTextStyle.commonStyleValues),
+        modifier = modifier.componentCommonStyle(mergedTextStyle.commonStyle),
         style = mergedTextStyle.composeTextStyle,
         onTextLayout = onTextLayout,
         overflow = mergedTextStyle.overflow?.value ?: TextOverflow.Clip,

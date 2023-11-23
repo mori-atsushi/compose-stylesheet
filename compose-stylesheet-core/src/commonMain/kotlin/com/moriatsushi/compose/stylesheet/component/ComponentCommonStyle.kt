@@ -4,6 +4,7 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.size
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.Modifier
@@ -14,6 +15,7 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.isSpecified
 import androidx.compose.ui.unit.DpSize
 import com.moriatsushi.compose.stylesheet.token.Token
+import com.moriatsushi.compose.stylesheet.token.value
 
 /**
  * A common style for all components.
@@ -56,14 +58,15 @@ private data class ComponentCommonStyleImpl(
 
 /**
  * Applies the component common [styleValues] to [this]. The [styleValues] need to be gotten from
- * [ComponentStyle.commonStyleValues].
+ * [ComponentStyle.commonStyle].
  */
 @StyleSheetComponentApi
-fun Modifier.componentCommonStyle(styleValues: ComponentCommonStyleValues): Modifier {
-    val size = styleValues.size
-    val background = styleValues.background
-    val shape = styleValues.shape
-    val border = styleValues.border
+@Composable
+fun Modifier.componentCommonStyle(styleValues: ComponentCommonStyle): Modifier {
+    val size = styleValues.size.asDpSize()
+    val background = styleValues.background?.value ?: Color.Unspecified
+    val shape = styleValues.shape?.value ?: RectangleShape
+    val border = styleValues.border?.value
 
     return this
         .then(if (size != DpSize.Unspecified) Modifier.size(size) else Modifier)
