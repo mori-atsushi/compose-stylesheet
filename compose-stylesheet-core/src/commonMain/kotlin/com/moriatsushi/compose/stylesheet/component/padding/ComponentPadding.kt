@@ -87,5 +87,7 @@ private data class ComponentPaddingImpl(
 }
 
 @Composable
-internal fun Modifier.componentPadding(padding: ComponentPadding): Modifier =
-    this.padding(padding.asPaddingValues())
+@StyleSheetComponentApi
+fun Modifier.componentPadding(padding: ComponentPadding?): Modifier = this.then(
+    if (padding != null) Modifier.padding(padding.asPaddingValues()) else Modifier,
+)

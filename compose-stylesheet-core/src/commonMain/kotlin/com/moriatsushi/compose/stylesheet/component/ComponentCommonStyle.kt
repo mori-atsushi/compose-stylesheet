@@ -25,7 +25,7 @@ import com.moriatsushi.compose.stylesheet.token.value
 @StyleSheetComponentApi
 data class ComponentCommonStyle internal constructor(
     internal val size: ComponentSize = ComponentSize.Default,
-    internal val padding: ComponentPadding? = null,
+    val padding: ComponentPadding? = null,
     internal val background: Token<Color>? = null,
     internal val shape: Token<Shape?>? = null,
     internal val border: Token<BorderStroke?>? = null,
@@ -40,10 +40,16 @@ data class ComponentCommonStyle internal constructor(
 
 /**
  * Applies the component common [style] to [this].
+ *
+ * @param includePadding If false, the padding will not be applied. Please call
+ * [Modifier].[componentPadding] separately.
  */
 @StyleSheetComponentApi
 @Composable
-fun Modifier.componentCommonStyle(style: ComponentCommonStyle): Modifier {
+fun Modifier.componentCommonStyle(
+    style: ComponentCommonStyle,
+    includePadding: Boolean = true,
+): Modifier {
     val shape = style.shape?.value ?: RectangleShape
 
     val border = style.border?.value
@@ -62,7 +68,7 @@ fun Modifier.componentCommonStyle(style: ComponentCommonStyle): Modifier {
 
     val clipModifier = if (shape != RectangleShape) Modifier.clip(shape) else Modifier
 
-    val paddingModifier = if (style.padding != null) {
+    val paddingModifier = if (includePadding) {
         Modifier.componentPadding(style.padding)
     } else {
         Modifier
