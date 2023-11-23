@@ -3,10 +3,10 @@ package com.moriatsushi.compose.stylesheet.component.size
 import androidx.compose.ui.unit.Dp
 import com.moriatsushi.compose.stylesheet.token.Token
 
-class SizeValueSetter internal constructor(
+class ComponentSizeValueSetter internal constructor(
     private val onSet: (ComponentSize.Value) -> Unit,
 ) {
-    operator fun plusAssign(@Suppress("UNUSED_PARAMETER") fill: FillSize) {
+    operator fun plusAssign(@Suppress("UNUSED_PARAMETER") fill: ComponentFillSize) {
         onSet(ComponentSize.Value.Fill)
     }
 

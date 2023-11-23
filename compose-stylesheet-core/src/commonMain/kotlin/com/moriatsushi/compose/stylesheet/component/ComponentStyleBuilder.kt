@@ -5,9 +5,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import com.moriatsushi.compose.stylesheet.StyleBuilder
 import com.moriatsushi.compose.stylesheet.component.size.ComponentSize
-import com.moriatsushi.compose.stylesheet.component.size.FillSize
-import com.moriatsushi.compose.stylesheet.component.size.SizeSetter
-import com.moriatsushi.compose.stylesheet.component.size.SizeValueSetter
+import com.moriatsushi.compose.stylesheet.component.size.ComponentFillSize
+import com.moriatsushi.compose.stylesheet.component.size.ComponentSizeSetter
+import com.moriatsushi.compose.stylesheet.component.size.ComponentSizeValueSetter
 import com.moriatsushi.compose.stylesheet.token.TokenSetter
 
 /**
@@ -28,7 +28,7 @@ abstract class ComponentStyleBuilder<T : ComponentStyle> : StyleBuilder<T> {
      * size += DpSize.Unspecified // Clear size
      * ```
      */
-    val size: SizeSetter = SizeSetter { _size = it }
+    val size: ComponentSizeSetter = ComponentSizeSetter { _size = it }
 
     /**
      * A width of the component.
@@ -41,7 +41,7 @@ abstract class ComponentStyleBuilder<T : ComponentStyle> : StyleBuilder<T> {
      * width += Dp.Unspecified // Clear width
      * ```
      */
-    val width: SizeValueSetter = SizeValueSetter {
+    val width: ComponentSizeValueSetter = ComponentSizeValueSetter {
         _size = _size.copy(width = it)
     }
 
@@ -56,7 +56,7 @@ abstract class ComponentStyleBuilder<T : ComponentStyle> : StyleBuilder<T> {
      * height += Dp.Unspecified // Clear height
      * ```
      */
-    val height: SizeValueSetter = SizeValueSetter {
+    val height: ComponentSizeValueSetter = ComponentSizeValueSetter {
         _size = _size.copy(height = it)
     }
 
@@ -78,7 +78,7 @@ abstract class ComponentStyleBuilder<T : ComponentStyle> : StyleBuilder<T> {
     /**
      * A value for filling the component.
      */
-    val fill: FillSize = FillSize.instance
+    val fill: ComponentFillSize = ComponentFillSize.instance
 
     @StyleSheetComponentApi
     operator fun plusAssign(other: ComponentCommonStyle) {
