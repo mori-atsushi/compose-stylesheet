@@ -14,6 +14,7 @@ class ComponentStyleBuilderTest {
     fun testMerge() {
         val otherStyle = DummyComponentStyle {
             background += Color.Green
+            padding += 20.dp
             shape += RoundedCornerShape(10.dp)
         }
         val mergedStyle = DummyComponentStyle {
@@ -22,6 +23,7 @@ class ComponentStyleBuilderTest {
         }
         val expected = DummyComponentStyle {
             size += 100.dp
+            padding += 20.dp
             background += Color.Green
             shape += RoundedCornerShape(10.dp)
             border += BorderStroke(1.dp, Color.Black)
@@ -41,6 +43,7 @@ class ComponentStyleBuilderTest {
     companion object {
         private val dummyStyle = DummyComponentStyle {
             size += 100.dp
+            padding += 10.dp
             background += Color.Red
             shape += CircleShape
             border += BorderStroke(1.dp, Color.Black)

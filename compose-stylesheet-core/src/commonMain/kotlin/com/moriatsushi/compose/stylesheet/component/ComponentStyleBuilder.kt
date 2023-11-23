@@ -3,11 +3,16 @@ package com.moriatsushi.compose.stylesheet.component
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 import com.moriatsushi.compose.stylesheet.StyleBuilder
+import com.moriatsushi.compose.stylesheet.component.padding.ComponentPadding
+import com.moriatsushi.compose.stylesheet.component.padding.PaddingSetter
 import com.moriatsushi.compose.stylesheet.component.size.ComponentFillSize
 import com.moriatsushi.compose.stylesheet.component.size.ComponentSize
 import com.moriatsushi.compose.stylesheet.component.size.ComponentSizeSetter
 import com.moriatsushi.compose.stylesheet.component.size.ComponentSizeValueSetter
+import com.moriatsushi.compose.stylesheet.token.Token
 import com.moriatsushi.compose.stylesheet.token.TokenSetter
 
 /**
@@ -66,6 +71,22 @@ abstract class ComponentStyleBuilder<T : ComponentStyle> : StyleBuilder<T> {
     }
 
     /**
+     * A padding of the component.
+     *
+     * Example:
+     * ```
+     * padding += 10.dp
+     * padding += sizeToken // Token<Dp>
+     * padding += padding(horizontal = 10.dp, vertical = 20.dp)
+     * padding += padding(horizontal = horizontalToken, vertical = verticalToken)
+     * padding += padding(start = 10.dp, top = 20.dp, end = 30.dp, bottom = 40.dp)
+     * padding += absolutePadding(left = 10.dp, top = 20.dp, right = 30.dp, bottom = 40.dp)
+     * padding += PaddingValues(10.dp)
+     * ```
+     */
+    val padding: PaddingSetter = PaddingSetter()
+
+    /**
      * A background color.
      */
     val background: TokenSetter<Color> = TokenSetter()
@@ -85,9 +106,69 @@ abstract class ComponentStyleBuilder<T : ComponentStyle> : StyleBuilder<T> {
      */
     val fill: ComponentFillSize = ComponentFillSize.instance
 
+    fun padding(
+        horizontal: Token<Dp> = Token(0.dp),
+        vertical: Token<Dp> = Token(0.dp),
+    ): ComponentPadding =
+        ComponentPadding(start = horizontal, top = vertical, end = horizontal, bottom = vertical)
+
+    fun padding(
+        horizontal: Dp = 0.dp,
+        vertical: Dp = 0.dp,
+    ): ComponentPadding = padding(Token(horizontal), Token(vertical))
+
+    fun padding(
+        start: Token<Dp> = Token(0.dp),
+        top: Token<Dp> = Token(0.dp),
+        end: Token<Dp> = Token(0.dp),
+        bottom: Token<Dp> = Token(0.dp),
+    ): ComponentPadding = ComponentPadding(
+        start = start,
+        top = top,
+        end = end,
+        bottom = bottom,
+    )
+
+    fun padding(
+        start: Dp = 0.dp,
+        top: Dp = 0.dp,
+        end: Dp = 0.dp,
+        bottom: Dp = 0.dp,
+    ): ComponentPadding = ComponentPadding(
+        start = Token(start),
+        top = Token(top),
+        end = Token(end),
+        bottom = Token(bottom),
+    )
+
+    fun absolutePadding(
+        left: Token<Dp> = Token(0.dp),
+        top: Token<Dp> = Token(0.dp),
+        right: Token<Dp> = Token(0.dp),
+        bottom: Token<Dp> = Token(0.dp),
+    ): ComponentPadding = ComponentPadding.absolute(
+        left = left,
+        top = top,
+        right = right,
+        bottom = bottom,
+    )
+
+    fun absolutePadding(
+        left: Dp = 0.dp,
+        top: Dp = 0.dp,
+        right: Dp = 0.dp,
+        bottom: Dp = 0.dp,
+    ): ComponentPadding = ComponentPadding.absolute(
+        left = Token(left),
+        top = Token(top),
+        right = Token(right),
+        bottom = Token(bottom),
+    )
+
     @StyleSheetComponentApi
     operator fun plusAssign(other: ComponentCommonStyle) {
         size += other.size
+        padding += other.padding
         background += other.background
         shape += other.shape
         border += other.border
@@ -96,6 +177,7 @@ abstract class ComponentStyleBuilder<T : ComponentStyle> : StyleBuilder<T> {
     @StyleSheetComponentApi
     fun buildCommonStyle(): ComponentCommonStyle = ComponentCommonStyle(
         size = _size,
+        padding = padding.value,
         background = background.token,
         shape = shape.token,
         border = border.token,
