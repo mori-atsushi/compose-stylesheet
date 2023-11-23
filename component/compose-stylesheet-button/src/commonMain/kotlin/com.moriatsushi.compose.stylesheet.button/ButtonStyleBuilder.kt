@@ -1,10 +1,9 @@
 package com.moriatsushi.compose.stylesheet.button
 
-import androidx.compose.foundation.Indication
 import com.moriatsushi.compose.stylesheet.StyleSheetBuilderMarker
 import com.moriatsushi.compose.stylesheet.component.ComponentStyleBuilder
 import com.moriatsushi.compose.stylesheet.content.ContentStyleBuilder
-import com.moriatsushi.compose.stylesheet.token.TokenSetter
+import com.moriatsushi.compose.stylesheet.indication.IndicationSetter
 
 /**
  * A builder for [ButtonStyle].
@@ -16,8 +15,14 @@ class ButtonStyleBuilder internal constructor() : ComponentStyleBuilder<ButtonSt
     /**
      * An indication representing visual effects that occur when certain interactions happen, such
      * as pressing.
+     *
+     * Example:
+     * ```
+     * indication += SampleIndication()
+     * indication += { rememberRipple() }
+     * ```
      */
-    val indication: TokenSetter<Indication?> = TokenSetter()
+    val indication: IndicationSetter = IndicationSetter()
 
     /**
      * A content style.
@@ -46,7 +51,7 @@ class ButtonStyleBuilder internal constructor() : ComponentStyleBuilder<ButtonSt
     }
 
     override fun build(): ButtonStyle = ButtonStyle(
-        indication = indication.token,
+        indication = indication.value,
         commonStyle = buildCommonStyle(),
         contentStyle = content.build(),
         pressedStyle = pressedStyleBuilder.build(),
