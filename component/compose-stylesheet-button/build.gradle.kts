@@ -21,9 +21,6 @@ kotlin {
             dependencies {
                 implementation(compose.foundation)
                 implementation(project(":compose-stylesheet-core"))
-                api(project(":component:compose-stylesheet-button"))
-                api(project(":component:compose-stylesheet-text"))
-                api(project(":component:compose-stylesheet-surface"))
             }
         }
 
@@ -32,11 +29,17 @@ kotlin {
                 implementation(kotlin("test"))
             }
         }
+
+        all {
+            languageSettings.optIn(
+                "com.moriatsushi.compose.stylesheet.component.StyleSheetComponentApi",
+            )
+        }
     }
 }
 
 android {
-    namespace = "com.moriatsushi.compose.stylesheet.theme"
+    namespace = "com.moriatsushi.compose.stylesheet.button"
     compileSdk = 34
     defaultConfig {
         minSdk = 21

@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="compose-stylesheet-button-desktop">
+    <output-path>$PROJECT_DIR$/component/compose-stylesheet-button/build/libs</output-path>
+    <root id="archive" name="compose-stylesheet-button-desktop.jar">
+      <element id="module-output" name="compose-style-sheet.component.compose-stylesheet-button.desktopMain" />
+    </root>
+  </artifact>
+</component>
