@@ -28,7 +28,12 @@ abstract class ComponentStyleBuilder<T : ComponentStyle> : StyleBuilder<T> {
      * size += DpSize.Unspecified // Clear size
      * ```
      */
-    val size: ComponentSizeSetter = ComponentSizeSetter { _size = it }
+    val size: ComponentSizeSetter = ComponentSizeSetter {
+        _size = ComponentSize(
+            width = it.width ?: _size.width,
+            height = it.height ?: _size.height,
+        )
+    }
 
     /**
      * A width of the component.

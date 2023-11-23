@@ -5,7 +5,7 @@ import com.moriatsushi.compose.stylesheet.component.ComponentCommonStyle
 import com.moriatsushi.compose.stylesheet.component.ComponentStyle
 import com.moriatsushi.compose.stylesheet.token.Token
 
-class DummyComponentStyle(
+data class DummyComponentStyle(
     val color1: Token<Color>? = null,
     val color2: Token<Color>? = null,
     val color3: Token<Color>? = null,
