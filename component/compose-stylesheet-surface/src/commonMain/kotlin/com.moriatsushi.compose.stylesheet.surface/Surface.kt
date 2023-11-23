@@ -9,7 +9,6 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.isSpecified
 import com.moriatsushi.compose.stylesheet.StyleSheet
 import com.moriatsushi.compose.stylesheet.component.Component
-import com.moriatsushi.compose.stylesheet.component.commonStyleValues
 import com.moriatsushi.compose.stylesheet.component.componentCommonStyle
 import com.moriatsushi.compose.stylesheet.content.ContentStyle
 import com.moriatsushi.compose.stylesheet.content.ProvideContentStyle
@@ -64,7 +63,7 @@ fun Surface(
     }
 
     Box(
-        modifier = modifier.componentCommonStyle(mergedStyle.commonStyleValues),
+        modifier = modifier.componentCommonStyle(mergedStyle.commonStyle),
         propagateMinConstraints = true,
     ) {
         ProvideContentStyle(
