@@ -1,11 +1,13 @@
 package com.moriatsushi.compose.stylesheet.component
 
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.test.SemanticsNodeInteraction
 import androidx.compose.ui.test.assertHeightIsEqualTo
 import androidx.compose.ui.test.assertWidthIsEqualTo
+import androidx.compose.ui.test.junit4.ComposeContentTestRule
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.unit.dp
@@ -27,14 +29,8 @@ class ComponentSizeTest {
             size += 100.dp
         }
 
-        composeTestRule.setContent {
-            DummyComponent(
-                modifier = Modifier.testTag("dummyComponent"),
-                style = style,
-            )
-        }
-
-        composeTestRule.onNodeWithTag("dummyComponent")
+        composeTestRule
+            .dummyComponent(style)
             .assertWidthIsEqualTo(100.dp)
             .assertHeightIsEqualTo(100.dp)
     }
@@ -45,31 +41,42 @@ class ComponentSizeTest {
             size += fill
         }
 
-        composeTestRule.setContent {
-            Box(modifier = Modifier.size(200.dp, 300.dp)) {
-                DummyComponent(
-                    modifier = Modifier.testTag("dummyComponent"),
-                    style = style,
-                )
-            }
-        }
-
-        composeTestRule.onNodeWithTag("dummyComponent")
-            .assertWidthIsEqualTo(200.dp)
-            .assertHeightIsEqualTo(300.dp)
+        composeTestRule
+            .dummyComponent(style)
+            .assertWidthIsEqualTo(500.dp)
+            .assertHeightIsEqualTo(600.dp)
     }
 
     @Test
     fun testSize_default() {
-        composeTestRule.setContent {
-            DummyComponent(
-                modifier = Modifier.testTag("dummyComponent"),
-            )
-        }
-
-        composeTestRule.onNodeWithTag("dummyComponent")
+        composeTestRule
+            .dummyComponent(DummyComponentStyle.Default)
             .assertWidthIsEqualTo(10.dp)
             .assertHeightIsEqualTo(10.dp)
+    }
+
+    @Test
+    fun testMinSize() {
+        val style = DummyComponentStyle {
+            minSize += 100.dp
+        }
+
+        composeTestRule
+            .dummyComponent(style)
+            .assertWidthIsEqualTo(100.dp)
+            .assertHeightIsEqualTo(100.dp)
+    }
+
+    @Test
+    fun testMaxSize() {
+        val style = DummyComponentStyle {
+            maxSize += 5.dp
+        }
+
+        composeTestRule
+            .dummyComponent(style)
+            .assertWidthIsEqualTo(5.dp)
+            .assertHeightIsEqualTo(5.dp)
     }
 
     @Test
@@ -79,14 +86,8 @@ class ComponentSizeTest {
             height += 200.dp
         }
 
-        composeTestRule.setContent {
-            DummyComponent(
-                modifier = Modifier.testTag("dummyComponent"),
-                style = style,
-            )
-        }
-
-        composeTestRule.onNodeWithTag("dummyComponent")
+        composeTestRule
+            .dummyComponent(style)
             .assertWidthIsEqualTo(100.dp)
             .assertHeightIsEqualTo(200.dp)
     }
@@ -98,8 +99,43 @@ class ComponentSizeTest {
             height += fill
         }
 
-        composeTestRule.setContent {
-            Box(modifier = Modifier.size(200.dp, 300.dp)) {
+        composeTestRule
+            .dummyComponent(style)
+            .assertWidthIsEqualTo(500.dp)
+            .assertHeightIsEqualTo(600.dp)
+    }
+
+    @Test
+    fun testMinWidthHeight() {
+        val style = DummyComponentStyle {
+            minWidth += 100.dp
+            minHeight += 200.dp
+        }
+
+        composeTestRule
+            .dummyComponent(style)
+            .assertWidthIsEqualTo(100.dp)
+            .assertHeightIsEqualTo(200.dp)
+    }
+
+    @Test
+    fun testMaxWidthHeight() {
+        val style = DummyComponentStyle {
+            maxWidth += 3.dp
+            maxHeight += 6.dp
+        }
+
+        composeTestRule
+            .dummyComponent(style)
+            .assertWidthIsEqualTo(3.dp)
+            .assertHeightIsEqualTo(6.dp)
+    }
+
+    private fun ComposeContentTestRule.dummyComponent(
+        style: DummyComponentStyle,
+    ): SemanticsNodeInteraction {
+        setContent {
+            Box(modifier = Modifier.requiredSize(500.dp, 600.dp)) {
                 DummyComponent(
                     modifier = Modifier.testTag("dummyComponent"),
                     style = style,
@@ -107,8 +143,6 @@ class ComponentSizeTest {
             }
         }
 
-        composeTestRule.onNodeWithTag("dummyComponent")
-            .assertWidthIsEqualTo(200.dp)
-            .assertHeightIsEqualTo(300.dp)
+        return onNodeWithTag("dummyComponent")
     }
 }

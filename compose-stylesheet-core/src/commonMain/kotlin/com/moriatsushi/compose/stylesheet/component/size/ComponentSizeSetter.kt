@@ -22,8 +22,4 @@ class ComponentSizeSetter internal constructor(
     operator fun plusAssign(token: Token<Dp>) {
         onSet(ComponentSize(token, token))
     }
-
-    internal operator fun plusAssign(size: ComponentSize) {
-        onSet(size)
-    }
 }

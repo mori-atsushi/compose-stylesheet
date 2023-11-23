@@ -3,7 +3,9 @@ package com.moriatsushi.compose.stylesheet.component.size
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.Modifier
@@ -21,6 +23,10 @@ import kotlin.jvm.JvmInline
 internal data class ComponentSize(
     internal val width: Value? = null,
     internal val height: Value? = null,
+    internal val minWidth: Token<Dp>? = null,
+    internal val minHeight: Token<Dp>? = null,
+    internal val maxWidth: Token<Dp>? = null,
+    internal val maxHeight: Token<Dp>? = null,
 ) {
     constructor(size: DpSize) : this(
         width = Value.Fixed(Token(size.width)),
@@ -35,6 +41,15 @@ internal data class ComponentSize(
     constructor(width: Dp, height: Dp) : this(
         width = Token(width),
         height = Token(height),
+    )
+
+    fun merge(other: ComponentSize): ComponentSize = ComponentSize(
+        width = other.width ?: width,
+        height = other.height ?: height,
+        minWidth = other.minWidth ?: minWidth,
+        minHeight = other.minHeight ?: minHeight,
+        maxWidth = other.maxWidth ?: maxWidth,
+        maxHeight = other.maxHeight ?: maxHeight,
     )
 
     @Immutable
@@ -65,6 +80,15 @@ internal fun Modifier.size(size: ComponentSize): Modifier {
 
         null -> Modifier
     }
+
+    val widthInModifier = if (size.minWidth != null || size.maxWidth != null) {
+        val minWidth = size.minWidth?.value ?: Dp.Unspecified
+        val maxWidth = size.maxWidth?.value ?: Dp.Unspecified
+        Modifier.widthIn(min = minWidth, max = maxWidth)
+    } else {
+        Modifier
+    }
+
     val heightModifier = when (size.height) {
         is ComponentSize.Value.Fill -> Modifier.fillMaxHeight()
 
@@ -75,5 +99,18 @@ internal fun Modifier.size(size: ComponentSize): Modifier {
 
         null -> Modifier
     }
-    return this.then(widthModifier).then(heightModifier)
+
+    val heightInModifier = if (size.minHeight != null || size.maxHeight != null) {
+        val minHeight = size.minHeight?.value ?: Dp.Unspecified
+        val maxHeight = size.maxHeight?.value ?: Dp.Unspecified
+        Modifier.heightIn(min = minHeight, max = maxHeight)
+    } else {
+        Modifier
+    }
+
+    return this
+        .then(widthModifier)
+        .then(widthInModifier)
+        .then(heightModifier)
+        .then(heightInModifier)
 }
