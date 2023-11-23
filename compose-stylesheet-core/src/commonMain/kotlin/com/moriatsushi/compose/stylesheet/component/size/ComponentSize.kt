@@ -10,7 +10,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.isSpecified
-import com.moriatsushi.compose.stylesheet.component.StyleSheetComponentApi
 import com.moriatsushi.compose.stylesheet.token.Token
 import com.moriatsushi.compose.stylesheet.token.value
 import kotlin.jvm.JvmInline
@@ -18,29 +17,28 @@ import kotlin.jvm.JvmInline
 /**
  * A size of the component.
  */
-@StyleSheetComponentApi
 @Immutable
-data class ComponentSize internal constructor(
+internal data class ComponentSize(
     internal val width: Value? = null,
     internal val height: Value? = null,
 ) {
-    internal constructor(size: DpSize) : this(
+    constructor(size: DpSize) : this(
         width = Value.Fixed(Token(size.width)),
         height = Value.Fixed(Token(size.height)),
     )
 
-    internal constructor(width: Token<Dp>, height: Token<Dp>) : this(
+    constructor(width: Token<Dp>, height: Token<Dp>) : this(
         width = Value.Fixed(width),
         height = Value.Fixed(height),
     )
 
-    internal constructor(width: Dp, height: Dp) : this(
+    constructor(width: Dp, height: Dp) : this(
         width = Token(width),
         height = Token(height),
     )
 
     @Immutable
-    internal sealed interface Value {
+    sealed interface Value {
         @Immutable
         @JvmInline
         value class Fixed(val token: Token<Dp>) : Value
@@ -50,8 +48,8 @@ data class ComponentSize internal constructor(
     }
 
     companion object {
-        internal val Default: ComponentSize = ComponentSize()
-        internal val Fill: ComponentSize = ComponentSize(Value.Fill, Value.Fill)
+        val Default: ComponentSize = ComponentSize()
+        val Fill: ComponentSize = ComponentSize(Value.Fill, Value.Fill)
     }
 }
 

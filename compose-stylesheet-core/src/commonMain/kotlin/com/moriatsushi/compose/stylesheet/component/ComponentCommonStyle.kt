@@ -4,7 +4,6 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -22,12 +21,12 @@ import com.moriatsushi.compose.stylesheet.token.value
  */
 @Stable
 @StyleSheetComponentApi
-sealed interface ComponentCommonStyle {
-    val size: ComponentSize
-    val background: Token<Color>?
-    val shape: Token<Shape?>?
-    val border: Token<BorderStroke?>?
-
+data class ComponentCommonStyle internal constructor(
+    internal val size: ComponentSize = ComponentSize.Default,
+    internal val background: Token<Color>? = null,
+    internal val shape: Token<Shape?>? = null,
+    internal val border: Token<BorderStroke?>? = null,
+) {
     companion object {
         /**
          * Constant for a default [ComponentCommonStyle].
@@ -35,26 +34,6 @@ sealed interface ComponentCommonStyle {
         val Default: ComponentCommonStyle = ComponentCommonStyle()
     }
 }
-
-internal fun ComponentCommonStyle(
-    size: ComponentSize = ComponentSize.Default,
-    background: Token<Color>? = null,
-    shape: Token<Shape?>? = null,
-    border: Token<BorderStroke?>? = null,
-): ComponentCommonStyle = ComponentCommonStyleImpl(
-    size = size,
-    background = background,
-    shape = shape,
-    border = border,
-)
-
-@Immutable
-private data class ComponentCommonStyleImpl(
-    override val size: ComponentSize,
-    override val background: Token<Color>?,
-    override val shape: Token<Shape?>?,
-    override val border: Token<BorderStroke?>?,
-) : ComponentCommonStyle
 
 /**
  * Applies the component common [styleValues] to [this]. The [styleValues] need to be gotten from

@@ -4,8 +4,8 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import com.moriatsushi.compose.stylesheet.StyleBuilder
-import com.moriatsushi.compose.stylesheet.component.size.ComponentSize
 import com.moriatsushi.compose.stylesheet.component.size.ComponentFillSize
+import com.moriatsushi.compose.stylesheet.component.size.ComponentSize
 import com.moriatsushi.compose.stylesheet.component.size.ComponentSizeSetter
 import com.moriatsushi.compose.stylesheet.component.size.ComponentSizeValueSetter
 import com.moriatsushi.compose.stylesheet.token.TokenSetter
