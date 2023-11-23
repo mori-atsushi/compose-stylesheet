@@ -28,6 +28,7 @@ import com.moriatsushi.compose.stylesheet.tag.TagModifier
 fun Button(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
+    enabled: Boolean = true,
     tags: TagModifier<ButtonStyle> = TagModifier(),
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     buttonStyle: ButtonStyle = ButtonStyle.Default,
@@ -39,7 +40,10 @@ fun Button(
         this += buttonStyle
     }
     val isPressed by interactionSource.collectIsPressedAsState()
-    val stateStyle = mergedStyle.getStyleForState(isPressed = isPressed)
+    val stateStyle = mergedStyle.getStyleForState(
+        isPressed = isPressed,
+        isEnabled = enabled,
+    )
 
     Row(
         modifier = modifier
@@ -49,6 +53,7 @@ fun Button(
                 interactionSource = interactionSource,
                 indication = mergedStyle.indication?.value,
                 onClick = onClick,
+                enabled = enabled,
             )
             .componentPadding(stateStyle.commonStyle.padding),
         horizontalArrangement = Arrangement.Center,

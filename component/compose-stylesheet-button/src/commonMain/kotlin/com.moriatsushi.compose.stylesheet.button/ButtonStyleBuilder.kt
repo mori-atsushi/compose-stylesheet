@@ -11,6 +11,7 @@ import com.moriatsushi.compose.stylesheet.indication.IndicationSetter
 @StyleSheetBuilderMarker
 class ButtonStyleBuilder internal constructor() : ComponentStyleBuilder<ButtonStyle>() {
     private val pressedStyleBuilder = ButtonStateStyleBuilder()
+    private val disabledStyleBuilder = ButtonStateStyleBuilder()
 
     /**
      * An indication representing visual effects that occur when certain interactions happen, such
@@ -43,11 +44,19 @@ class ButtonStyleBuilder internal constructor() : ComponentStyleBuilder<ButtonSt
         pressedStyleBuilder.builder()
     }
 
+    /**
+     * Defines disabled styles.
+     */
+    fun disabled(builder: ButtonStateStyleBuilder.() -> Unit) {
+        disabledStyleBuilder.builder()
+    }
+
     override fun plusAssign(other: ButtonStyle) {
         indication += other.indication
         this += other.commonStyle
         content += other.contentStyle
         pressedStyleBuilder += other.pressedStyle
+        disabledStyleBuilder += other.disabledStyle
     }
 
     override fun build(): ButtonStyle = ButtonStyle(
@@ -55,5 +64,6 @@ class ButtonStyleBuilder internal constructor() : ComponentStyleBuilder<ButtonSt
         commonStyle = buildCommonStyle(),
         contentStyle = content.build(),
         pressedStyle = pressedStyleBuilder.build(),
+        disabledStyle = disabledStyleBuilder.build(),
     )
 }
