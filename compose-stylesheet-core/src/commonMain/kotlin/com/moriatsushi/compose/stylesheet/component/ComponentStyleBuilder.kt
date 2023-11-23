@@ -9,6 +9,7 @@ import com.moriatsushi.compose.stylesheet.StyleBuilder
 import com.moriatsushi.compose.stylesheet.component.padding.ComponentPadding
 import com.moriatsushi.compose.stylesheet.component.padding.PaddingSetter
 import com.moriatsushi.compose.stylesheet.component.size.ComponentFillSize
+import com.moriatsushi.compose.stylesheet.component.size.ComponentMinMaxSizeSetter
 import com.moriatsushi.compose.stylesheet.component.size.ComponentSize
 import com.moriatsushi.compose.stylesheet.component.size.ComponentSizeSetter
 import com.moriatsushi.compose.stylesheet.component.size.ComponentSizeValueSetter
@@ -41,6 +42,32 @@ abstract class ComponentStyleBuilder<T : ComponentStyle> : StyleBuilder<T> {
     }
 
     /**
+     * A minimum size of the component.
+     *
+     * Example:
+     * ```
+     * minSize += 100.dp
+     * minSize += sizeToken // Token<Dp>
+     * ```
+     */
+    val minSize: ComponentMinMaxSizeSetter = ComponentMinMaxSizeSetter {
+        _size = _size.copy(minWidth = it, minHeight = it)
+    }
+
+    /**
+     * A maximum size of the component.
+     *
+     * Example:
+     * ```
+     * maxSize += 100.dp
+     * maxSize += sizeToken // Token<Dp>
+     * ```
+     */
+    val maxSize: ComponentMinMaxSizeSetter = ComponentMinMaxSizeSetter {
+        _size = _size.copy(maxWidth = it, maxHeight = it)
+    }
+
+    /**
      * A width of the component.
      *
      * Example:
@@ -56,6 +83,32 @@ abstract class ComponentStyleBuilder<T : ComponentStyle> : StyleBuilder<T> {
     }
 
     /**
+     * A minimum width of the component.
+     *
+     * Example:
+     * ```
+     * minWidth += 100.dp
+     * minWidth += sizeToken // Token<Dp>
+     * ```
+     */
+    val minWidth: ComponentMinMaxSizeSetter = ComponentMinMaxSizeSetter {
+        _size = _size.copy(minWidth = it)
+    }
+
+    /**
+     * A maximum width of the component.
+     *
+     * Example:
+     * ```
+     * maxWidth += 100.dp
+     * maxWidth += sizeToken // Token<Dp>
+     * ```
+     */
+    val maxWidth: ComponentMinMaxSizeSetter = ComponentMinMaxSizeSetter {
+        _size = _size.copy(maxWidth = it)
+    }
+
+    /**
      * A height of the component.
      *
      * Example:
@@ -68,6 +121,32 @@ abstract class ComponentStyleBuilder<T : ComponentStyle> : StyleBuilder<T> {
      */
     val height: ComponentSizeValueSetter = ComponentSizeValueSetter {
         _size = _size.copy(height = it)
+    }
+
+    /**
+     * A minimum height of the component.
+     *
+     * Example:
+     * ```
+     * minHeight += 100.dp
+     * minHeight += sizeToken // Token<Dp>
+     * ```
+     */
+    val minHeight: ComponentMinMaxSizeSetter = ComponentMinMaxSizeSetter {
+        _size = _size.copy(minHeight = it)
+    }
+
+    /**
+     * A maximum height of the component.
+     *
+     * Example:
+     * ```
+     * maxHeight += 100.dp
+     * maxHeight += sizeToken // Token<Dp>
+     * ```
+     */
+    val maxHeight: ComponentMinMaxSizeSetter = ComponentMinMaxSizeSetter {
+        _size = _size.copy(maxHeight = it)
     }
 
     /**
