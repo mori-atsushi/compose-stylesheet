@@ -34,32 +34,60 @@ fun createStyleSheet(useDarkMode: Boolean): StyleSheet = StyleSheet {
 ```kotlin
 // build.gradle.kts
 dependencies {
-    implementation("com.moriatsushi.compose.stylesheet:compose-stylesheet:0.0.1")
+    implementation("com.moriatsushi.compose.stylesheet:compose-stylesheet:0.0.2")
 }
 ```
 
 ## Usage
 
-### StyleSheet
+### Getting Started
 
-Colors, Fonts, Sizes, Component Styles, etc. are defined in the StyleSheet.
-
-```kotlin
-val styleSheet = StyleSheet {
-    /* ... */
-}
-```
-
-The created StyleSheet can be provided as follows:
+To use Compose StyleSheet, you provide a StyleSheet in the root of your app.
+You can use `themeStyleSheet` which supports dark and light mode.
 
 ```kotlin
 @Composable
 fun App() {
+    val styleSheet = themeStyleSheet()
     ProvideStyleSheet(styleSheet) {
         /* ... */
     }
 }
 ```
+
+Then, you can use the components.
+
+```kotlin
+@Composable
+fun Sample() {
+    Surface {
+        Text("Hello, Compose StyleSheet!")
+    }
+}
+```
+
+### StyleSheet
+
+Colors, Fonts, Sizes, Component Styles, etc. are defined in the StyleSheet.
+
+If you want to customize the `themeStyleSheet`, you can define a StyleSheet and merge it with the
+`themeStyleSheet`.
+
+```kotlin
+val yourStyleSheet = StyleSheet {
+    /* ... */
+}
+
+@Composable
+fun App() {
+    val styleSheet = StyleSheet.merge(themeStyleSheet(), yourStyleSheet)
+    ProvideStyleSheet(styleSheet) {
+        /* ... */
+    }
+}
+```
+
+You can also create a StyleSheet from scratch without using `themeStyleSheet`.
 
 ### Design Token (Colors, Fonts, Sizes, etc...)
 
