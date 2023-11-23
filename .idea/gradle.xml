@@ -12,6 +12,7 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/component" />
+            <option value="$PROJECT_DIR$/component/compose-stylesheet-button" />
             <option value="$PROJECT_DIR$/component/compose-stylesheet-icon" />
             <option value="$PROJECT_DIR$/component/compose-stylesheet-surface" />
             <option value="$PROJECT_DIR$/component/compose-stylesheet-text" />
