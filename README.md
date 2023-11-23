@@ -34,7 +34,7 @@ fun createStyleSheet(useDarkMode: Boolean): StyleSheet = StyleSheet {
 ```kotlin
 // build.gradle.kts
 dependencies {
-    implementation("com.moriatsushi.compose.stylesheet:compose-stylesheet:0.0.1")
+    implementation("com.moriatsushi.compose.stylesheet:compose-stylesheet:0.0.2")
 }
 ```
 
