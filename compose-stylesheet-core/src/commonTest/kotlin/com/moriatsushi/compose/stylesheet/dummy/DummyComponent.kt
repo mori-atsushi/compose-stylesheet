@@ -1,8 +1,10 @@
 package com.moriatsushi.compose.stylesheet.dummy
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import com.moriatsushi.compose.stylesheet.StyleSheet
 import com.moriatsushi.compose.stylesheet.component.Component
 import com.moriatsushi.compose.stylesheet.component.componentCommonStyle
@@ -21,7 +23,9 @@ fun DummyComponent(
         this += style
     }
 
-    Box(modifier = modifier.componentCommonStyle(mergedStyle.commonStyle))
+    Box(modifier = modifier.componentCommonStyle(mergedStyle.commonStyle)) {
+        Box(Modifier.size(10.dp))
+    }
 }
 
 val dummyComponent = Component(

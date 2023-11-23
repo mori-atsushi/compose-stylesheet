@@ -1,7 +1,6 @@
 package com.moriatsushi.compose.stylesheet.component
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.test.assertHeightIsEqualTo
@@ -12,19 +11,20 @@ import androidx.compose.ui.unit.dp
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.moriatsushi.compose.stylesheet.dummy.DummyComponent
 import com.moriatsushi.compose.stylesheet.dummy.DummyComponentStyle
+import com.moriatsushi.compose.stylesheet.token.Token
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
-class ComponentSizeTest {
+class ComponentPaddingTest {
     @get:Rule
     val composeTestRule = createComposeRule()
 
     @Test
-    fun testSize() {
+    fun testPadding() {
         val style = DummyComponentStyle {
-            size += 100.dp
+            padding += 20.dp
         }
 
         composeTestRule.setContent {
@@ -35,80 +35,80 @@ class ComponentSizeTest {
         }
 
         composeTestRule.onNodeWithTag("dummyComponent")
-            .assertWidthIsEqualTo(100.dp)
-            .assertHeightIsEqualTo(100.dp)
+            .assertWidthIsEqualTo(50.dp)
+            .assertHeightIsEqualTo(50.dp)
     }
 
     @Test
-    fun testSize_fill() {
+    fun testPadding_token() {
+        val token = Token("size", 20.dp)
         val style = DummyComponentStyle {
-            size += fill
+            padding += token
         }
 
-        composeTestRule.setContent {
-            Box(modifier = Modifier.size(200.dp, 300.dp)) {
-                DummyComponent(
-                    modifier = Modifier.testTag("dummyComponent"),
-                    style = style,
-                )
-            }
-        }
-
-        composeTestRule.onNodeWithTag("dummyComponent")
-            .assertWidthIsEqualTo(200.dp)
-            .assertHeightIsEqualTo(300.dp)
-    }
-
-    @Test
-    fun testSize_default() {
         composeTestRule.setContent {
             DummyComponent(
                 modifier = Modifier.testTag("dummyComponent"),
+                style = style,
+            )
+        }
+
+        composeTestRule.onNodeWithTag("dummyComponent")
+            .assertWidthIsEqualTo(50.dp)
+            .assertHeightIsEqualTo(50.dp)
+    }
+
+    @Test
+    fun testPadding_paddingValues() {
+        val style = DummyComponentStyle {
+            padding += PaddingValues(20.dp)
+        }
+
+        composeTestRule.setContent {
+            DummyComponent(
+                modifier = Modifier.testTag("dummyComponent"),
+                style = style,
+            )
+        }
+
+        composeTestRule.onNodeWithTag("dummyComponent")
+            .assertWidthIsEqualTo(50.dp)
+            .assertHeightIsEqualTo(50.dp)
+    }
+
+    @Test
+    fun testPadding_horizontal() {
+        val style = DummyComponentStyle {
+            padding += padding(horizontal = 10.dp)
+        }
+
+        composeTestRule.setContent {
+            DummyComponent(
+                modifier = Modifier.testTag("dummyComponent"),
+                style = style,
+            )
+        }
+
+        composeTestRule.onNodeWithTag("dummyComponent")
+            .assertWidthIsEqualTo(30.dp)
+            .assertHeightIsEqualTo(10.dp)
+    }
+
+    @Test
+    fun testPadding_top() {
+        val style = DummyComponentStyle {
+            padding += padding(top = 10.dp)
+        }
+
+        composeTestRule.setContent {
+            DummyComponent(
+                modifier = Modifier.testTag("dummyComponent"),
+                style = style,
             )
         }
 
         composeTestRule.onNodeWithTag("dummyComponent")
             .assertWidthIsEqualTo(10.dp)
-            .assertHeightIsEqualTo(10.dp)
-    }
-
-    @Test
-    fun testWidthHeight() {
-        val style = DummyComponentStyle {
-            width += 100.dp
-            height += 200.dp
-        }
-
-        composeTestRule.setContent {
-            DummyComponent(
-                modifier = Modifier.testTag("dummyComponent"),
-                style = style,
-            )
-        }
-
-        composeTestRule.onNodeWithTag("dummyComponent")
-            .assertWidthIsEqualTo(100.dp)
-            .assertHeightIsEqualTo(200.dp)
-    }
-
-    @Test
-    fun testWidthHeight_fill() {
-        val style = DummyComponentStyle {
-            width += fill
-            height += fill
-        }
-
-        composeTestRule.setContent {
-            Box(modifier = Modifier.size(200.dp, 300.dp)) {
-                DummyComponent(
-                    modifier = Modifier.testTag("dummyComponent"),
-                    style = style,
-                )
-            }
-        }
-
-        composeTestRule.onNodeWithTag("dummyComponent")
-            .assertWidthIsEqualTo(200.dp)
-            .assertHeightIsEqualTo(300.dp)
+            .assertHeightIsEqualTo(20.dp)
     }
 }

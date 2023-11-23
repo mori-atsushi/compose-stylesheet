@@ -11,6 +11,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.isSpecified
+import com.moriatsushi.compose.stylesheet.component.padding.ComponentPadding
+import com.moriatsushi.compose.stylesheet.component.padding.componentPadding
 import com.moriatsushi.compose.stylesheet.component.size.ComponentSize
 import com.moriatsushi.compose.stylesheet.component.size.size
 import com.moriatsushi.compose.stylesheet.token.Token
@@ -23,6 +25,7 @@ import com.moriatsushi.compose.stylesheet.token.value
 @StyleSheetComponentApi
 data class ComponentCommonStyle internal constructor(
     internal val size: ComponentSize = ComponentSize.Default,
+    internal val padding: ComponentPadding? = null,
     internal val background: Token<Color>? = null,
     internal val shape: Token<Shape?>? = null,
     internal val border: Token<BorderStroke?>? = null,
@@ -42,13 +45,34 @@ data class ComponentCommonStyle internal constructor(
 @StyleSheetComponentApi
 @Composable
 fun Modifier.componentCommonStyle(styleValues: ComponentCommonStyle): Modifier {
-    val background = styleValues.background?.value ?: Color.Unspecified
     val shape = styleValues.shape?.value ?: RectangleShape
+
     val border = styleValues.border?.value
+    val borderModifier = if (border != null) {
+        Modifier.border(border, shape)
+    } else {
+        Modifier
+    }
+
+    val background = styleValues.background?.value ?: Color.Unspecified
+    val backgroundModifier = if (background.isSpecified) {
+        Modifier.background(background, shape)
+    } else {
+        Modifier
+    }
+
+    val clipModifier = if (shape != RectangleShape) Modifier.clip(shape) else Modifier
+
+    val paddingModifier = if (styleValues.padding != null) {
+        Modifier.componentPadding(styleValues.padding)
+    } else {
+        Modifier
+    }
 
     return this
         .size(styleValues.size)
-        .then(if (border != null) Modifier.border(border, shape) else Modifier)
-        .then(if (background.isSpecified) Modifier.background(background, shape) else Modifier)
-        .then(if (shape != RectangleShape) Modifier.clip(shape) else Modifier)
+        .then(borderModifier)
+        .then(backgroundModifier)
+        .then(clipModifier)
+        .then(paddingModifier)
 }
