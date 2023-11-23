@@ -246,7 +246,7 @@ abstract class ComponentStyleBuilder<T : ComponentStyle> : StyleBuilder<T> {
 
     @StyleSheetComponentApi
     operator fun plusAssign(other: ComponentCommonStyle) {
-        size += other.size
+        _size = _size.merge(other.size)
         padding += other.padding
         background += other.background
         shape += other.shape
