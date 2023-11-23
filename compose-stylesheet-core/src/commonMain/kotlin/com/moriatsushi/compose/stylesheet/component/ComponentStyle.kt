@@ -3,7 +3,6 @@ package com.moriatsushi.compose.stylesheet.component
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.unit.DpSize
 import com.moriatsushi.compose.stylesheet.token.value
 
 /**
@@ -20,7 +19,7 @@ interface ComponentStyle {
 val ComponentStyle.commonStyleValues: ComponentCommonStyleValues
     @Composable
     get() = ComponentCommonStyleValues(
-        size = commonStyle.size?.value ?: DpSize.Unspecified,
+        size = commonStyle.size.asDpSize(),
         background = commonStyle.background?.value ?: Color.Unspecified,
         shape = commonStyle.shape?.value ?: RectangleShape,
         border = commonStyle.border?.value,

@@ -21,7 +21,7 @@ import com.moriatsushi.compose.stylesheet.token.Token
 @Stable
 @StyleSheetComponentApi
 sealed interface ComponentCommonStyle {
-    val size: Token<DpSize>?
+    val size: ComponentSize
     val background: Token<Color>?
     val shape: Token<Shape?>?
     val border: Token<BorderStroke?>?
@@ -35,7 +35,7 @@ sealed interface ComponentCommonStyle {
 }
 
 internal fun ComponentCommonStyle(
-    size: Token<DpSize>? = null,
+    size: ComponentSize = ComponentSize.Default,
     background: Token<Color>? = null,
     shape: Token<Shape?>? = null,
     border: Token<BorderStroke?>? = null,
@@ -48,7 +48,7 @@ internal fun ComponentCommonStyle(
 
 @Immutable
 private data class ComponentCommonStyleImpl(
-    override val size: Token<DpSize>? = null,
+    override val size: ComponentSize,
     override val background: Token<Color>?,
     override val shape: Token<Shape?>?,
     override val border: Token<BorderStroke?>?,
