@@ -39,22 +39,21 @@ data class ComponentCommonStyle internal constructor(
 }
 
 /**
- * Applies the component common [styleValues] to [this]. The [styleValues] need to be gotten from
- * [ComponentStyle.commonStyle].
+ * Applies the component common [style] to [this].
  */
 @StyleSheetComponentApi
 @Composable
-fun Modifier.componentCommonStyle(styleValues: ComponentCommonStyle): Modifier {
-    val shape = styleValues.shape?.value ?: RectangleShape
+fun Modifier.componentCommonStyle(style: ComponentCommonStyle): Modifier {
+    val shape = style.shape?.value ?: RectangleShape
 
-    val border = styleValues.border?.value
+    val border = style.border?.value
     val borderModifier = if (border != null) {
         Modifier.border(border, shape)
     } else {
         Modifier
     }
 
-    val background = styleValues.background?.value ?: Color.Unspecified
+    val background = style.background?.value ?: Color.Unspecified
     val backgroundModifier = if (background.isSpecified) {
         Modifier.background(background, shape)
     } else {
@@ -63,14 +62,14 @@ fun Modifier.componentCommonStyle(styleValues: ComponentCommonStyle): Modifier {
 
     val clipModifier = if (shape != RectangleShape) Modifier.clip(shape) else Modifier
 
-    val paddingModifier = if (styleValues.padding != null) {
-        Modifier.componentPadding(styleValues.padding)
+    val paddingModifier = if (style.padding != null) {
+        Modifier.componentPadding(style.padding)
     } else {
         Modifier
     }
 
     return this
-        .size(styleValues.size)
+        .size(style.size)
         .then(borderModifier)
         .then(backgroundModifier)
         .then(clipModifier)
