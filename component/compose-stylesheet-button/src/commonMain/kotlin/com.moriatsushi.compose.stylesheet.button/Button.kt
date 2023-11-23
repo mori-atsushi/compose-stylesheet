@@ -19,6 +19,7 @@ import com.moriatsushi.compose.stylesheet.component.Component
 import com.moriatsushi.compose.stylesheet.component.componentCommonStyle
 import com.moriatsushi.compose.stylesheet.content.ProvideContentStyle
 import com.moriatsushi.compose.stylesheet.tag.TagModifier
+import com.moriatsushi.compose.stylesheet.token.value
 
 /**
  * A button component.
@@ -45,7 +46,7 @@ fun Button(
             .semantics { role = Role.Button }
             .clickable(
                 interactionSource = interactionSource,
-                indication = null,
+                indication = mergedStyle.indication?.value,
                 onClick = onClick,
             )
             .componentCommonStyle(stateStyle.commonStyle),
