@@ -12,4 +12,7 @@ class SemanticColors internal constructor() {
 
     val primarySurface = Token("color.semantic.primarySurface", Colors.gray50)
     val onPrimarySurface = Token("color.semantic.onPrimarySurface", Colors.gray900)
+
+    val inverseSurface = Token("color.semantic.inverseSurface", Colors.gray900)
+    val onInverseSurface = Token("color.semantic.onInverseSurface", Colors.gray50)
 }

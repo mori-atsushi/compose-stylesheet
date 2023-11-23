@@ -4,6 +4,7 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import com.moriatsushi.compose.stylesheet.StyleSheet
+import com.moriatsushi.compose.stylesheet.theme.button.buttonStyleSheet
 import com.moriatsushi.compose.stylesheet.theme.surface.surfaceStyleSheet
 
 /**
@@ -20,11 +21,14 @@ fun themeStyleSheet(
         Colors.semantic.onBackground += if (useDarkMode) Colors.white else Colors.gray900
         Colors.semantic.primarySurface += if (useDarkMode) Colors.gray800 else Colors.gray100
         Colors.semantic.onPrimarySurface += Colors.semantic.onBackground
+        Colors.semantic.inverseSurface += if (useDarkMode) Colors.white else Colors.gray900
+        Colors.semantic.onInverseSurface += if (useDarkMode) Colors.gray900 else Colors.white
 
         content {
             color += Colors.semantic.onBackground
         }
 
+        this += buttonStyleSheet
         this += surfaceStyleSheet
     }
 }
