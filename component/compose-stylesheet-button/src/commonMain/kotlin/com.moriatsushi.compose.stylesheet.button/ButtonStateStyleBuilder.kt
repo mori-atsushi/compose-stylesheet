@@ -5,12 +5,10 @@ import com.moriatsushi.compose.stylesheet.component.ComponentStyleBuilder
 import com.moriatsushi.compose.stylesheet.content.ContentStyleBuilder
 
 /**
- * A builder for [ButtonStyle].
+ * A builder for [ButtonStateStyle].
  */
 @StyleSheetBuilderMarker
-class ButtonStyleBuilder internal constructor() : ComponentStyleBuilder<ButtonStyle>() {
-    private val pressedStyleBuilder = ButtonStateStyleBuilder()
-
+class ButtonStateStyleBuilder internal constructor() : ComponentStyleBuilder<ButtonStateStyle>() {
     /**
      * A content style.
      */
@@ -23,22 +21,13 @@ class ButtonStyleBuilder internal constructor() : ComponentStyleBuilder<ButtonSt
         content.builder()
     }
 
-    /**
-     * Defines pressed styles.
-     */
-    fun pressed(builder: ButtonStateStyleBuilder.() -> Unit) {
-        pressedStyleBuilder.builder()
-    }
-
-    override fun plusAssign(other: ButtonStyle) {
+    override fun plusAssign(other: ButtonStateStyle) {
         this += other.commonStyle
         content += other.contentStyle
-        pressedStyleBuilder += other.pressedStyle
     }
 
-    override fun build(): ButtonStyle = ButtonStyle(
+    override fun build(): ButtonStateStyle = ButtonStateStyle(
         commonStyle = buildCommonStyle(),
         contentStyle = content.build(),
-        pressedStyle = pressedStyleBuilder.build(),
     )
 }

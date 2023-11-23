@@ -14,9 +14,14 @@ internal val buttonStyleSheet = StyleSheet {
         minHeight += 40.dp
         minWidth += 40.dp
         padding += padding(horizontal = 24.dp, vertical = 2.dp)
+
         content {
             color += Colors.semantic.onInverseSurface
             fontSize += 18.sp
+        }
+
+        pressed {
+            background += Colors.semantic.inverseSurfacePressed
         }
     }
 }

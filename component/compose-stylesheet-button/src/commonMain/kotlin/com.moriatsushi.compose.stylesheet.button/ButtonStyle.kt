@@ -11,6 +11,7 @@ import com.moriatsushi.compose.stylesheet.content.ContentStyle
 @Immutable
 sealed interface ButtonStyle : ComponentStyle {
     val contentStyle: ContentStyle
+    val pressedStyle: ButtonStateStyle
 
     companion object {
         /**
@@ -29,13 +30,30 @@ fun ButtonStyle(builder: ButtonStyleBuilder.() -> Unit): ButtonStyle =
 internal fun ButtonStyle(
     commonStyle: ComponentCommonStyle = ComponentCommonStyle.Default,
     contentStyle: ContentStyle = ContentStyle.Default,
+    pressedStyle: ButtonStateStyle = ButtonStateStyle.Default,
 ): ButtonStyle = ButtonStyleImpl(
     commonStyle = commonStyle,
     contentStyle = contentStyle,
+    pressedStyle = pressedStyle,
 )
+
+internal fun ButtonStyle.getStyleForState(
+    isPressed: Boolean,
+): ButtonStateStyle {
+    val buttonStyle = this
+    return ButtonStateStyle {
+        this += buttonStyle.commonStyle
+        content += buttonStyle.contentStyle
+
+        if (isPressed) {
+            this += buttonStyle.pressedStyle
+        }
+    }
+}
 
 @Immutable
 private data class ButtonStyleImpl(
     override val commonStyle: ComponentCommonStyle,
     override val contentStyle: ContentStyle,
+    override val pressedStyle: ButtonStateStyle,
 ) : ButtonStyle
