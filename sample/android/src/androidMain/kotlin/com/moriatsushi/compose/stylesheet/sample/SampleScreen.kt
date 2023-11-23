@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.moriatsushi.compose.stylesheet.button.Button
 import com.moriatsushi.compose.stylesheet.surface.Surface
 import com.moriatsushi.compose.stylesheet.text.Text
 import com.moriatsushi.compose.stylesheet.theme.surface.background
@@ -36,6 +37,8 @@ fun SampleScreen(
                 text = "Let's try to change the theme!",
                 tags = TextTags.secondary,
             )
+            Spacer(modifier = Modifier.height(32.dp))
+            Button(onClick = {}) { Text(text = "Start!") }
         }
     }
 }
