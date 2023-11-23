@@ -2,15 +2,20 @@
 agp = "8.1.4"
 androidx-activity = "1.8.1"
 androidx-appcompat = "1.6.1"
+androidx-compose-ui = "1.5.4"
 compose-multiplatform = "1.5.10"
 kotlin = "1.9.20"
 ktlint = "0.48.1"
 maven-publish = "0.25.3"
+robolectric = "4.11.1"
 spotless = "6.22.0"
 
 [libraries]
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "androidx-activity" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "androidx-appcompat" }
+androidx-compose-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4", version.ref = "androidx-compose-ui" }
+androidx-compose-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest", version.ref = "androidx-compose-ui" }
+robolectric = { group = "org.robolectric", name = "robolectric", version.ref = "robolectric" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

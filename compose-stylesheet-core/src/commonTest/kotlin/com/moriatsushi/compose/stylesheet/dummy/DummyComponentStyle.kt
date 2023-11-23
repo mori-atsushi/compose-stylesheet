@@ -10,4 +10,11 @@ class DummyComponentStyle(
     val color2: Token<Color>? = null,
     val color3: Token<Color>? = null,
     override val commonStyle: ComponentCommonStyle = ComponentCommonStyle.Default,
-) : ComponentStyle
+) : ComponentStyle {
+    companion object {
+        val Default = DummyComponentStyle()
+    }
+}
+
+fun DummyComponentStyle(builder: DummyComponentStyleBuilder.() -> Unit): DummyComponentStyle =
+    DummyComponentStyleBuilder().apply(builder).build()

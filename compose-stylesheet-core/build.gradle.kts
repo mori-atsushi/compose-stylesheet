@@ -29,6 +29,14 @@ kotlin {
             }
         }
 
+        val androidUnitTest by getting {
+            dependencies {
+                implementation(libs.androidx.compose.ui.test.junit4)
+                implementation(libs.androidx.compose.ui.test.manifest)
+                implementation(libs.robolectric)
+            }
+        }
+
         all {
             languageSettings.optIn(
                 "com.moriatsushi.compose.stylesheet.component.StyleSheetComponentApi",
@@ -47,5 +55,9 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
+    }
+
+    testOptions {
+        unitTests.isIncludeAndroidResources = true  // Required by Robolectric.
     }
 }
