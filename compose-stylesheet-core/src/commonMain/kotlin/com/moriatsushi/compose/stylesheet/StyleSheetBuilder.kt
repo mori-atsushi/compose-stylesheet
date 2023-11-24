@@ -15,7 +15,6 @@ import com.moriatsushi.compose.stylesheet.token.Token
 @StyleSheetBuilderMarker
 class StyleSheetBuilder internal constructor() {
     private val tokens = mutableMapOf<Token<*>, Token<*>>()
-    private val commonBuilder = ContentStyleBuilder()
     private val componentStyleSet = mutableMapOf<Component<*, *>, ComponentStyleSetBuilder<*>>()
 
     /**
@@ -23,7 +22,7 @@ class StyleSheetBuilder internal constructor() {
      */
     operator fun plusAssign(other: StyleSheet) {
         tokens += other.tokens
-        commonBuilder += other.contentStyle
+        content += other.contentStyle
         for ((component, componentStyleSet) in other.componentStyles) {
             component += componentStyleSet
         }
@@ -46,11 +45,9 @@ class StyleSheetBuilder internal constructor() {
     }
 
     /**
-     * Defines content styles.
+     * A content style.
      */
-    fun content(builder: ContentStyleBuilder.() -> Unit) {
-        commonBuilder.builder()
-    }
+    val content: ContentStyleBuilder = ContentStyleBuilder()
 
     /**
      * Defines a common style for the given component.
@@ -99,7 +96,7 @@ class StyleSheetBuilder internal constructor() {
 
     internal fun build(): StyleSheet = StyleSheet(
         tokens = tokens,
-        contentStyle = commonBuilder.build(),
+        contentStyle = content.build(),
         componentStyles = componentStyleSet.mapValues { it.value.build() },
     )
 }

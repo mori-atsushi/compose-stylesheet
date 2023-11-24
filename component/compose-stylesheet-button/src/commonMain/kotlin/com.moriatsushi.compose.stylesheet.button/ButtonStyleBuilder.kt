@@ -45,13 +45,6 @@ class ButtonStyleBuilder internal constructor() : ComponentStyleBuilder<ButtonSt
     val content: ContentStyleBuilder = ContentStyleBuilder()
 
     /**
-     * Defines content styles.
-     */
-    fun content(builder: ContentStyleBuilder.() -> Unit) {
-        content.builder()
-    }
-
-    /**
      * Defines pressed styles.
      */
     fun pressed(builder: ButtonStateStyleBuilder.() -> Unit) {

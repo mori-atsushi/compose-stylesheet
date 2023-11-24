@@ -82,6 +82,10 @@ class ContentStyleBuilder @StyleSheetComponentApi constructor() : StyleBuilder<C
         textMotion += other.textMotion
     }
 
+    operator fun invoke(builder: ContentStyleBuilder.() -> Unit) {
+        builder()
+    }
+
     override fun build(): ContentStyle = ContentStyle(
         color = color.token,
         fontSize = fontSize.token,
