@@ -11,6 +11,7 @@ import com.moriatsushi.compose.stylesheet.indication.IndicationSetter
 @StyleSheetBuilderMarker
 class ButtonStyleBuilder internal constructor() : ComponentStyleBuilder<ButtonStyle>() {
     private val pressedStyleBuilder = ButtonStateStyleBuilder()
+    private val hoveredStyleBuilder = ButtonStateStyleBuilder()
     private val disabledStyleBuilder = ButtonStateStyleBuilder()
 
     /**
@@ -45,6 +46,13 @@ class ButtonStyleBuilder internal constructor() : ComponentStyleBuilder<ButtonSt
     }
 
     /**
+     * Defines hovered styles.
+     */
+    fun hovered(builder: ButtonStateStyleBuilder.() -> Unit) {
+        hoveredStyleBuilder.builder()
+    }
+
+    /**
      * Defines disabled styles.
      */
     fun disabled(builder: ButtonStateStyleBuilder.() -> Unit) {
@@ -56,6 +64,7 @@ class ButtonStyleBuilder internal constructor() : ComponentStyleBuilder<ButtonSt
         this += other.commonStyle
         content += other.contentStyle
         pressedStyleBuilder += other.pressedStyle
+        hoveredStyleBuilder += other.hoveredStyle
         disabledStyleBuilder += other.disabledStyle
     }
 
@@ -64,6 +73,7 @@ class ButtonStyleBuilder internal constructor() : ComponentStyleBuilder<ButtonSt
         commonStyle = buildCommonStyle(),
         contentStyle = content.build(),
         pressedStyle = pressedStyleBuilder.build(),
+        hoveredStyle = hoveredStyleBuilder.build(),
         disabledStyle = disabledStyleBuilder.build(),
     )
 }
