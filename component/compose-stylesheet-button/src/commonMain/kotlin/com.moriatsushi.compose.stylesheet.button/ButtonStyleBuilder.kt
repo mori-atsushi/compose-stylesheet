@@ -10,11 +10,6 @@ import com.moriatsushi.compose.stylesheet.indication.IndicationSetter
  */
 @StyleSheetBuilderMarker
 class ButtonStyleBuilder internal constructor() : ComponentStyleBuilder<ButtonStyle>() {
-    private val pressedStyleBuilder = ButtonStateStyleBuilder()
-    private val hoveredStyleBuilder = ButtonStateStyleBuilder()
-    private val focusedStyleBuilder = ButtonStateStyleBuilder()
-    private val disabledStyleBuilder = ButtonStateStyleBuilder()
-
     /**
      * A layout of the button.
      */
@@ -45,42 +40,34 @@ class ButtonStyleBuilder internal constructor() : ComponentStyleBuilder<ButtonSt
     val content: ContentStyleBuilder = ContentStyleBuilder()
 
     /**
-     * Defines pressed styles.
+     * A pressed style.
      */
-    fun pressed(builder: ButtonStateStyleBuilder.() -> Unit) {
-        pressedStyleBuilder.builder()
-    }
+    val pressed = ButtonStateStyleBuilder()
 
     /**
-     * Defines hovered styles.
+     * A hovered style.
      */
-    fun hovered(builder: ButtonStateStyleBuilder.() -> Unit) {
-        hoveredStyleBuilder.builder()
-    }
+    val hovered = ButtonStateStyleBuilder()
 
     /**
-     * Defines focused styles.
+     * A focused style.
      */
-    fun focused(builder: ButtonStateStyleBuilder.() -> Unit) {
-        focusedStyleBuilder.builder()
-    }
+    val focused = ButtonStateStyleBuilder()
 
     /**
-     * Defines disabled styles.
+     * A disabled style.
      */
-    fun disabled(builder: ButtonStateStyleBuilder.() -> Unit) {
-        disabledStyleBuilder.builder()
-    }
+    val disabled = ButtonStateStyleBuilder()
 
     override fun plusAssign(other: ButtonStyle) {
         layout += other.layout
         indication += other.indication
         this += other.commonStyle
         content += other.contentStyle
-        pressedStyleBuilder += other.pressedStyle
-        hoveredStyleBuilder += other.hoveredStyle
-        focusedStyleBuilder += other.focusedStyle
-        disabledStyleBuilder += other.disabledStyle
+        pressed += other.pressedStyle
+        hovered += other.hoveredStyle
+        focused += other.focusedStyle
+        disabled += other.disabledStyle
     }
 
     override fun build(): ButtonStyle = ButtonStyle(
@@ -88,9 +75,9 @@ class ButtonStyleBuilder internal constructor() : ComponentStyleBuilder<ButtonSt
         indication = indication.value,
         commonStyle = buildCommonStyle(),
         contentStyle = content.build(),
-        pressedStyle = pressedStyleBuilder.build(),
-        hoveredStyle = hoveredStyleBuilder.build(),
-        focusedStyle = focusedStyleBuilder.build(),
-        disabledStyle = disabledStyleBuilder.build(),
+        pressedStyle = pressed.build(),
+        hoveredStyle = hovered.build(),
+        focusedStyle = focused.build(),
+        disabledStyle = disabled.build(),
     )
 }

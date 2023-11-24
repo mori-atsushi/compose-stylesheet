@@ -19,6 +19,10 @@ class ButtonStateStyleBuilder internal constructor() : ComponentStyleBuilder<But
         content += other.contentStyle
     }
 
+    operator fun invoke(builder: ButtonStateStyleBuilder.() -> Unit) {
+        builder()
+    }
+
     override fun build(): ButtonStateStyle = ButtonStateStyle(
         commonStyle = buildCommonStyle(),
         contentStyle = content.build(),

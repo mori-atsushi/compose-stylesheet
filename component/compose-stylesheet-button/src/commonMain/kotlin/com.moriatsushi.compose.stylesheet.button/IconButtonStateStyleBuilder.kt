@@ -27,6 +27,10 @@ class IconButtonStateStyleBuilder internal constructor() :
         this += iconButtonStyle.commonStyle
     }
 
+    operator fun invoke(builder: IconButtonStateStyleBuilder.() -> Unit) {
+        builder()
+    }
+
     override fun build(): IconButtonStateStyle = IconButtonStateStyle(
         color = color.token,
         commonStyle = buildCommonStyle(),
