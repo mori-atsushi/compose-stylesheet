@@ -19,7 +19,7 @@ class IconButtonStyleBuilder internal constructor() : ComponentStyleBuilder<Icon
     /**
      * A color of the icon.
      */
-    private val color = TokenSetter<Color>()
+    val color = TokenSetter<Color>()
 
     /**
      * An indication representing visual effects that occur when certain interactions happen, such
