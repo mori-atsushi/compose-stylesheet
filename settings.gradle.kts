@@ -17,6 +17,7 @@ rootProject.name = "compose-style-sheet"
 include(":compose-stylesheet")
 include(":compose-stylesheet-core")
 include(":compose-stylesheet-theme")
+include(":component:compose-stylesheet-appbar")
 include(":component:compose-stylesheet-button")
 include(":component:compose-stylesheet-icon")
 include(":component:compose-stylesheet-surface")

@@ -19,14 +19,8 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation(compose.runtime)
-                api(project(":compose-stylesheet-core"))
-                api(project(":compose-stylesheet-theme"))
-                api(project(":component:compose-stylesheet-appbar"))
-                api(project(":component:compose-stylesheet-button"))
-                api(project(":component:compose-stylesheet-icon"))
-                api(project(":component:compose-stylesheet-surface"))
-                api(project(":component:compose-stylesheet-text"))
+                implementation(compose.foundation)
+                implementation(project(":compose-stylesheet-core"))
             }
         }
 
@@ -35,11 +29,17 @@ kotlin {
                 implementation(kotlin("test"))
             }
         }
+
+        all {
+            languageSettings.optIn(
+                "com.moriatsushi.compose.stylesheet.component.StyleSheetComponentApi",
+            )
+        }
     }
 }
 
 android {
-    namespace = "com.moriatsushi.compose.stylesheet"
+    namespace = "com.moriatsushi.compose.stylesheet.appbar"
     compileSdk = 34
     defaultConfig {
         minSdk = 21
