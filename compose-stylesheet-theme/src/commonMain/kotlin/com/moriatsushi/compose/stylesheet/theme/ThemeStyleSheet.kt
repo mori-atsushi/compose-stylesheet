@@ -25,6 +25,9 @@ fun themeStyleSheet(
         Colors.semantic.inverseSurfacePressed += if (useDarkMode) Colors.gray300 else Colors.gray600
         Colors.semantic.onInverseSurface += if (useDarkMode) Colors.gray900 else Colors.white
 
+        Colors.semantic.disabledSurface += if (useDarkMode) Colors.gray700 else Colors.gray100
+        Colors.semantic.onDisabledSurface += if (useDarkMode) Colors.gray500 else Colors.gray300
+
         content {
             color += Colors.semantic.onBackground
         }
