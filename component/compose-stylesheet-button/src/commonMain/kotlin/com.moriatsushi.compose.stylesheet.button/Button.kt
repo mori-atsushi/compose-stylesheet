@@ -43,6 +43,8 @@ fun Button(
     val mergedStyle = ButtonStyle {
         this += localStyle
         this += buttonStyle
+
+        this.iconPosition += iconPosition
     }
     val isPressed by interactionSource.collectIsPressedAsState()
     val isHovered by interactionSource.collectIsHoveredAsState()
@@ -67,7 +69,7 @@ fun Button(
             .componentPadding(stateStyle.commonStyle.padding),
         contentStyle = stateStyle.contentStyle,
         icon = icon,
-        iconPosition = iconPosition,
+        iconPosition = mergedStyle.iconPosition ?: ButtonIconPosition.Start,
         content = content,
     )
 }

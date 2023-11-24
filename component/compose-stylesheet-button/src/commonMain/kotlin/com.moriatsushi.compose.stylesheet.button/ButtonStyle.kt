@@ -11,6 +11,7 @@ import com.moriatsushi.compose.stylesheet.indication.IndicationStyle
  */
 @Immutable
 sealed interface ButtonStyle : ComponentStyle {
+    val iconPosition: ButtonIconPosition?
     val indication: IndicationStyle?
     val contentStyle: ContentStyle
     val pressedStyle: ButtonStateStyle
@@ -33,6 +34,7 @@ fun ButtonStyle(builder: ButtonStyleBuilder.() -> Unit): ButtonStyle =
     ButtonStyleBuilder().apply(builder).build()
 
 internal fun ButtonStyle(
+    iconPosition: ButtonIconPosition? = null,
     indication: IndicationStyle? = null,
     commonStyle: ComponentCommonStyle = ComponentCommonStyle.Default,
     contentStyle: ContentStyle = ContentStyle.Default,
@@ -41,6 +43,7 @@ internal fun ButtonStyle(
     focusedStyle: ButtonStateStyle = ButtonStateStyle.Default,
     disabledStyle: ButtonStateStyle = ButtonStateStyle.Default,
 ): ButtonStyle = ButtonStyleImpl(
+    iconPosition = iconPosition,
     indication = indication,
     commonStyle = commonStyle,
     contentStyle = contentStyle,
@@ -81,6 +84,7 @@ internal fun ButtonStyle.getStyleForState(
 
 @Immutable
 private data class ButtonStyleImpl(
+    override val iconPosition: ButtonIconPosition?,
     override val indication: IndicationStyle?,
     override val commonStyle: ComponentCommonStyle,
     override val contentStyle: ContentStyle,
