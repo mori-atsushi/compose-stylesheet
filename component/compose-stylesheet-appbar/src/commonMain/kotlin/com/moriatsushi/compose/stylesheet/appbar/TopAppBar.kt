@@ -3,6 +3,12 @@ package com.moriatsushi.compose.stylesheet.appbar
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.WindowInsetsSides
+import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.only
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -25,6 +31,7 @@ fun TopAppBar(
     actions: (@Composable RowScope.() -> Unit)? = null,
     tags: TagModifier<TopAppBarStyle> = TagModifier(),
     topAppBarStyle: TopAppBarStyle = TopAppBarStyle.Default,
+    windowInsets: WindowInsets = topAppBarWindowInsets,
 ) {
     val localStyle = StyleSheet.getStyle(topAppBar, tags)
     val mergedStyle = TopAppBarStyle {
@@ -32,7 +39,9 @@ fun TopAppBar(
         this += topAppBarStyle
     }
     Row(
-        modifier = modifier.componentCommonStyle(mergedStyle.commonStyle),
+        modifier = modifier
+            .componentCommonStyle(mergedStyle.commonStyle)
+            .padding(windowInsets.asPaddingValues()),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         ProvideContentStyle(mergedStyle.contentStyle) {
@@ -75,6 +84,11 @@ private fun HorizontalSpacer(width: Dp?) {
         Spacer(modifier = Modifier.width(width))
     }
 }
+
+private val topAppBarWindowInsets: WindowInsets
+    @Composable
+    get() = WindowInsets.systemBars
+        .only(WindowInsetsSides.Horizontal + WindowInsetsSides.Top)
 
 /**
  * An object for [TopAppBar].
