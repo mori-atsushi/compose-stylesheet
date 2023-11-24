@@ -6,10 +6,13 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Rocket
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.moriatsushi.compose.stylesheet.button.Button
+import com.moriatsushi.compose.stylesheet.icon.Icon
 import com.moriatsushi.compose.stylesheet.surface.Surface
 import com.moriatsushi.compose.stylesheet.text.Text
 import com.moriatsushi.compose.stylesheet.theme.surface.background
@@ -38,7 +41,12 @@ fun SampleScreen(
                 tags = TextTags.secondary,
             )
             Spacer(modifier = Modifier.height(32.dp))
-            Button(onClick = {}) { Text(text = "Start!") }
+            Button(
+                onClick = {},
+                icon = { Icon(Icons.Default.Rocket, null) },
+            ) {
+                Text(text = "Start!")
+            }
         }
     }
 }

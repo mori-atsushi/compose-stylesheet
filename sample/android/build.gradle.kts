@@ -11,6 +11,7 @@ kotlin {
         val androidMain by getting {
             dependencies {
                 implementation(compose.foundation)
+                implementation(compose.materialIconsExtended)
                 implementation(libs.androidx.appcompat)
                 implementation(libs.androidx.activity.compose)
 

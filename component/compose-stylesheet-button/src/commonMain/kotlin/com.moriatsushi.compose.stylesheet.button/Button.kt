@@ -8,6 +8,8 @@ import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -20,8 +22,10 @@ import com.moriatsushi.compose.stylesheet.StyleSheet
 import com.moriatsushi.compose.stylesheet.component.Component
 import com.moriatsushi.compose.stylesheet.component.componentCommonStyle
 import com.moriatsushi.compose.stylesheet.component.padding.componentPadding
+import com.moriatsushi.compose.stylesheet.content.ContentStyle
 import com.moriatsushi.compose.stylesheet.content.ProvideContentStyle
 import com.moriatsushi.compose.stylesheet.tag.TagModifier
+import com.moriatsushi.compose.stylesheet.token.value
 
 /**
  * A button component.
@@ -32,14 +36,18 @@ fun Button(
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
     tags: TagModifier<ButtonStyle> = TagModifier(),
-    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
+    iconPosition: ButtonIconPosition? = null,
     buttonStyle: ButtonStyle = ButtonStyle.Default,
+    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
+    icon: @Composable (() -> Unit)? = null,
     content: @Composable RowScope.() -> Unit,
 ) {
     val localStyle = StyleSheet.getStyle(button, tags)
     val mergedStyle = ButtonStyle {
         this += localStyle
         this += buttonStyle
+
+        layout.iconPosition += iconPosition
     }
     val isPressed by interactionSource.collectIsPressedAsState()
     val isHovered by interactionSource.collectIsHoveredAsState()
@@ -51,7 +59,7 @@ fun Button(
         isFocused = isFocused,
     )
 
-    Row(
+    ButtonContent(
         modifier = modifier
             .semantics { role = Role.Button }
             .componentCommonStyle(stateStyle.commonStyle, includePadding = false)
@@ -62,11 +70,57 @@ fun Button(
                 enabled = enabled,
             )
             .componentPadding(stateStyle.commonStyle.padding),
+        contentStyle = stateStyle.contentStyle,
+        icon = icon,
+        layout = mergedStyle.layout,
+        content = content,
+    )
+}
+
+@Composable
+private fun ButtonContent(
+    contentStyle: ContentStyle,
+    modifier: Modifier = Modifier,
+    icon: @Composable (() -> Unit)? = null,
+    layout: ButtonLayout = ButtonLayout.Default,
+    content: @Composable RowScope.() -> Unit,
+) {
+    Row(
+        modifier = modifier,
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        ProvideContentStyle(contentStyle = stateStyle.contentStyle) {
+        val iconPosition = layout.iconPosition ?: ButtonIconPosition.Start
+        val spaceBetweenIconAndContainer = layout.spaceBetweenIconAndContainer?.value
+        val spaceBetweenIconAndContent = layout.spaceBetweenIconAndContent?.value
+        val spaceBetweenContentAndContainer = layout.spaceBetweenContentAndContainer?.value
+
+        ProvideContentStyle(contentStyle = contentStyle) {
+            if (icon != null && iconPosition == ButtonIconPosition.Start) {
+                if (spaceBetweenIconAndContainer != null) {
+                    Spacer(modifier = Modifier.width(spaceBetweenIconAndContainer))
+                }
+                icon()
+                if (spaceBetweenIconAndContent != null) {
+                    Spacer(modifier = Modifier.width(spaceBetweenIconAndContent))
+                }
+            } else if (spaceBetweenContentAndContainer != null) {
+                Spacer(modifier = Modifier.width(spaceBetweenContentAndContainer))
+            }
+
             content()
+
+            if (icon != null && iconPosition == ButtonIconPosition.End) {
+                if (spaceBetweenIconAndContent != null) {
+                    Spacer(modifier = Modifier.width(spaceBetweenIconAndContent))
+                }
+                icon()
+                if (spaceBetweenIconAndContainer != null) {
+                    Spacer(modifier = Modifier.width(spaceBetweenIconAndContainer))
+                }
+            } else if (spaceBetweenContentAndContainer != null) {
+                Spacer(modifier = Modifier.width(spaceBetweenContentAndContainer))
+            }
         }
     }
 }

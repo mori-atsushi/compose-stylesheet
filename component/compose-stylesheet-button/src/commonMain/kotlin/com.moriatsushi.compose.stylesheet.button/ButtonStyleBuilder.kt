@@ -16,6 +16,18 @@ class ButtonStyleBuilder internal constructor() : ComponentStyleBuilder<ButtonSt
     private val disabledStyleBuilder = ButtonStateStyleBuilder()
 
     /**
+     * A layout of the button.
+     */
+    val layout: ButtonLayoutBuilder = ButtonLayoutBuilder()
+
+    /**
+     * Defines a layout of the button.
+     */
+    fun layout(builder: ButtonLayoutBuilder.() -> Unit) {
+        layout.builder()
+    }
+
+    /**
      * An indication representing visual effects that occur when certain interactions happen, such
      * as pressing.
      *
@@ -68,6 +80,7 @@ class ButtonStyleBuilder internal constructor() : ComponentStyleBuilder<ButtonSt
     }
 
     override fun plusAssign(other: ButtonStyle) {
+        layout += other.layout
         indication += other.indication
         this += other.commonStyle
         content += other.contentStyle
@@ -78,6 +91,7 @@ class ButtonStyleBuilder internal constructor() : ComponentStyleBuilder<ButtonSt
     }
 
     override fun build(): ButtonStyle = ButtonStyle(
+        layout = layout.build(),
         indication = indication.value,
         commonStyle = buildCommonStyle(),
         contentStyle = content.build(),
