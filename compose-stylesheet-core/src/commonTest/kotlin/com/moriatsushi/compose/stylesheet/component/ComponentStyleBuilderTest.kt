@@ -27,6 +27,7 @@ class ComponentStyleBuilderTest {
             background += Color.Green
             shape += RoundedCornerShape(10.dp)
             border += BorderStroke(1.dp, Color.Black)
+            outline += BorderStroke(2.dp, Color.Red)
         }
         assertEquals(expected, mergedStyle)
     }
@@ -47,6 +48,7 @@ class ComponentStyleBuilderTest {
             background += Color.Red
             shape += CircleShape
             border += BorderStroke(1.dp, Color.Black)
+            outline += BorderStroke(2.dp, Color.Red)
         }
     }
 }
