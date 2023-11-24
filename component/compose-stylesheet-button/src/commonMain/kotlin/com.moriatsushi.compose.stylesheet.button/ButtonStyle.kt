@@ -15,6 +15,7 @@ sealed interface ButtonStyle : ComponentStyle {
     val contentStyle: ContentStyle
     val pressedStyle: ButtonStateStyle
     val hoveredStyle: ButtonStateStyle
+    val focusedStyle: ButtonStateStyle
     val disabledStyle: ButtonStateStyle
 
     companion object {
@@ -37,6 +38,7 @@ internal fun ButtonStyle(
     contentStyle: ContentStyle = ContentStyle.Default,
     pressedStyle: ButtonStateStyle = ButtonStateStyle.Default,
     hoveredStyle: ButtonStateStyle = ButtonStateStyle.Default,
+    focusedStyle: ButtonStateStyle = ButtonStateStyle.Default,
     disabledStyle: ButtonStateStyle = ButtonStateStyle.Default,
 ): ButtonStyle = ButtonStyleImpl(
     indication = indication,
@@ -44,12 +46,14 @@ internal fun ButtonStyle(
     contentStyle = contentStyle,
     pressedStyle = pressedStyle,
     hoveredStyle = hoveredStyle,
+    focusedStyle = focusedStyle,
     disabledStyle = disabledStyle,
 )
 
 internal fun ButtonStyle.getStyleForState(
     isPressed: Boolean,
     isHovered: Boolean,
+    isFocused: Boolean,
     isEnabled: Boolean,
 ): ButtonStateStyle {
     val buttonStyle = this
@@ -61,6 +65,7 @@ internal fun ButtonStyle.getStyleForState(
             !isEnabled -> buttonStyle.disabledStyle
             isPressed -> buttonStyle.pressedStyle
             isHovered -> buttonStyle.hoveredStyle
+            isFocused -> buttonStyle.focusedStyle
             else -> ButtonStateStyle.Default
         }
     }
@@ -73,5 +78,6 @@ private data class ButtonStyleImpl(
     override val contentStyle: ContentStyle,
     override val pressedStyle: ButtonStateStyle,
     override val hoveredStyle: ButtonStateStyle,
+    override val focusedStyle: ButtonStateStyle,
     override val disabledStyle: ButtonStateStyle,
 ) : ButtonStyle

@@ -12,6 +12,7 @@ import com.moriatsushi.compose.stylesheet.indication.IndicationSetter
 class ButtonStyleBuilder internal constructor() : ComponentStyleBuilder<ButtonStyle>() {
     private val pressedStyleBuilder = ButtonStateStyleBuilder()
     private val hoveredStyleBuilder = ButtonStateStyleBuilder()
+    private val focusedStyleBuilder = ButtonStateStyleBuilder()
     private val disabledStyleBuilder = ButtonStateStyleBuilder()
 
     /**
@@ -53,6 +54,13 @@ class ButtonStyleBuilder internal constructor() : ComponentStyleBuilder<ButtonSt
     }
 
     /**
+     * Defines focused styles.
+     */
+    fun focused(builder: ButtonStateStyleBuilder.() -> Unit) {
+        focusedStyleBuilder.builder()
+    }
+
+    /**
      * Defines disabled styles.
      */
     fun disabled(builder: ButtonStateStyleBuilder.() -> Unit) {
@@ -65,6 +73,7 @@ class ButtonStyleBuilder internal constructor() : ComponentStyleBuilder<ButtonSt
         content += other.contentStyle
         pressedStyleBuilder += other.pressedStyle
         hoveredStyleBuilder += other.hoveredStyle
+        focusedStyleBuilder += other.focusedStyle
         disabledStyleBuilder += other.disabledStyle
     }
 
@@ -74,6 +83,7 @@ class ButtonStyleBuilder internal constructor() : ComponentStyleBuilder<ButtonSt
         contentStyle = content.build(),
         pressedStyle = pressedStyleBuilder.build(),
         hoveredStyle = hoveredStyleBuilder.build(),
+        focusedStyle = focusedStyleBuilder.build(),
         disabledStyle = disabledStyleBuilder.build(),
     )
 }

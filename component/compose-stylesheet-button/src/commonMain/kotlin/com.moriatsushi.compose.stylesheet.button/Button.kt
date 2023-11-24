@@ -2,6 +2,7 @@ package com.moriatsushi.compose.stylesheet.button
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsFocusedAsState
 import androidx.compose.foundation.interaction.collectIsHoveredAsState
 import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Arrangement
@@ -42,9 +43,11 @@ fun Button(
     }
     val isPressed by interactionSource.collectIsPressedAsState()
     val isHovered by interactionSource.collectIsHoveredAsState()
+    val isFocused by interactionSource.collectIsFocusedAsState()
     val stateStyle = mergedStyle.getStyleForState(
         isPressed = isPressed,
         isHovered = isHovered,
+        isFocused = isFocused,
         isEnabled = enabled,
     )
 

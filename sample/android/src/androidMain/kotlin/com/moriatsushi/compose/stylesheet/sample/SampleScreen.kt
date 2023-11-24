@@ -38,7 +38,7 @@ fun SampleScreen(
                 tags = TextTags.secondary,
             )
             Spacer(modifier = Modifier.height(32.dp))
-            Button(onClick = {}, enabled = false) { Text(text = "Start!") }
+            Button(onClick = {}) { Text(text = "Start!") }
         }
     }
 }
