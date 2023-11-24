@@ -11,6 +11,9 @@ import com.moriatsushi.compose.stylesheet.indication.IndicationSetter
 @StyleSheetBuilderMarker
 class ButtonStyleBuilder internal constructor() : ComponentStyleBuilder<ButtonStyle>() {
     private val pressedStyleBuilder = ButtonStateStyleBuilder()
+    private val hoveredStyleBuilder = ButtonStateStyleBuilder()
+    private val focusedStyleBuilder = ButtonStateStyleBuilder()
+    private val disabledStyleBuilder = ButtonStateStyleBuilder()
 
     /**
      * An indication representing visual effects that occur when certain interactions happen, such
@@ -43,11 +46,35 @@ class ButtonStyleBuilder internal constructor() : ComponentStyleBuilder<ButtonSt
         pressedStyleBuilder.builder()
     }
 
+    /**
+     * Defines hovered styles.
+     */
+    fun hovered(builder: ButtonStateStyleBuilder.() -> Unit) {
+        hoveredStyleBuilder.builder()
+    }
+
+    /**
+     * Defines focused styles.
+     */
+    fun focused(builder: ButtonStateStyleBuilder.() -> Unit) {
+        focusedStyleBuilder.builder()
+    }
+
+    /**
+     * Defines disabled styles.
+     */
+    fun disabled(builder: ButtonStateStyleBuilder.() -> Unit) {
+        disabledStyleBuilder.builder()
+    }
+
     override fun plusAssign(other: ButtonStyle) {
         indication += other.indication
         this += other.commonStyle
         content += other.contentStyle
         pressedStyleBuilder += other.pressedStyle
+        hoveredStyleBuilder += other.hoveredStyle
+        focusedStyleBuilder += other.focusedStyle
+        disabledStyleBuilder += other.disabledStyle
     }
 
     override fun build(): ButtonStyle = ButtonStyle(
@@ -55,5 +82,8 @@ class ButtonStyleBuilder internal constructor() : ComponentStyleBuilder<ButtonSt
         commonStyle = buildCommonStyle(),
         contentStyle = content.build(),
         pressedStyle = pressedStyleBuilder.build(),
+        hoveredStyle = hoveredStyleBuilder.build(),
+        focusedStyle = focusedStyleBuilder.build(),
+        disabledStyle = disabledStyleBuilder.build(),
     )
 }

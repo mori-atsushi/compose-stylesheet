@@ -2,6 +2,8 @@ package com.moriatsushi.compose.stylesheet.button
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsFocusedAsState
+import androidx.compose.foundation.interaction.collectIsHoveredAsState
 import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -28,6 +30,7 @@ import com.moriatsushi.compose.stylesheet.tag.TagModifier
 fun Button(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
+    enabled: Boolean = true,
     tags: TagModifier<ButtonStyle> = TagModifier(),
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     buttonStyle: ButtonStyle = ButtonStyle.Default,
@@ -39,7 +42,14 @@ fun Button(
         this += buttonStyle
     }
     val isPressed by interactionSource.collectIsPressedAsState()
-    val stateStyle = mergedStyle.getStyleForState(isPressed = isPressed)
+    val isHovered by interactionSource.collectIsHoveredAsState()
+    val isFocused by interactionSource.collectIsFocusedAsState()
+    val stateStyle = mergedStyle.getStyleForState(
+        isEnabled = enabled,
+        isPressed = isPressed,
+        isHovered = isHovered,
+        isFocused = isFocused,
+    )
 
     Row(
         modifier = modifier
@@ -49,6 +59,7 @@ fun Button(
                 interactionSource = interactionSource,
                 indication = mergedStyle.indication?.value,
                 onClick = onClick,
+                enabled = enabled,
             )
             .componentPadding(stateStyle.commonStyle.padding),
         horizontalArrangement = Arrangement.Center,

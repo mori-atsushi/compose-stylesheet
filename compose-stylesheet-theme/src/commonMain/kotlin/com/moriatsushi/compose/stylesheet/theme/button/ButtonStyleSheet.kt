@@ -23,5 +23,10 @@ internal val buttonStyleSheet = StyleSheet {
         pressed {
             background += Colors.semantic.inverseSurfacePressed
         }
+
+        disabled {
+            background += Colors.semantic.disabledSurface
+            content.color += Colors.semantic.onDisabledSurface
+        }
     }
 }
