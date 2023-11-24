@@ -16,13 +16,6 @@ class ButtonStyleBuilder internal constructor() : ComponentStyleBuilder<ButtonSt
     val layout: ButtonLayoutBuilder = ButtonLayoutBuilder()
 
     /**
-     * Defines a layout of the button.
-     */
-    fun layout(builder: ButtonLayoutBuilder.() -> Unit) {
-        layout.builder()
-    }
-
-    /**
      * An indication representing visual effects that occur when certain interactions happen, such
      * as pressing.
      *
