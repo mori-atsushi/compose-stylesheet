@@ -184,6 +184,7 @@ abstract class ComponentStyleBuilder<T : ComponentStyle> : StyleBuilder<T> {
      * border += BorderStyle(dpToken, colorToken)
      * border += BorderStroke(1.dp, Color.Black)
      * border += borderStyleToken // Token<BorderStyle?>
+     * border += BorderStyle.Unspecified // Clear border
      * ```
      */
     val border: BorderSetter = BorderSetter()

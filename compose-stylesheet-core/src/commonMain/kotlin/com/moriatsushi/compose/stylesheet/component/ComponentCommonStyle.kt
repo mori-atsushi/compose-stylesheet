@@ -29,7 +29,7 @@ data class ComponentCommonStyle internal constructor(
     val padding: ComponentPadding? = null,
     internal val background: Token<Color>? = null,
     internal val shape: Token<Shape?>? = null,
-    internal val border: Token<BorderStyle?>? = null,
+    internal val border: Token<BorderStyle>? = null,
 ) {
     companion object {
         /**

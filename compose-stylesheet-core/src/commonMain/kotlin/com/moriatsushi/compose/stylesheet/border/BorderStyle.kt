@@ -15,14 +15,23 @@ import com.moriatsushi.compose.stylesheet.token.value
 sealed interface BorderStyle {
     val width: Token<Dp>
     val brush: Token<BrushStyle>
+
+    companion object {
+        val Unspecified: BorderStyle = BorderStyle(
+            width = Dp.Unspecified,
+            color = Color.Unspecified,
+        )
+    }
 }
 
 @Composable
 @StyleSheetComponentApi
-fun BorderStyle.asBorderStroke(): BorderStroke = BorderStroke(
-    width = width.value,
-    brush = brush.value.asBrush(),
-)
+fun BorderStyle.asBorderStroke(): BorderStroke? =
+    if (this != BorderStyle.Unspecified) {
+        BorderStroke(width = width.value, brush = brush.value.asBrush())
+    } else {
+        null
+    }
 
 fun BorderStyle(width: Token<Dp>, brush: Token<BrushStyle>): BorderStyle =
     BorderStyleImpl(width = width, brush = brush)

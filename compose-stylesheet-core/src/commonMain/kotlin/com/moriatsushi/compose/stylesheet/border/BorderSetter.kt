@@ -6,10 +6,10 @@ import com.moriatsushi.compose.stylesheet.token.Token
 
 class BorderSetter @StyleSheetComponentApi constructor() {
     @StyleSheetComponentApi
-    var token: Token<BorderStyle?>? = null
+    var token: Token<BorderStyle>? = null
         internal set
 
-    operator fun plusAssign(token: Token<BorderStyle?>?) {
+    operator fun plusAssign(token: Token<BorderStyle>?) {
         if (token != null) {
             this.token = token
         }
