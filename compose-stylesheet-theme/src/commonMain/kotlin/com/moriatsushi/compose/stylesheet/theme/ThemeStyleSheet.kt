@@ -5,6 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import com.moriatsushi.compose.stylesheet.StyleSheet
 import com.moriatsushi.compose.stylesheet.theme.button.buttonStyleSheet
+import com.moriatsushi.compose.stylesheet.theme.button.iconButtonStyleSheet
 import com.moriatsushi.compose.stylesheet.theme.surface.surfaceStyleSheet
 
 /**
@@ -19,6 +20,10 @@ fun themeStyleSheet(
     StyleSheet {
         Colors.semantic.background += if (useDarkMode) Colors.gray900 else Colors.white
         Colors.semantic.onBackground += if (useDarkMode) Colors.white else Colors.gray900
+        Colors.semantic.onBackgroundPressed += if (useDarkMode) Colors.gray300 else Colors.gray500
+        Colors.semantic.onBackgroundHovered += if (useDarkMode) Colors.gray100 else Colors.gray700
+        Colors.semantic.onBackgroundDisabled += if (useDarkMode) Colors.gray500 else Colors.gray300
+
         Colors.semantic.primarySurface += if (useDarkMode) Colors.gray800 else Colors.gray100
         Colors.semantic.onPrimarySurface += Colors.semantic.onBackground
         Colors.semantic.inverseSurface += if (useDarkMode) Colors.white else Colors.gray900
@@ -36,6 +41,7 @@ fun themeStyleSheet(
         }
 
         this += buttonStyleSheet
+        this += iconButtonStyleSheet
         this += surfaceStyleSheet
     }
 }
