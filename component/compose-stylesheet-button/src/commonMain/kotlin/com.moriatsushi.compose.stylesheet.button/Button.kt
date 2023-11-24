@@ -20,6 +20,7 @@ import com.moriatsushi.compose.stylesheet.StyleSheet
 import com.moriatsushi.compose.stylesheet.component.Component
 import com.moriatsushi.compose.stylesheet.component.componentCommonStyle
 import com.moriatsushi.compose.stylesheet.component.padding.componentPadding
+import com.moriatsushi.compose.stylesheet.content.ContentStyle
 import com.moriatsushi.compose.stylesheet.content.ProvideContentStyle
 import com.moriatsushi.compose.stylesheet.tag.TagModifier
 
@@ -32,8 +33,10 @@ fun Button(
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
     tags: TagModifier<ButtonStyle> = TagModifier(),
-    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
+    iconPosition: ButtonIconPosition = ButtonIconPosition.Start,
     buttonStyle: ButtonStyle = ButtonStyle.Default,
+    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
+    icon: @Composable (() -> Unit)? = null,
     content: @Composable RowScope.() -> Unit,
 ) {
     val localStyle = StyleSheet.getStyle(button, tags)
@@ -51,7 +54,7 @@ fun Button(
         isFocused = isFocused,
     )
 
-    Row(
+    ButtonContent(
         modifier = modifier
             .semantics { role = Role.Button }
             .componentCommonStyle(stateStyle.commonStyle, includePadding = false)
@@ -62,11 +65,34 @@ fun Button(
                 enabled = enabled,
             )
             .componentPadding(stateStyle.commonStyle.padding),
+        contentStyle = stateStyle.contentStyle,
+        icon = icon,
+        iconPosition = iconPosition,
+        content = content,
+    )
+}
+
+@Composable
+private fun ButtonContent(
+    contentStyle: ContentStyle,
+    modifier: Modifier = Modifier,
+    icon: @Composable (() -> Unit)? = null,
+    iconPosition: ButtonIconPosition = ButtonIconPosition.Start,
+    content: @Composable RowScope.() -> Unit,
+) {
+    Row(
+        modifier = modifier,
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        ProvideContentStyle(contentStyle = stateStyle.contentStyle) {
+        ProvideContentStyle(contentStyle = contentStyle) {
+            if (icon != null && iconPosition == ButtonIconPosition.Start) {
+                icon()
+            }
             content()
+            if (icon != null && iconPosition == ButtonIconPosition.End) {
+                icon()
+            }
         }
     }
 }
