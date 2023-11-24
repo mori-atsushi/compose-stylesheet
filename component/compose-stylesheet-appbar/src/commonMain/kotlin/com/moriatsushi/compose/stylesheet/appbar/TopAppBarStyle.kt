@@ -10,6 +10,7 @@ import com.moriatsushi.compose.stylesheet.content.ContentStyle
  */
 @Immutable
 sealed interface TopAppBarStyle : ComponentStyle {
+    val layout: TopAppBarLayout
     val contentStyle: ContentStyle
 
     companion object {
@@ -27,14 +28,17 @@ fun TopAppBarStyle(builder: TopAppBarStyleBuilder.() -> Unit): TopAppBarStyle =
     TopAppBarStyleBuilder().apply(builder).build()
 
 internal fun TopAppBarStyle(
+    layout: TopAppBarLayout = TopAppBarLayout.Default,
     commonStyle: ComponentCommonStyle = ComponentCommonStyle.Default,
     contentStyle: ContentStyle = ContentStyle.Default,
 ): TopAppBarStyle = TopAppBarStyleImpl(
+    layout = layout,
     commonStyle = commonStyle,
     contentStyle = contentStyle,
 )
 
 private data class TopAppBarStyleImpl(
+    override val layout: TopAppBarLayout,
     override val commonStyle: ComponentCommonStyle,
     override val contentStyle: ContentStyle,
 ) : TopAppBarStyle

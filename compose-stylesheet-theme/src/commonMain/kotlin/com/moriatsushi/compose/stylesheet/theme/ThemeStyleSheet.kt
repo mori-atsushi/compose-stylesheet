@@ -4,6 +4,7 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import com.moriatsushi.compose.stylesheet.StyleSheet
+import com.moriatsushi.compose.stylesheet.theme.appbar.topAppBarStyleSheet
 import com.moriatsushi.compose.stylesheet.theme.button.buttonStyleSheet
 import com.moriatsushi.compose.stylesheet.theme.button.iconButtonStyleSheet
 import com.moriatsushi.compose.stylesheet.theme.surface.surfaceStyleSheet
@@ -40,6 +41,7 @@ fun themeStyleSheet(
             color += Colors.semantic.onBackground
         }
 
+        this += topAppBarStyleSheet
         this += buttonStyleSheet
         this += iconButtonStyleSheet
         this += surfaceStyleSheet
