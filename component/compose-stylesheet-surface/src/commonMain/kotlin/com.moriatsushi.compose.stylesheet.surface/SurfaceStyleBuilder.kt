@@ -14,13 +14,6 @@ class SurfaceStyleBuilder internal constructor() : ComponentStyleBuilder<Surface
      */
     val content: ContentStyleBuilder = ContentStyleBuilder()
 
-    /**
-     * Defines content styles.
-     */
-    fun content(builder: ContentStyleBuilder.() -> Unit) {
-        content.builder()
-    }
-
     override fun plusAssign(other: SurfaceStyle) {
         this += other.commonStyle
         content += other.contentStyle

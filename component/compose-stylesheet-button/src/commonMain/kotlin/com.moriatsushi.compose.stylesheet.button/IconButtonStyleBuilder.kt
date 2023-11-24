@@ -11,11 +11,6 @@ import com.moriatsushi.compose.stylesheet.token.TokenSetter
  */
 @StyleSheetBuilderMarker
 class IconButtonStyleBuilder internal constructor() : ComponentStyleBuilder<IconButtonStyle>() {
-    private val pressedStyleBuilder = IconButtonStateStyleBuilder()
-    private val hoveredStyleBuilder = IconButtonStateStyleBuilder()
-    private val focusedStyleBuilder = IconButtonStateStyleBuilder()
-    private val disabledStyleBuilder = IconButtonStateStyleBuilder()
-
     /**
      * A color of the icon.
      */
@@ -34,50 +29,42 @@ class IconButtonStyleBuilder internal constructor() : ComponentStyleBuilder<Icon
     val indication: IndicationSetter = IndicationSetter()
 
     /**
-     * Defines pressed styles.
+     * A pressed style.
      */
-    fun pressed(builder: IconButtonStateStyleBuilder.() -> Unit) {
-        pressedStyleBuilder.builder()
-    }
+    val pressed = IconButtonStateStyleBuilder()
 
     /**
-     * Defines hovered styles.
+     * A hovered style.
      */
-    fun hovered(builder: IconButtonStateStyleBuilder.() -> Unit) {
-        hoveredStyleBuilder.builder()
-    }
+    val hovered = IconButtonStateStyleBuilder()
 
     /**
-     * Defines focused styles.
+     * A focused style.
      */
-    fun focused(builder: IconButtonStateStyleBuilder.() -> Unit) {
-        focusedStyleBuilder.builder()
-    }
+    val focused = IconButtonStateStyleBuilder()
 
     /**
-     * Defines disabled styles.
+     * A disabled style.
      */
-    fun disabled(builder: IconButtonStateStyleBuilder.() -> Unit) {
-        disabledStyleBuilder.builder()
-    }
+    val disabled = IconButtonStateStyleBuilder()
 
     override fun plusAssign(other: IconButtonStyle) {
         color += other.color
         indication += other.indication
         this += other.commonStyle
-        pressedStyleBuilder += other.pressedStyle
-        hoveredStyleBuilder += other.hoveredStyle
-        focusedStyleBuilder += other.focusedStyle
-        disabledStyleBuilder += other.disabledStyle
+        pressed += other.pressedStyle
+        hovered += other.hoveredStyle
+        focused += other.focusedStyle
+        disabled += other.disabledStyle
     }
 
     override fun build(): IconButtonStyle = IconButtonStyle(
         color = color.token,
         indication = indication.value,
         commonStyle = buildCommonStyle(),
-        pressedStyle = pressedStyleBuilder.build(),
-        hoveredStyle = hoveredStyleBuilder.build(),
-        focusedStyle = focusedStyleBuilder.build(),
-        disabledStyle = disabledStyleBuilder.build(),
+        pressedStyle = pressed.build(),
+        hoveredStyle = hovered.build(),
+        focusedStyle = focused.build(),
+        disabledStyle = disabled.build(),
     )
 }

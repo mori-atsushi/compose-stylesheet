@@ -14,16 +14,13 @@ class ButtonStateStyleBuilder internal constructor() : ComponentStyleBuilder<But
      */
     val content: ContentStyleBuilder = ContentStyleBuilder()
 
-    /**
-     * Defines content styles.
-     */
-    fun content(builder: ContentStyleBuilder.() -> Unit) {
-        content.builder()
-    }
-
     override fun plusAssign(other: ButtonStateStyle) {
         this += other.commonStyle
         content += other.contentStyle
+    }
+
+    operator fun invoke(builder: ButtonStateStyleBuilder.() -> Unit) {
+        builder()
     }
 
     override fun build(): ButtonStateStyle = ButtonStateStyle(
