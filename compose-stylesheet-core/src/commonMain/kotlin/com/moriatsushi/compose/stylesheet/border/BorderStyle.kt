@@ -3,8 +3,6 @@ package com.moriatsushi.compose.stylesheet.border
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import com.moriatsushi.compose.stylesheet.component.StyleSheetComponentApi
 import com.moriatsushi.compose.stylesheet.graphics.BrushStyle
@@ -17,10 +15,7 @@ sealed interface BorderStyle {
     val brush: Token<BrushStyle>
 
     companion object {
-        val Unspecified: BorderStyle = BorderStyle(
-            width = Dp.Unspecified,
-            color = Color.Unspecified,
-        )
+        val Unspecified: BorderStyle = BorderStyle()
     }
 }
 
@@ -33,17 +28,18 @@ fun BorderStyle.asBorderStroke(): BorderStroke? =
         null
     }
 
-fun BorderStyle(width: Dp, brush: BrushStyle): BorderStyle =
-    BorderStyleImpl(width = Token(width), brush = Token(brush))
+internal fun BorderStyle.copy(
+    width: Token<Dp> = this.width,
+    brush: Token<BrushStyle> = this.brush,
+): BorderStyle = BorderStyle(width = width, brush = brush)
 
-fun BorderStyle(width: Dp, brush: Brush): BorderStyle =
-    BorderStyle(width = width, brush = BrushStyle(brush))
+internal fun BorderStyle(
+    width: Token<Dp> = Token(Dp.Unspecified),
+    brush: Token<BrushStyle> = Token(BrushStyle.Unspecified),
+): BorderStyle = BorderStyleImpl(width = width, brush = brush)
 
-fun BorderStyle(width: Token<Dp>, color: Token<Color>): BorderStyle =
-    BorderStyleImpl(width = width, brush = Token(BrushStyle(color)))
-
-fun BorderStyle(width: Dp, color: Color): BorderStyle =
-    BorderStyle(width = Token(width), color = Token(color))
+internal fun BorderStyle(borderStroke: BorderStroke): BorderStyle =
+    BorderStyle(width = Token(borderStroke.width), brush = Token(BrushStyle(borderStroke.brush)))
 
 @Immutable
 private data class BorderStyleImpl(

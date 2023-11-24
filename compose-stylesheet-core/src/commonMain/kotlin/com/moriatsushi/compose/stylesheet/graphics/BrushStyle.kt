@@ -12,6 +12,10 @@ sealed interface BrushStyle {
     @StyleSheetComponentApi
     @Composable
     fun asBrush(): Brush
+
+    companion object {
+        val Unspecified: BrushStyle = BrushStyle(Color.Unspecified)
+    }
 }
 
 fun BrushStyle(color: Token<Color>): BrushStyle = SolidColorBrush(color = color)

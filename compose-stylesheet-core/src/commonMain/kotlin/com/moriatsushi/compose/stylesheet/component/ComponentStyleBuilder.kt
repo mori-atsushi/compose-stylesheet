@@ -180,11 +180,11 @@ abstract class ComponentStyleBuilder<T : ComponentStyle> : StyleBuilder<T> {
      *
      * Example:
      * ```
-     * border += BorderStyle(1.dp, Color.Black)
-     * border += BorderStyle(dpToken, colorToken)
      * border += BorderStroke(1.dp, Color.Black)
-     * border += borderStyleToken // Token<BorderStyle?>
      * border += BorderStyle.Unspecified // Clear border
+     * border.width += 1.dp
+     * border.color += Color.Black
+     * border.brush += Brush.horizontalGradient(listOf(Color.Red, Color.Blue))
      * ```
      */
     val border: BorderSetter = BorderSetter()
@@ -268,6 +268,6 @@ abstract class ComponentStyleBuilder<T : ComponentStyle> : StyleBuilder<T> {
         padding = padding.value,
         background = background.token,
         shape = shape.token,
-        border = border.token,
+        border = border.value,
     )
 }

@@ -29,7 +29,7 @@ data class ComponentCommonStyle internal constructor(
     val padding: ComponentPadding? = null,
     internal val background: Token<Color>? = null,
     internal val shape: Token<Shape?>? = null,
-    internal val border: Token<BorderStyle>? = null,
+    internal val border: BorderStyle? = null,
 ) {
     companion object {
         /**
@@ -53,7 +53,7 @@ fun Modifier.componentCommonStyle(
 ): Modifier {
     val shape = style.shape?.value ?: RectangleShape
 
-    val border = style.border?.value?.asBorderStroke()
+    val border = style.border?.asBorderStroke()
     val borderModifier = if (border != null) {
         Modifier.border(border, shape)
     } else {
