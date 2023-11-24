@@ -278,7 +278,7 @@ abstract class ComponentStyleBuilder<T : ComponentStyle> : StyleBuilder<T> {
     }
 
     @StyleSheetComponentApi
-    fun buildCommonStyle(): ComponentCommonStyle = ComponentCommonStyle(
+    protected fun buildCommonStyle(): ComponentCommonStyle = ComponentCommonStyle(
         size = _size,
         padding = padding.value,
         background = background.token,

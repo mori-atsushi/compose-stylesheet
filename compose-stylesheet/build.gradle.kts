@@ -22,6 +22,7 @@ kotlin {
                 implementation(compose.runtime)
                 api(project(":compose-stylesheet-core"))
                 api(project(":compose-stylesheet-theme"))
+                api(project(":component:compose-stylesheet-appbar"))
                 api(project(":component:compose-stylesheet-button"))
                 api(project(":component:compose-stylesheet-icon"))
                 api(project(":component:compose-stylesheet-surface"))
