@@ -17,6 +17,7 @@ import androidx.compose.ui.semantics.semantics
 import com.moriatsushi.compose.stylesheet.StyleSheet
 import com.moriatsushi.compose.stylesheet.component.Component
 import com.moriatsushi.compose.stylesheet.component.componentCommonStyle
+import com.moriatsushi.compose.stylesheet.component.padding.componentPadding
 import com.moriatsushi.compose.stylesheet.content.ProvideContentStyle
 import com.moriatsushi.compose.stylesheet.tag.TagModifier
 
@@ -43,12 +44,13 @@ fun Button(
     Row(
         modifier = modifier
             .semantics { role = Role.Button }
+            .componentCommonStyle(stateStyle.commonStyle, includePadding = false)
             .clickable(
                 interactionSource = interactionSource,
-                indication = null,
+                indication = mergedStyle.indication?.value,
                 onClick = onClick,
             )
-            .componentCommonStyle(stateStyle.commonStyle),
+            .componentPadding(stateStyle.commonStyle.padding),
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically,
     ) {
