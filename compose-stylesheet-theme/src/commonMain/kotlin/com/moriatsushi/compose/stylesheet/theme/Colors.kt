@@ -22,5 +22,16 @@ object Colors {
     val gray800 = Token("color.gray800", Color(0xFF1A1C1F))
     val gray900 = Token("color.gray900", Color(0xFF090A0C))
 
+    val blue50 = Token("color.blue50", Color(0xFFC5EDFF))
+    val blue100 = Token("color.blue100", Color(0xFFB6E3FF))
+    val blue200 = Token("color.blue200", Color(0xFF80CCFF))
+    val blue300 = Token("color.blue300", Color(0xFF54AEFF))
+    val blue400 = Token("color.blue400", Color(0xFF218BFF))
+    val blue500 = Token("color.blue500", Color(0xFF0969DA))
+    val blue600 = Token("color.blue600", Color(0xFF0550AE))
+    val blue700 = Token("color.blue700", Color(0xFF033D8B))
+    val blue800 = Token("color.blue800", Color(0xFF02306C))
+    val blue900 = Token("color.blue900", Color(0xFF002155))
+
     val semantic: SemanticColors = SemanticColors()
 }
