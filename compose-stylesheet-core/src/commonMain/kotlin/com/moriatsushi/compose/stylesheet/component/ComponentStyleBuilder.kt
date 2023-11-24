@@ -1,11 +1,11 @@
 package com.moriatsushi.compose.stylesheet.component
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.moriatsushi.compose.stylesheet.StyleBuilder
+import com.moriatsushi.compose.stylesheet.border.BorderStyle
 import com.moriatsushi.compose.stylesheet.component.padding.ComponentPadding
 import com.moriatsushi.compose.stylesheet.component.padding.PaddingSetter
 import com.moriatsushi.compose.stylesheet.component.size.ComponentFillSize
@@ -177,8 +177,14 @@ abstract class ComponentStyleBuilder<T : ComponentStyle> : StyleBuilder<T> {
 
     /**
      * A background border.
+     *
+     * Example:
+     * ```
+     * border += BorderStyle(1.dp, Color.Black)
+     * border += BorderStyle(dpToken, colorToken)
+     * ```
      */
-    val border: TokenSetter<BorderStroke?> = TokenSetter()
+    val border: TokenSetter<BorderStyle?> = TokenSetter()
 
     /**
      * A value for filling the component.

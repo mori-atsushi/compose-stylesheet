@@ -1,6 +1,5 @@
 package com.moriatsushi.compose.stylesheet.component
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.runtime.Composable
@@ -11,6 +10,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.isSpecified
+import com.moriatsushi.compose.stylesheet.border.BorderStyle
+import com.moriatsushi.compose.stylesheet.border.asBorderStroke
 import com.moriatsushi.compose.stylesheet.component.padding.ComponentPadding
 import com.moriatsushi.compose.stylesheet.component.padding.componentPadding
 import com.moriatsushi.compose.stylesheet.component.size.ComponentSize
@@ -28,7 +29,7 @@ data class ComponentCommonStyle internal constructor(
     val padding: ComponentPadding? = null,
     internal val background: Token<Color>? = null,
     internal val shape: Token<Shape?>? = null,
-    internal val border: Token<BorderStroke?>? = null,
+    internal val border: Token<BorderStyle?>? = null,
 ) {
     companion object {
         /**
@@ -52,7 +53,7 @@ fun Modifier.componentCommonStyle(
 ): Modifier {
     val shape = style.shape?.value ?: RectangleShape
 
-    val border = style.border?.value
+    val border = style.border?.value?.asBorderStroke()
     val borderModifier = if (border != null) {
         Modifier.border(border, shape)
     } else {
