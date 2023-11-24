@@ -33,9 +33,6 @@ fun BorderStyle.asBorderStroke(): BorderStroke? =
         null
     }
 
-fun BorderStyle(width: Token<Dp>, brush: Token<BrushStyle>): BorderStyle =
-    BorderStyleImpl(width = width, brush = brush)
-
 fun BorderStyle(width: Dp, brush: BrushStyle): BorderStyle =
     BorderStyleImpl(width = Token(width), brush = Token(brush))
 

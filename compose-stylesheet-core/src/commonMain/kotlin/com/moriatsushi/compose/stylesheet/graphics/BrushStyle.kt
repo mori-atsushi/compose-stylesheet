@@ -14,24 +14,18 @@ sealed interface BrushStyle {
     fun asBrush(): Brush
 }
 
-fun BrushStyle(color: Token<Color>): BrushStyle =
-    SolidColorBrush(color = color)
+fun BrushStyle(color: Token<Color>): BrushStyle = SolidColorBrush(color = color)
 
-fun BrushStyle(color: Color): BrushStyle =
-    BrushStyle(color = Token(color))
+fun BrushStyle(color: Color): BrushStyle = BrushStyle(color = Token(color))
 
-fun BrushStyle(brush: Token<Brush>): BrushStyle =
-    BrushHolder(brush = brush)
-
-fun BrushStyle(brush: Brush): BrushStyle =
-    BrushStyle(brush = Token(brush))
+fun BrushStyle(brush: Brush): BrushStyle = BrushHolder(brush = brush)
 
 private data class SolidColorBrush(val color: Token<Color>) : BrushStyle {
     @Composable
     override fun asBrush(): Brush = SolidColor(color.value)
 }
 
-private data class BrushHolder(private val brush: Token<Brush>) : BrushStyle {
+private data class BrushHolder(private val brush: Brush) : BrushStyle {
     @Composable
-    override fun asBrush(): Brush = brush.value
+    override fun asBrush(): Brush = brush
 }
