@@ -12,7 +12,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.moriatsushi.compose.stylesheet.button.Button
-import com.moriatsushi.compose.stylesheet.button.ButtonIconPosition
 import com.moriatsushi.compose.stylesheet.icon.Icon
 import com.moriatsushi.compose.stylesheet.surface.Surface
 import com.moriatsushi.compose.stylesheet.text.Text
@@ -44,7 +43,7 @@ fun SampleScreen(
             Spacer(modifier = Modifier.height(32.dp))
             Button(
                 onClick = {},
-                icon = { Icon(Icons.Default.Rocket, null) }
+                icon = { Icon(Icons.Default.Rocket, null) },
             ) {
                 Text(text = "Start!")
             }

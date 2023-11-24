@@ -11,9 +11,14 @@ internal val buttonStyleSheet = StyleSheet {
     button {
         background += Colors.semantic.inverseSurface
         shape += RoundedCornerShape(50)
-        minHeight += 40.dp
-        minWidth += 40.dp
-        padding += padding(horizontal = 24.dp, vertical = 2.dp)
+        minSize += 40.dp
+        padding += padding(vertical = 2.dp)
+
+        layout {
+            spaceBetweenContentAndContainer += 24.dp
+            spaceBetweenIconAndContent += 8.dp
+            spaceBetweenIconAndContainer += 16.dp
+        }
 
         content {
             color += Colors.semantic.onInverseSurface

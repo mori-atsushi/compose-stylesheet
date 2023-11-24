@@ -8,6 +8,8 @@ import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -23,6 +25,7 @@ import com.moriatsushi.compose.stylesheet.component.padding.componentPadding
 import com.moriatsushi.compose.stylesheet.content.ContentStyle
 import com.moriatsushi.compose.stylesheet.content.ProvideContentStyle
 import com.moriatsushi.compose.stylesheet.tag.TagModifier
+import com.moriatsushi.compose.stylesheet.token.value
 
 /**
  * A button component.
@@ -33,7 +36,7 @@ fun Button(
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
     tags: TagModifier<ButtonStyle> = TagModifier(),
-    iconPosition: ButtonIconPosition = ButtonIconPosition.Start,
+    iconPosition: ButtonIconPosition? = null,
     buttonStyle: ButtonStyle = ButtonStyle.Default,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     icon: @Composable (() -> Unit)? = null,
@@ -44,7 +47,7 @@ fun Button(
         this += localStyle
         this += buttonStyle
 
-        this.iconPosition += iconPosition
+        layout.iconPosition += iconPosition
     }
     val isPressed by interactionSource.collectIsPressedAsState()
     val isHovered by interactionSource.collectIsHoveredAsState()
@@ -69,7 +72,7 @@ fun Button(
             .componentPadding(stateStyle.commonStyle.padding),
         contentStyle = stateStyle.contentStyle,
         icon = icon,
-        iconPosition = mergedStyle.iconPosition ?: ButtonIconPosition.Start,
+        layout = mergedStyle.layout,
         content = content,
     )
 }
@@ -79,7 +82,7 @@ private fun ButtonContent(
     contentStyle: ContentStyle,
     modifier: Modifier = Modifier,
     icon: @Composable (() -> Unit)? = null,
-    iconPosition: ButtonIconPosition = ButtonIconPosition.Start,
+    layout: ButtonLayout = ButtonLayout.Default,
     content: @Composable RowScope.() -> Unit,
 ) {
     Row(
@@ -87,13 +90,36 @@ private fun ButtonContent(
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically,
     ) {
+        val iconPosition = layout.iconPosition ?: ButtonIconPosition.Start
+        val spaceBetweenIconAndContainer = layout.spaceBetweenIconAndContainer?.value
+        val spaceBetweenIconAndContent = layout.spaceBetweenIconAndContent?.value
+        val spaceBetweenContentAndContainer = layout.spaceBetweenContentAndContainer?.value
+
         ProvideContentStyle(contentStyle = contentStyle) {
             if (icon != null && iconPosition == ButtonIconPosition.Start) {
+                if (spaceBetweenIconAndContainer != null) {
+                    Spacer(modifier = Modifier.width(spaceBetweenIconAndContainer))
+                }
                 icon()
+                if (spaceBetweenIconAndContent != null) {
+                    Spacer(modifier = Modifier.width(spaceBetweenIconAndContent))
+                }
+            } else if (spaceBetweenContentAndContainer != null) {
+                Spacer(modifier = Modifier.width(spaceBetweenContentAndContainer))
             }
+
             content()
+
             if (icon != null && iconPosition == ButtonIconPosition.End) {
+                if (spaceBetweenIconAndContent != null) {
+                    Spacer(modifier = Modifier.width(spaceBetweenIconAndContent))
+                }
                 icon()
+                if (spaceBetweenIconAndContainer != null) {
+                    Spacer(modifier = Modifier.width(spaceBetweenIconAndContainer))
+                }
+            } else if (spaceBetweenContentAndContainer != null) {
+                Spacer(modifier = Modifier.width(spaceBetweenContentAndContainer))
             }
         }
     }

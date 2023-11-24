@@ -1,6 +1,5 @@
 package com.moriatsushi.compose.stylesheet.button
 
-import com.moriatsushi.compose.stylesheet.StyleBuilder.ValueSetter
 import com.moriatsushi.compose.stylesheet.StyleSheetBuilderMarker
 import com.moriatsushi.compose.stylesheet.component.ComponentStyleBuilder
 import com.moriatsushi.compose.stylesheet.content.ContentStyleBuilder
@@ -17,9 +16,16 @@ class ButtonStyleBuilder internal constructor() : ComponentStyleBuilder<ButtonSt
     private val disabledStyleBuilder = ButtonStateStyleBuilder()
 
     /**
-     * A position of an icon.
+     * A layout of the button.
      */
-    val iconPosition: ValueSetter<ButtonIconPosition> = ValueSetter()
+    val layout: ButtonLayoutBuilder = ButtonLayoutBuilder()
+
+    /**
+     * Defines a layout of the button.
+     */
+    fun layout(builder: ButtonLayoutBuilder.() -> Unit) {
+        layout.builder()
+    }
 
     /**
      * An indication representing visual effects that occur when certain interactions happen, such
@@ -74,7 +80,7 @@ class ButtonStyleBuilder internal constructor() : ComponentStyleBuilder<ButtonSt
     }
 
     override fun plusAssign(other: ButtonStyle) {
-        iconPosition += other.iconPosition
+        layout += other.layout
         indication += other.indication
         this += other.commonStyle
         content += other.contentStyle
@@ -85,7 +91,7 @@ class ButtonStyleBuilder internal constructor() : ComponentStyleBuilder<ButtonSt
     }
 
     override fun build(): ButtonStyle = ButtonStyle(
-        iconPosition = iconPosition.value,
+        layout = layout.build(),
         indication = indication.value,
         commonStyle = buildCommonStyle(),
         contentStyle = content.build(),
