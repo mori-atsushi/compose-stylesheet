@@ -7,14 +7,12 @@ import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.moriatsushi.compose.stylesheet.component.StyleSheetComponentApi
 import com.moriatsushi.compose.stylesheet.token.Token
 import kotlin.test.assertEquals
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
-@OptIn(StyleSheetComponentApi::class)
 @RunWith(AndroidJUnit4::class)
 class ComponentPaddingTest {
     @get:Rule
@@ -161,6 +159,56 @@ class ComponentPaddingTest {
                         bottom = 60.dp,
                     ),
                     componentPadding.asPaddingValues(),
+                )
+            }
+        }
+    }
+
+    @Test
+    fun testAsPaddingValues_merged() {
+        val paddingValues = PaddingValues(
+            start = 10.dp,
+            top = 20.dp,
+            end = 30.dp,
+            bottom = 40.dp,
+        )
+        val padding1 = ComponentPadding(
+            PaddingValues(
+                start = 10.dp,
+                top = 20.dp,
+                end = 30.dp,
+                bottom = 40.dp,
+            ),
+        )
+        val padding2 = ComponentPadding(
+            start = Token(50.dp),
+            top = Token(60.dp),
+        )
+        val merged1 = padding1.merge(padding2)
+        val merged2 = padding2.merge(padding1)
+
+        composeTestRule.setContent {
+            CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
+                assertEquals(
+                    PaddingValues.Absolute(
+                        left = 50.dp,
+                        top = 60.dp,
+                        right = 30.dp,
+                        bottom = 40.dp,
+                    ),
+                    merged1.asPaddingValues(),
+                )
+            }
+
+            CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
+                assertEquals(
+                    PaddingValues.Absolute(
+                        left = 10.dp,
+                        top = 20.dp,
+                        right = 30.dp,
+                        bottom = 40.dp,
+                    ),
+                    merged2.asPaddingValues(),
                 )
             }
         }

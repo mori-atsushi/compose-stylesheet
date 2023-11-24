@@ -35,7 +35,7 @@ class PaddingSetter internal constructor() {
 
     operator fun plusAssign(padding: ComponentPadding?) {
         if (padding != null) {
-            value = padding
+            value = value?.merge(padding) ?: padding
         }
     }
 

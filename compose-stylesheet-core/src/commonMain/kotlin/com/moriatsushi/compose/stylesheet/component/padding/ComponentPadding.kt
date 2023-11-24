@@ -15,6 +15,9 @@ import com.moriatsushi.compose.stylesheet.token.value
 
 @Immutable
 sealed class ComponentPadding {
+    internal abstract val values: List<Pair<PaddingSide, Token<Dp>>>
+    internal abstract val paddingValues: PaddingValues?
+
     @Composable
     internal abstract fun asPaddingValues(): PaddingValues
 
@@ -26,6 +29,16 @@ sealed class ComponentPadding {
         right: Token<Dp>? = null,
         left: Token<Dp>? = null,
     ): ComponentPadding
+
+    internal fun merge(other: ComponentPadding): ComponentPadding =
+        if (other.paddingValues != null) {
+            other
+        } else {
+            ComponentPaddingImpl(
+                values = other.values + values,
+                paddingValues = paddingValues,
+            )
+        }
 }
 
 internal fun ComponentPadding(paddingValues: PaddingValues): ComponentPadding =
@@ -50,8 +63,8 @@ internal fun ComponentPadding(
 )
 
 private data class ComponentPaddingImpl(
-    private val values: List<Pair<PaddingSide, Token<Dp>>> = emptyList(),
-    private val paddingValues: PaddingValues? = null,
+    override val values: List<Pair<PaddingSide, Token<Dp>>> = emptyList(),
+    override val paddingValues: PaddingValues? = null,
 ) : ComponentPadding() {
     @Composable
     override fun asPaddingValues(): PaddingValues {
@@ -125,6 +138,6 @@ fun Modifier.componentPadding(padding: ComponentPadding?): Modifier = this.then(
     if (padding != null) Modifier.padding(padding.asPaddingValues()) else Modifier,
 )
 
-private enum class PaddingSide {
+internal enum class PaddingSide {
     Left, Top, Right, Bottom, Start, End,
 }
