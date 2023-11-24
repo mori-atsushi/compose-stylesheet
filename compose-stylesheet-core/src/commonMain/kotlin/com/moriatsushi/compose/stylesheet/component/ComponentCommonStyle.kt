@@ -29,7 +29,7 @@ import com.moriatsushi.compose.stylesheet.token.value
 @StyleSheetComponentApi
 data class ComponentCommonStyle internal constructor(
     internal val size: ComponentSize = ComponentSize.Default,
-    val padding: ComponentPadding? = null,
+    val padding: ComponentPadding = ComponentPadding.Default,
     internal val background: Token<Color>? = null,
     internal val shape: Token<Shape?>? = null,
     internal val border: BorderStyle? = null,

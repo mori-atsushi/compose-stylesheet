@@ -77,9 +77,27 @@ class ComponentPaddingTest {
     }
 
     @Test
+    fun testPadding_vertical() {
+        val style = DummyComponentStyle {
+            padding.vertical += 10.dp
+        }
+
+        composeTestRule.setContent {
+            DummyComponent(
+                modifier = Modifier.testTag("dummyComponent"),
+                style = style,
+            )
+        }
+
+        composeTestRule.onNodeWithTag("dummyComponent")
+            .assertWidthIsEqualTo(10.dp)
+            .assertHeightIsEqualTo(30.dp)
+    }
+
+    @Test
     fun testPadding_horizontal() {
         val style = DummyComponentStyle {
-            padding += padding(horizontal = 10.dp)
+            padding.horizontal += 10.dp
         }
 
         composeTestRule.setContent {
@@ -97,7 +115,7 @@ class ComponentPaddingTest {
     @Test
     fun testPadding_top() {
         val style = DummyComponentStyle {
-            padding += padding(top = 10.dp)
+            padding.top += 10.dp
         }
 
         composeTestRule.setContent {
