@@ -5,17 +5,18 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import com.moriatsushi.compose.stylesheet.component.StyleSheetComponentApi
 import com.moriatsushi.compose.stylesheet.token.Token
 import com.moriatsushi.compose.stylesheet.token.value
-import kotlin.jvm.JvmInline
 
 @Immutable
 sealed interface ComponentPadding {
-    @Composable
     @StyleSheetComponentApi
+    @Composable
     fun asPaddingValues(): PaddingValues
 
     companion object {
@@ -24,66 +25,81 @@ sealed interface ComponentPadding {
             top: Token<Dp> = Token(0.dp),
             right: Token<Dp> = Token(0.dp),
             bottom: Token<Dp> = Token(0.dp),
-        ): ComponentPadding = AbstractComponentPadding(
-            left = left,
-            top = top,
-            right = right,
-            bottom = bottom,
+        ): ComponentPadding = ComponentPadding(
+            PaddingSide.Left to left,
+            PaddingSide.Top to top,
+            PaddingSide.Right to right,
+            PaddingSide.Bottom to bottom,
         )
     }
 }
 
-internal fun ComponentPadding(values: PaddingValues): ComponentPadding =
-    PaddingValuesComponentPadding(values)
+internal fun ComponentPadding(paddingValues: PaddingValues): ComponentPadding =
+    ComponentPaddingImpl(paddingValues = paddingValues)
 
 internal fun ComponentPadding(
     start: Token<Dp> = Token(0.dp),
     top: Token<Dp> = Token(0.dp),
     end: Token<Dp> = Token(0.dp),
     bottom: Token<Dp> = Token(0.dp),
-): ComponentPadding = ComponentPaddingImpl(
-    start = start,
-    top = top,
-    end = end,
-    bottom = bottom,
+): ComponentPadding = ComponentPadding(
+    PaddingSide.Start to start,
+    PaddingSide.Top to top,
+    PaddingSide.End to end,
+    PaddingSide.Bottom to bottom,
 )
 
-@JvmInline
-private value class PaddingValuesComponentPadding(
-    private val paddingValues: PaddingValues,
-) : ComponentPadding {
-    @Composable
-    override fun asPaddingValues(): PaddingValues = paddingValues
-}
-
-private data class AbstractComponentPadding(
-    val left: Token<Dp>,
-    val top: Token<Dp>,
-    val right: Token<Dp>,
-    val bottom: Token<Dp>,
-) : ComponentPadding {
-    @Composable
-    override fun asPaddingValues(): PaddingValues = PaddingValues.Absolute(
-        left = left.value,
-        top = top.value,
-        right = right.value,
-        bottom = bottom.value,
-    )
-}
+private fun ComponentPadding(vararg values: Pair<PaddingSide, Token<Dp>>): ComponentPadding =
+    ComponentPaddingImpl(values = values.toList())
 
 private data class ComponentPaddingImpl(
-    val start: Token<Dp>,
-    val top: Token<Dp>,
-    val end: Token<Dp>,
-    val bottom: Token<Dp>,
+    private val values: List<Pair<PaddingSide, Token<Dp>>> = emptyList(),
+    private val paddingValues: PaddingValues? = null,
 ) : ComponentPadding {
     @Composable
-    override fun asPaddingValues(): PaddingValues = PaddingValues(
-        start = start.value,
-        top = top.value,
-        end = end.value,
-        bottom = bottom.value,
-    )
+    override fun asPaddingValues(): PaddingValues {
+        val layoutDirection = LocalLayoutDirection.current
+
+        val left = values.firstOrNull { it.first.isLeft(layoutDirection) }?.second?.value
+            ?: paddingValues?.calculateLeftPadding(layoutDirection)
+            ?: 0.dp
+
+        val top = values.firstOrNull { it.first == PaddingSide.Top }?.second?.value
+            ?: paddingValues?.calculateTopPadding()
+            ?: 0.dp
+
+        val right = values.firstOrNull { it.first.isRight(layoutDirection) }?.second?.value
+            ?: paddingValues?.calculateRightPadding(layoutDirection)
+            ?: 0.dp
+
+        val bottom = values.firstOrNull { it.first == PaddingSide.Bottom }?.second?.value
+            ?: paddingValues?.calculateBottomPadding()
+            ?: 0.dp
+
+        return PaddingValues.Absolute(left = left, top = top, right = right, bottom = bottom)
+    }
+}
+
+private fun PaddingSide.isLeft(layoutDirection: LayoutDirection): Boolean {
+    if (this == PaddingSide.Left) {
+        return true
+    }
+    return if (layoutDirection == LayoutDirection.Ltr) {
+        this == PaddingSide.Start
+    } else {
+        this == PaddingSide.End
+    }
+}
+
+private fun PaddingSide.isRight(layoutDirection: LayoutDirection): Boolean {
+    if (this == PaddingSide.Right) {
+        return true
+    }
+    return if (layoutDirection == LayoutDirection.Ltr) {
+        this == PaddingSide.End
+    } else {
+        this == PaddingSide.Start
+    }
 }
 
 @Composable
@@ -91,3 +107,7 @@ private data class ComponentPaddingImpl(
 fun Modifier.componentPadding(padding: ComponentPadding?): Modifier = this.then(
     if (padding != null) Modifier.padding(padding.asPaddingValues()) else Modifier,
 )
+
+private enum class PaddingSide {
+    Left, Top, Right, Bottom, Start, End,
+}
