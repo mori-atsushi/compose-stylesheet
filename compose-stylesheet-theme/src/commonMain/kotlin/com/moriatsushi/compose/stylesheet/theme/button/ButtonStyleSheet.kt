@@ -24,6 +24,10 @@ internal val buttonStyleSheet = StyleSheet {
             background += Colors.semantic.inverseSurfacePressed
         }
 
+        hovered {
+            background += Colors.semantic.inverseSurfaceHovered
+        }
+
         focused {
             outline.width += 3.dp
             outline.color += Colors.semantic.focus
