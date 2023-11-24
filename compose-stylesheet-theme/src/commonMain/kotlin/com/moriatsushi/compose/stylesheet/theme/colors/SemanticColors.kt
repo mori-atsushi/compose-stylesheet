@@ -19,4 +19,6 @@ class SemanticColors internal constructor() {
 
     val disabledSurface = Token("color.semantic.inverseSurfacePressed", Colors.gray100)
     val onDisabledSurface = Token("color.semantic.onInverseSurface", Colors.gray300)
+
+    val focus = Token("color.semantic.focus", Colors.blue300)
 }

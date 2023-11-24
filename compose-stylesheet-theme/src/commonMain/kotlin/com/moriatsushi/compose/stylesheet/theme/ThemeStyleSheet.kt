@@ -28,6 +28,8 @@ fun themeStyleSheet(
         Colors.semantic.disabledSurface += if (useDarkMode) Colors.gray700 else Colors.gray100
         Colors.semantic.onDisabledSurface += if (useDarkMode) Colors.gray500 else Colors.gray300
 
+        Colors.semantic.focus += if (useDarkMode) Colors.blue500 else Colors.blue300
+
         content {
             color += Colors.semantic.onBackground
         }
