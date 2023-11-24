@@ -176,7 +176,7 @@ abstract class ComponentStyleBuilder<T : ComponentStyle> : StyleBuilder<T> {
     val shape: TokenSetter<Shape?> = TokenSetter()
 
     /**
-     * A background border.
+     * An inner border for the component.
      *
      * Example:
      * ```
@@ -188,6 +188,20 @@ abstract class ComponentStyleBuilder<T : ComponentStyle> : StyleBuilder<T> {
      * ```
      */
     val border: BorderSetter = BorderSetter()
+
+    /**
+     * An outer border for the component. This is not included in the size of the component.
+     *
+     * Example:
+     * ```
+     * outline += BorderStroke(1.dp, Color.Black)
+     * outline += BorderStyle.Unspecified // Clear outline
+     * outline.width += 1.dp
+     * outline.color += Color.Black
+     * outline.brush += Brush.horizontalGradient(listOf(Color.Red, Color.Blue))
+     * ```
+     */
+    val outline: BorderSetter = BorderSetter()
 
     /**
      * A value for filling the component.
@@ -260,6 +274,7 @@ abstract class ComponentStyleBuilder<T : ComponentStyle> : StyleBuilder<T> {
         background += other.background
         shape += other.shape
         border += other.border
+        outline += other.outline
     }
 
     @StyleSheetComponentApi
@@ -269,5 +284,6 @@ abstract class ComponentStyleBuilder<T : ComponentStyle> : StyleBuilder<T> {
         background = background.token,
         shape = shape.token,
         border = border.value,
+        outline = outline.value,
     )
 }
