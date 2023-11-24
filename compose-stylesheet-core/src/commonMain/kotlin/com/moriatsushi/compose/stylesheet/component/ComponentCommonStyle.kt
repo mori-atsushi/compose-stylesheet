@@ -1,7 +1,9 @@
 package com.moriatsushi.compose.stylesheet.component
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.Modifier
@@ -16,6 +18,7 @@ import com.moriatsushi.compose.stylesheet.component.padding.ComponentPadding
 import com.moriatsushi.compose.stylesheet.component.padding.componentPadding
 import com.moriatsushi.compose.stylesheet.component.size.ComponentSize
 import com.moriatsushi.compose.stylesheet.component.size.size
+import com.moriatsushi.compose.stylesheet.layout.negativePadding
 import com.moriatsushi.compose.stylesheet.token.Token
 import com.moriatsushi.compose.stylesheet.token.value
 
@@ -54,6 +57,13 @@ fun Modifier.componentCommonStyle(
 ): Modifier {
     val shape = style.shape?.value ?: RectangleShape
 
+    val outline = style.outline?.asBorderStroke()
+    val outlineModifier = if (outline != null) {
+        Modifier.outline(outline, shape)
+    } else {
+        Modifier
+    }
+
     val border = style.border?.asBorderStroke()
     val borderModifier = if (border != null) {
         Modifier.border(border, shape)
@@ -77,9 +87,16 @@ fun Modifier.componentCommonStyle(
     }
 
     return this
+        .then(outlineModifier)
         .size(style.size)
         .then(borderModifier)
         .then(backgroundModifier)
         .then(clipModifier)
         .then(paddingModifier)
 }
+
+private fun Modifier.outline(border: BorderStroke, shape: Shape = RectangleShape): Modifier =
+    this
+        .negativePadding(border.width)
+        .border(border, shape)
+        .padding(border.width)
