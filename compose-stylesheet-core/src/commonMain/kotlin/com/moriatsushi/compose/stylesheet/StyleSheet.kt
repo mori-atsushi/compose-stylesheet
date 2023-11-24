@@ -16,27 +16,25 @@ import com.moriatsushi.compose.stylesheet.token.Token
  */
 @Immutable
 class StyleSheet internal constructor(
-    internal val tokens: Map<Token<*>, Token<*>> = emptyMap(),
+    internal val tokens: Map<ReferenceToken<*>, Token<*>> = emptyMap(),
     internal val contentStyle: ContentStyle = ContentStyle.Default,
     internal val componentStyles: Map<Component<*, *>, ComponentStyleSet<*>> = emptyMap(),
 ) {
-    internal tailrec fun <T> getValue(token: Token<T>): T {
-        @Suppress("UNCHECKED_CAST")
-        var nextToken = tokens[token] as? Token<T>
-
-        if (nextToken == null) {
-            when (token) {
-                is ReferenceToken -> {
-                    nextToken = token.default
-                }
-
-                is SourceToken -> {
-                    return token.value
-                }
-            }
+    internal fun <T> getValue(token: Token<T>): T =
+        when (token) {
+            is ReferenceToken -> getValueRecursive(token)
+            is SourceToken -> token.value
         }
 
-        return getValue(nextToken)
+    private tailrec fun <T> getValueRecursive(referenceToken: ReferenceToken<T>): T {
+        @Suppress("UNCHECKED_CAST")
+        val nextToken = tokens[referenceToken] as? Token<T>
+            ?: referenceToken.default
+
+        return when (nextToken) {
+            is SourceToken -> nextToken.value
+            is ReferenceToken -> getValueRecursive(nextToken)
+        }
     }
 
     @Suppress("UNCHECKED_CAST")

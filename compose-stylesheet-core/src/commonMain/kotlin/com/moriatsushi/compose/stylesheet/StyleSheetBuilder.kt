@@ -6,7 +6,7 @@ import com.moriatsushi.compose.stylesheet.component.ComponentStyleSet
 import com.moriatsushi.compose.stylesheet.component.ComponentStyleSetBuilder
 import com.moriatsushi.compose.stylesheet.content.ContentStyleBuilder
 import com.moriatsushi.compose.stylesheet.tag.Tag
-import com.moriatsushi.compose.stylesheet.token.SourceToken
+import com.moriatsushi.compose.stylesheet.token.ReferenceToken
 import com.moriatsushi.compose.stylesheet.token.Token
 
 /**
@@ -14,7 +14,7 @@ import com.moriatsushi.compose.stylesheet.token.Token
  */
 @StyleSheetBuilderMarker
 class StyleSheetBuilder internal constructor() {
-    private val tokens = mutableMapOf<Token<*>, Token<*>>()
+    private val tokens = mutableMapOf<ReferenceToken<*>, Token<*>>()
     private val componentStyleSet = mutableMapOf<Component<*, *>, ComponentStyleSetBuilder<*>>()
 
     /**
@@ -31,16 +31,14 @@ class StyleSheetBuilder internal constructor() {
     /**
      * Overrides the [this] token with the given [token].
      */
-    operator fun <T> Token<T>.plusAssign(token: Token<T>) {
-        check(this !is SourceToken) { "$this is a source token and cannot be overridden" }
+    operator fun <T> ReferenceToken<T>.plusAssign(token: Token<T>) {
         tokens[this] = token
     }
 
     /**
      * Overrides the [this] token with the given [value].
      */
-    operator fun <T> Token<T>.plusAssign(value: T) {
-        check(this !is SourceToken) { "$this is a source token and cannot be overridden" }
+    operator fun <T> ReferenceToken<T>.plusAssign(value: T) {
         tokens[this] = Token(value)
     }
 
