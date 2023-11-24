@@ -10,7 +10,7 @@ val topAppBarStyleSheet = StyleSheet {
     topAppBar {
         width += fill
         minHeight += 64.dp
-        padding += padding(vertical = 2.dp)
+        padding.vertical += 2.dp
         background += Colors.semantic.background
 
         layout {

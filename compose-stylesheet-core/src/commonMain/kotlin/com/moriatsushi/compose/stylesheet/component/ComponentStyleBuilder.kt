@@ -155,12 +155,14 @@ abstract class ComponentStyleBuilder<T : ComponentStyle> : StyleBuilder<T> {
      * Example:
      * ```
      * padding += 10.dp
-     * padding += sizeToken // Token<Dp>
-     * padding += padding(horizontal = 10.dp, vertical = 20.dp)
-     * padding += padding(horizontal = horizontalToken, vertical = verticalToken)
+     * padding += dpToken
      * padding += padding(start = 10.dp, top = 20.dp, end = 30.dp, bottom = 40.dp)
      * padding += absolutePadding(left = 10.dp, top = 20.dp, right = 30.dp, bottom = 40.dp)
      * padding += PaddingValues(10.dp)
+     * padding.top += 10.dp
+     * padding.top += dpToken
+     * padding.vertical += 10.dp
+     * padding.horizontal += 10.dp
      * ```
      */
     val padding: PaddingSetter = PaddingSetter()
@@ -248,7 +250,7 @@ abstract class ComponentStyleBuilder<T : ComponentStyle> : StyleBuilder<T> {
         top: Token<Dp> = Token(0.dp),
         right: Token<Dp> = Token(0.dp),
         bottom: Token<Dp> = Token(0.dp),
-    ): ComponentPadding = ComponentPadding.absolute(
+    ): ComponentPadding = ComponentPadding(
         left = left,
         top = top,
         right = right,
@@ -260,7 +262,7 @@ abstract class ComponentStyleBuilder<T : ComponentStyle> : StyleBuilder<T> {
         top: Dp = 0.dp,
         right: Dp = 0.dp,
         bottom: Dp = 0.dp,
-    ): ComponentPadding = ComponentPadding.absolute(
+    ): ComponentPadding = ComponentPadding(
         left = Token(left),
         top = Token(top),
         right = Token(right),

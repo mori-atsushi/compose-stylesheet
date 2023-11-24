@@ -14,48 +14,45 @@ import com.moriatsushi.compose.stylesheet.token.Token
 import com.moriatsushi.compose.stylesheet.token.value
 
 @Immutable
-sealed interface ComponentPadding {
-    @StyleSheetComponentApi
+sealed class ComponentPadding {
     @Composable
-    fun asPaddingValues(): PaddingValues
+    internal abstract fun asPaddingValues(): PaddingValues
 
-    companion object {
-        internal fun absolute(
-            left: Token<Dp> = Token(0.dp),
-            top: Token<Dp> = Token(0.dp),
-            right: Token<Dp> = Token(0.dp),
-            bottom: Token<Dp> = Token(0.dp),
-        ): ComponentPadding = ComponentPadding(
-            PaddingSide.Left to left,
-            PaddingSide.Top to top,
-            PaddingSide.Right to right,
-            PaddingSide.Bottom to bottom,
-        )
-    }
+    internal abstract fun copy(
+        start: Token<Dp>? = null,
+        top: Token<Dp>? = null,
+        end: Token<Dp>? = null,
+        bottom: Token<Dp>? = null,
+        right: Token<Dp>? = null,
+        left: Token<Dp>? = null,
+    ): ComponentPadding
 }
 
 internal fun ComponentPadding(paddingValues: PaddingValues): ComponentPadding =
     ComponentPaddingImpl(paddingValues = paddingValues)
 
 internal fun ComponentPadding(
-    start: Token<Dp> = Token(0.dp),
-    top: Token<Dp> = Token(0.dp),
-    end: Token<Dp> = Token(0.dp),
-    bottom: Token<Dp> = Token(0.dp),
-): ComponentPadding = ComponentPadding(
-    PaddingSide.Start to start,
-    PaddingSide.Top to top,
-    PaddingSide.End to end,
-    PaddingSide.Bottom to bottom,
+    start: Token<Dp>? = null,
+    top: Token<Dp>? = null,
+    end: Token<Dp>? = null,
+    bottom: Token<Dp>? = null,
+    right: Token<Dp>? = null,
+    left: Token<Dp>? = null,
+): ComponentPadding = ComponentPaddingImpl(
+    listOfNotNull(
+        start?.let { PaddingSide.Start to it },
+        top?.let { PaddingSide.Top to it },
+        end?.let { PaddingSide.End to it },
+        bottom?.let { PaddingSide.Bottom to it },
+        right?.let { PaddingSide.Right to it },
+        left?.let { PaddingSide.Left to it },
+    ),
 )
-
-private fun ComponentPadding(vararg values: Pair<PaddingSide, Token<Dp>>): ComponentPadding =
-    ComponentPaddingImpl(values = values.toList())
 
 private data class ComponentPaddingImpl(
     private val values: List<Pair<PaddingSide, Token<Dp>>> = emptyList(),
     private val paddingValues: PaddingValues? = null,
-) : ComponentPadding {
+) : ComponentPadding() {
     @Composable
     override fun asPaddingValues(): PaddingValues {
         val layoutDirection = LocalLayoutDirection.current
@@ -77,6 +74,26 @@ private data class ComponentPaddingImpl(
             ?: 0.dp
 
         return PaddingValues.Absolute(left = left, top = top, right = right, bottom = bottom)
+    }
+
+    override fun copy(
+        start: Token<Dp>?,
+        top: Token<Dp>?,
+        end: Token<Dp>?,
+        bottom: Token<Dp>?,
+        right: Token<Dp>?,
+        left: Token<Dp>?,
+    ): ComponentPadding {
+        val newList = listOfNotNull(
+            start?.let { PaddingSide.Start to it },
+            top?.let { PaddingSide.Top to it },
+            end?.let { PaddingSide.End to it },
+            bottom?.let { PaddingSide.Bottom to it },
+            right?.let { PaddingSide.Right to it },
+            left?.let { PaddingSide.Left to it },
+        )
+        val newSides = newList.map { it.first }.toSet()
+        return copy(values = newList + values.filterNot { newSides.contains(it.first) })
     }
 }
 
