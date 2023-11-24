@@ -11,6 +11,7 @@ import androidx.compose.material.icons.filled.Rocket
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.moriatsushi.compose.stylesheet.appbar.TopAppBar
 import com.moriatsushi.compose.stylesheet.button.Button
 import com.moriatsushi.compose.stylesheet.icon.Icon
 import com.moriatsushi.compose.stylesheet.surface.Surface
@@ -25,27 +26,34 @@ fun SampleScreen(
         tags = Surface.background,
         modifier = modifier.fillMaxSize(),
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(16.dp),
-            verticalArrangement = Arrangement.Center,
-        ) {
-            Text(
-                text = "Compose StyleSheet",
-                tags = TextTags.primary,
+        Column(modifier = Modifier.fillMaxSize()) {
+            TopAppBar(
+                title = { Text("Compose StyleSheet") },
             )
-            Spacer(modifier = Modifier.height(8.dp))
-            Text(
-                text = "Let's try to change the theme!",
-                tags = TextTags.secondary,
-            )
-            Spacer(modifier = Modifier.height(32.dp))
-            Button(
-                onClick = {},
-                icon = { Icon(Icons.Default.Rocket, null) },
+            Column(
+                modifier = Modifier
+                    .weight(1F)
+                    .padding(16.dp),
+                verticalArrangement = Arrangement.Center,
             ) {
-                Text(text = "Start!")
+                Text(
+                    text = "Compose StyleSheet is a flexible UI component framework " +
+                        "for Jetpack Compose",
+                    tags = TextTags.primary,
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(
+                    text = "This library is still under development. " +
+                        "All APIs may change in the future.",
+                    tags = TextTags.secondary,
+                )
+                Spacer(modifier = Modifier.height(32.dp))
+                Button(
+                    onClick = {},
+                    icon = { Icon(Icons.Default.Rocket, null) },
+                ) {
+                    Text(text = "Start!")
+                }
             }
         }
     }
