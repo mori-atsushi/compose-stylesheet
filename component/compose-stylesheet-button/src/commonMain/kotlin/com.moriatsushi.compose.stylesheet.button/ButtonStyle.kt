@@ -51,22 +51,30 @@ internal fun ButtonStyle(
 )
 
 internal fun ButtonStyle.getStyleForState(
+    isEnabled: Boolean,
     isPressed: Boolean,
     isHovered: Boolean,
     isFocused: Boolean,
-    isEnabled: Boolean,
 ): ButtonStateStyle {
     val buttonStyle = this
     return ButtonStateStyle {
         this += buttonStyle.commonStyle
         content += buttonStyle.contentStyle
 
-        this += when {
-            !isEnabled -> buttonStyle.disabledStyle
-            isPressed -> buttonStyle.pressedStyle
-            isHovered -> buttonStyle.hoveredStyle
-            isFocused -> buttonStyle.focusedStyle
-            else -> ButtonStateStyle.Default
+        if (isFocused) {
+            this += buttonStyle.focusedStyle
+        }
+
+        if (isHovered) {
+            this += buttonStyle.hoveredStyle
+        }
+
+        if (isPressed) {
+            this += buttonStyle.pressedStyle
+        }
+
+        if (!isEnabled) {
+            this += buttonStyle.disabledStyle
         }
     }
 }

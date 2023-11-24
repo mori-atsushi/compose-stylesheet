@@ -45,10 +45,10 @@ fun Button(
     val isHovered by interactionSource.collectIsHoveredAsState()
     val isFocused by interactionSource.collectIsFocusedAsState()
     val stateStyle = mergedStyle.getStyleForState(
+        isEnabled = enabled,
         isPressed = isPressed,
         isHovered = isHovered,
         isFocused = isFocused,
-        isEnabled = enabled,
     )
 
     Row(
