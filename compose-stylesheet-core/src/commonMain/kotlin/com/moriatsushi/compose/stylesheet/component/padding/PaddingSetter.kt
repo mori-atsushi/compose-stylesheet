@@ -6,37 +6,35 @@ import com.moriatsushi.compose.stylesheet.token.Token
 import com.moriatsushi.compose.stylesheet.token.TokenSetterCallback
 
 class PaddingSetter internal constructor() {
-    internal var value: ComponentPadding? = null
+    internal var value: ComponentPadding = ComponentPadding.Default
 
     val start: TokenSetterCallback<Dp> = TokenSetterCallback {
-        value = value?.copy(start = it) ?: ComponentPadding(start = it)
+        value = value.copy(start = it)
     }
     val top: TokenSetterCallback<Dp> = TokenSetterCallback {
-        value = value?.copy(top = it) ?: ComponentPadding(top = it)
+        value = value.copy(top = it)
     }
     val end: TokenSetterCallback<Dp> = TokenSetterCallback {
-        value = value?.copy(end = it) ?: ComponentPadding(end = it)
+        value = value.copy(end = it)
     }
     val bottom: TokenSetterCallback<Dp> = TokenSetterCallback {
-        value = value?.copy(bottom = it) ?: ComponentPadding(bottom = it)
+        value = value.copy(bottom = it)
     }
     val right: TokenSetterCallback<Dp> = TokenSetterCallback {
-        value = value?.copy(right = it) ?: ComponentPadding(right = it)
+        value = value.copy(right = it)
     }
     val left: TokenSetterCallback<Dp> = TokenSetterCallback {
-        value = value?.copy(left = it) ?: ComponentPadding(left = it)
+        value = value.copy(left = it)
     }
     val vertical: TokenSetterCallback<Dp> = TokenSetterCallback {
-        value = value?.copy(top = it, bottom = it) ?: ComponentPadding(top = it, bottom = it)
+        value = value.copy(top = it, bottom = it)
     }
     val horizontal: TokenSetterCallback<Dp> = TokenSetterCallback {
-        value = value?.copy(start = it, end = it) ?: ComponentPadding(start = it, end = it)
+        value = value.copy(start = it, end = it)
     }
 
-    operator fun plusAssign(padding: ComponentPadding?) {
-        if (padding != null) {
-            value = value?.merge(padding) ?: padding
-        }
+    operator fun plusAssign(padding: ComponentPadding) {
+        value = value.merge(padding)
     }
 
     operator fun plusAssign(all: Token<Dp>) {

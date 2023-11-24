@@ -34,15 +34,19 @@ sealed class ComponentPadding {
         if (other.paddingValues != null) {
             other
         } else {
-            ComponentPaddingImpl(
+            ComponentPadding(
                 values = other.values + values,
                 paddingValues = paddingValues,
             )
         }
+
+    companion object {
+        internal val Default: ComponentPadding = ComponentPadding(emptyList())
+    }
 }
 
 internal fun ComponentPadding(paddingValues: PaddingValues): ComponentPadding =
-    ComponentPaddingImpl(paddingValues = paddingValues)
+    ComponentPadding(emptyList(), paddingValues = paddingValues)
 
 internal fun ComponentPadding(
     start: Token<Dp>? = null,
@@ -51,7 +55,7 @@ internal fun ComponentPadding(
     bottom: Token<Dp>? = null,
     right: Token<Dp>? = null,
     left: Token<Dp>? = null,
-): ComponentPadding = ComponentPaddingImpl(
+): ComponentPadding = ComponentPadding(
     listOfNotNull(
         start?.let { PaddingSide.Start to it },
         top?.let { PaddingSide.Top to it },
@@ -62,9 +66,17 @@ internal fun ComponentPadding(
     ),
 )
 
+private fun ComponentPadding(
+    values: List<Pair<PaddingSide, Token<Dp>>> = emptyList(),
+    paddingValues: PaddingValues? = null,
+): ComponentPadding = ComponentPaddingImpl(
+    values = values.distinctBy { it.first },
+    paddingValues = paddingValues,
+)
+
 private data class ComponentPaddingImpl(
-    override val values: List<Pair<PaddingSide, Token<Dp>>> = emptyList(),
-    override val paddingValues: PaddingValues? = null,
+    override val values: List<Pair<PaddingSide, Token<Dp>>>,
+    override val paddingValues: PaddingValues?,
 ) : ComponentPadding() {
     @Composable
     override fun asPaddingValues(): PaddingValues {
@@ -105,8 +117,8 @@ private data class ComponentPaddingImpl(
             right?.let { PaddingSide.Right to it },
             left?.let { PaddingSide.Left to it },
         )
-        val newSides = newList.map { it.first }.toSet()
-        return copy(values = newList + values.filterNot { newSides.contains(it.first) })
+
+        return copy(values = (newList + values).distinctBy { it.first })
     }
 }
 
