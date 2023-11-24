@@ -4,6 +4,7 @@ import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Color
 import com.moriatsushi.compose.stylesheet.component.ComponentCommonStyle
 import com.moriatsushi.compose.stylesheet.component.ComponentStyle
+import com.moriatsushi.compose.stylesheet.indication.IndicationStyle
 import com.moriatsushi.compose.stylesheet.token.Token
 
 /**
@@ -12,6 +13,7 @@ import com.moriatsushi.compose.stylesheet.token.Token
 @Immutable
 sealed interface IconButtonStyle : ComponentStyle {
     val color: Token<Color>?
+    val indication: IndicationStyle?
 
     companion object {
         /**
@@ -29,14 +31,17 @@ fun IconButtonStyle(builder: IconButtonStyleBuilder.() -> Unit): IconButtonStyle
 
 internal fun IconButtonStyle(
     color: Token<Color>? = null,
+    indication: IndicationStyle? = null,
     commonStyle: ComponentCommonStyle = ComponentCommonStyle.Default,
 ): IconButtonStyle = IconButtonStyleImpl(
     color = color,
+    indication = indication,
     commonStyle = commonStyle,
 )
 
 @Immutable
 private data class IconButtonStyleImpl(
     override val color: Token<Color>?,
+    override val indication: IndicationStyle?,
     override val commonStyle: ComponentCommonStyle,
 ) : IconButtonStyle

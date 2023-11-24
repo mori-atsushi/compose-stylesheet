@@ -43,7 +43,7 @@ fun IconButton(
             .componentCommonStyle(mergedStyle.commonStyle, includePadding = false)
             .clickable(
                 interactionSource = interactionSource,
-                indication = null,
+                indication = mergedStyle.indication?.value,
                 onClick = onClick,
             )
             .componentPadding(mergedStyle.commonStyle.padding),
