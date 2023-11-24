@@ -2,17 +2,15 @@ package com.moriatsushi.compose.stylesheet.token
 
 import com.moriatsushi.compose.stylesheet.component.StyleSheetComponentApi
 
-class TokenSetter<T> @StyleSheetComponentApi constructor() {
-    @StyleSheetComponentApi
-    var token: Token<T>? = null
-        private set
-
+class TokenSetterCallback<T> @StyleSheetComponentApi constructor(
+    private val onSet: (Token<T>) -> Unit,
+) {
     /**
      * Sets the given [token].
      */
     operator fun plusAssign(token: Token<T>?) {
         if (token != null) {
-            this.token = token
+            onSet(token)
         }
     }
 
@@ -20,6 +18,6 @@ class TokenSetter<T> @StyleSheetComponentApi constructor() {
      * Sets the given [value].
      */
     operator fun plusAssign(value: T) {
-        this.token = Token(value)
+        onSet(Token(value))
     }
 }
