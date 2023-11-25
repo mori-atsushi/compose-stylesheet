@@ -15,6 +15,7 @@ import androidx.compose.ui.unit.dp
 import com.moriatsushi.compose.stylesheet.appbar.TopAppBar
 import com.moriatsushi.compose.stylesheet.button.Button
 import com.moriatsushi.compose.stylesheet.button.IconButton
+import com.moriatsushi.compose.stylesheet.divider.Divider
 import com.moriatsushi.compose.stylesheet.icon.Icon
 import com.moriatsushi.compose.stylesheet.surface.Surface
 import com.moriatsushi.compose.stylesheet.text.Text
@@ -54,7 +55,7 @@ fun SampleScreen(
                         "All APIs may change in the future.",
                     tags = TextTags.secondary,
                 )
-                Spacer(modifier = Modifier.height(32.dp))
+                Divider(modifier = Modifier.height(64.dp))
                 Button(
                     onClick = {},
                     icon = { Icon(Icons.Default.Rocket, null) },
