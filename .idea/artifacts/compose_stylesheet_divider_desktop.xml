@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="compose-stylesheet-divider-desktop">
+    <output-path>$PROJECT_DIR$/component/compose-stylesheet-divider/build/libs</output-path>
+    <root id="archive" name="compose-stylesheet-divider-desktop.jar">
+      <element id="module-output" name="compose-style-sheet.component.compose-stylesheet-divider.desktopMain" />
+    </root>
+  </artifact>
+</component>
