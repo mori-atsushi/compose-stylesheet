@@ -24,5 +24,6 @@ class SemanticColors internal constructor() {
     val disabledSurface = Token("color.semantic.disabledSurface", Colors.gray100)
     val onDisabledSurface = Token("color.semantic.onDisabledSurface", Colors.gray300)
 
+    val divider = Token("color.semantic.divider", Colors.gray200)
     val focus = Token("color.semantic.focus", Colors.blue300)
 }
