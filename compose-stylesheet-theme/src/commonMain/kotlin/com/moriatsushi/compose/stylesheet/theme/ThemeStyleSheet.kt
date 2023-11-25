@@ -7,6 +7,7 @@ import com.moriatsushi.compose.stylesheet.StyleSheet
 import com.moriatsushi.compose.stylesheet.theme.appbar.topAppBarStyleSheet
 import com.moriatsushi.compose.stylesheet.theme.button.buttonStyleSheet
 import com.moriatsushi.compose.stylesheet.theme.button.iconButtonStyleSheet
+import com.moriatsushi.compose.stylesheet.theme.divider.dividerStyleSheet
 import com.moriatsushi.compose.stylesheet.theme.surface.surfaceStyleSheet
 
 /**
@@ -35,6 +36,7 @@ fun themeStyleSheet(
         Colors.semantic.disabledSurface += if (useDarkMode) Colors.gray700 else Colors.gray100
         Colors.semantic.onDisabledSurface += if (useDarkMode) Colors.gray500 else Colors.gray300
 
+        Colors.semantic.divider += if (useDarkMode) Colors.gray700 else Colors.gray200
         Colors.semantic.focus += if (useDarkMode) Colors.blue500 else Colors.blue300
 
         content {
@@ -43,6 +45,7 @@ fun themeStyleSheet(
 
         this += topAppBarStyleSheet
         this += buttonStyleSheet
+        this += dividerStyleSheet
         this += iconButtonStyleSheet
         this += surfaceStyleSheet
     }
