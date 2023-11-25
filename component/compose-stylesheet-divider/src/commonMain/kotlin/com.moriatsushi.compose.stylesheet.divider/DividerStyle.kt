@@ -14,6 +14,7 @@ import com.moriatsushi.compose.stylesheet.token.Token
 sealed interface DividerStyle : ComponentStyle {
     val thickness: Token<Dp>?
     val color: Token<Color>?
+    val orientation: DividerOrientation?
 
     companion object {
         /**
@@ -32,10 +33,12 @@ fun DividerStyle(builder: DividerStyleBuilder.() -> Unit): DividerStyle =
 internal fun DividerStyle(
     thickness: Token<Dp>? = null,
     color: Token<Color>? = null,
+    orientation: DividerOrientation? = null,
     commonStyle: ComponentCommonStyle = ComponentCommonStyle.Default,
 ): DividerStyle = DividerStyleImpl(
     thickness = thickness,
     color = color,
+    orientation = orientation,
     commonStyle = commonStyle,
 )
 
@@ -43,5 +46,6 @@ internal fun DividerStyle(
 private data class DividerStyleImpl(
     override val thickness: Token<Dp>?,
     override val color: Token<Color>?,
+    override val orientation: DividerOrientation?,
     override val commonStyle: ComponentCommonStyle,
 ) : DividerStyle

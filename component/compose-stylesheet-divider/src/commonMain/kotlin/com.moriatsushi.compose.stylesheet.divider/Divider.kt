@@ -1,8 +1,10 @@
 package com.moriatsushi.compose.stylesheet.divider
 
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -26,6 +28,7 @@ fun Divider(
     modifier: Modifier = Modifier,
     thickness: Dp = Dp.Unspecified,
     color: Color = Color.Unspecified,
+    orientation: DividerOrientation? = null,
     tags: TagModifier<DividerStyle> = TagModifier(),
     dividerStyle: DividerStyle = DividerStyle.Default,
 ) {
@@ -40,23 +43,69 @@ fun Divider(
         if (color.isSpecified) {
             this.color += color
         }
+        this.orientation += orientation
     }
 
     val finalColor = mergedStyle.color?.value ?: Color.Gray
     val finalThickness = mergedStyle.thickness?.value ?: 1.dp
+    val finalOrientation = mergedStyle.orientation ?: DividerOrientation.Horizontal
+    val dividerModifier = modifier
+        .componentCommonStyle(mergedStyle.commonStyle)
+        .wrapContentSize()
 
+    when (finalOrientation) {
+        DividerOrientation.Horizontal ->
+            HorizontalDivider(
+                modifier = dividerModifier,
+                thickness = finalThickness,
+                color = finalColor,
+            )
+
+        DividerOrientation.Vertical ->
+            VerticalDivider(
+                modifier = dividerModifier,
+                thickness = finalThickness,
+                color = finalColor,
+            )
+    }
+}
+
+@Composable
+private fun HorizontalDivider(
+    modifier: Modifier = Modifier,
+    thickness: Dp = Dp.Unspecified,
+    color: Color = Color.Unspecified,
+) {
     Canvas(
         modifier = modifier
-            .componentCommonStyle(mergedStyle.commonStyle)
-            .wrapContentSize()
             .fillMaxWidth()
-            .height(finalThickness),
+            .height(thickness),
     ) {
         drawLine(
-            color = finalColor,
-            strokeWidth = finalThickness.toPx(),
-            start = Offset(0f, finalThickness.toPx() / 2),
-            end = Offset(size.width, finalThickness.toPx() / 2),
+            color = color,
+            strokeWidth = thickness.toPx(),
+            start = Offset(0f, thickness.toPx() / 2),
+            end = Offset(size.width, thickness.toPx() / 2),
+        )
+    }
+}
+
+@Composable
+private fun VerticalDivider(
+    modifier: Modifier = Modifier,
+    thickness: Dp = Dp.Unspecified,
+    color: Color = Color.Unspecified,
+) {
+    Canvas(
+        modifier = modifier
+            .fillMaxHeight()
+            .width(thickness),
+    ) {
+        drawLine(
+            color = color,
+            strokeWidth = thickness.toPx(),
+            start = Offset(thickness.toPx() / 2, 0f),
+            end = Offset(thickness.toPx() / 2, size.height),
         )
     }
 }
