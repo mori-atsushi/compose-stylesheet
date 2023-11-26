@@ -20,12 +20,12 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation(compose.foundation)
-                implementation(project(":compose-stylesheet-core"))
-                api(project(":component:compose-stylesheet-appbar"))
-                api(project(":component:compose-stylesheet-button"))
-                api(project(":component:compose-stylesheet-divider"))
-                api(project(":component:compose-stylesheet-text"))
-                api(project(":component:compose-stylesheet-surface"))
+                api(project(":compose-stylesheet-core"))
+                implementation(project(":component:compose-stylesheet-appbar"))
+                implementation(project(":component:compose-stylesheet-button"))
+                implementation(project(":component:compose-stylesheet-divider"))
+                implementation(project(":component:compose-stylesheet-text"))
+                implementation(project(":component:compose-stylesheet-surface"))
             }
         }
 
