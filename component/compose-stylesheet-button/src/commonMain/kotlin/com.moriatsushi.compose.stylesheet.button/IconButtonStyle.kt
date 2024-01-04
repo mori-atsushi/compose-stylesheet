@@ -1,19 +1,15 @@
 package com.moriatsushi.compose.stylesheet.button
 
 import androidx.compose.runtime.Immutable
-import androidx.compose.ui.graphics.Color
-import com.moriatsushi.compose.stylesheet.component.ComponentCommonStyle
 import com.moriatsushi.compose.stylesheet.indication.IndicationStyle
-import com.moriatsushi.compose.stylesheet.token.Token
 
 /**
  * A style for [IconButton].
  */
 @Immutable
 sealed interface IconButtonStyle {
-    val color: Token<Color>?
     val indication: IndicationStyle?
-    val commonStyle: ComponentCommonStyle
+    val defaultStyle: IconButtonStateStyle
     val pressedStyle: IconButtonStateStyle
     val hoveredStyle: IconButtonStateStyle
     val focusedStyle: IconButtonStateStyle
@@ -34,17 +30,15 @@ fun IconButtonStyle(builder: IconButtonStyleBuilder.() -> Unit): IconButtonStyle
     IconButtonStyleBuilder().apply(builder).build()
 
 internal fun IconButtonStyle(
-    color: Token<Color>? = null,
     indication: IndicationStyle? = null,
-    commonStyle: ComponentCommonStyle = ComponentCommonStyle.Default,
+    defaultStyle: IconButtonStateStyle = IconButtonStateStyle.Default,
     pressedStyle: IconButtonStateStyle = IconButtonStateStyle.Default,
     hoveredStyle: IconButtonStateStyle = IconButtonStateStyle.Default,
     focusedStyle: IconButtonStateStyle = IconButtonStateStyle.Default,
     disabledStyle: IconButtonStateStyle = IconButtonStateStyle.Default,
 ): IconButtonStyle = IconButtonStyleImpl(
-    color = color,
     indication = indication,
-    commonStyle = commonStyle,
+    defaultStyle = defaultStyle,
     pressedStyle = pressedStyle,
     hoveredStyle = hoveredStyle,
     focusedStyle = focusedStyle,
@@ -56,34 +50,30 @@ fun IconButtonStyle.getStyleForState(
     isPressed: Boolean,
     isHovered: Boolean,
     isFocused: Boolean,
-): IconButtonStateStyle {
-    val iconButtonStyle = this
-    return IconButtonStateStyle {
-        this += iconButtonStyle
+): IconButtonStateStyle = IconButtonStateStyle {
+    this += defaultStyle
 
-        if (isFocused) {
-            this += iconButtonStyle.focusedStyle
-        }
+    if (isFocused) {
+        this += focusedStyle
+    }
 
-        if (isHovered) {
-            this += iconButtonStyle.hoveredStyle
-        }
+    if (isHovered) {
+        this += hoveredStyle
+    }
 
-        if (isPressed) {
-            this += iconButtonStyle.pressedStyle
-        }
+    if (isPressed) {
+        this += pressedStyle
+    }
 
-        if (!isEnabled) {
-            this += iconButtonStyle.disabledStyle
-        }
+    if (!isEnabled) {
+        this += disabledStyle
     }
 }
 
 @Immutable
 private data class IconButtonStyleImpl(
-    override val color: Token<Color>?,
     override val indication: IndicationStyle?,
-    override val commonStyle: ComponentCommonStyle,
+    override val defaultStyle: IconButtonStateStyle,
     override val pressedStyle: IconButtonStateStyle,
     override val hoveredStyle: IconButtonStateStyle,
     override val focusedStyle: IconButtonStateStyle,

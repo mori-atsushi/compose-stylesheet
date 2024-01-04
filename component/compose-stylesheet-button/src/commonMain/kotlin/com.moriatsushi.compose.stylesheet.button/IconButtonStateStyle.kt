@@ -23,7 +23,7 @@ sealed interface IconButtonStateStyle {
 
 internal fun IconButtonStateStyle(
     builder: IconButtonStateStyleBuilder.() -> Unit,
-): IconButtonStateStyle = IconButtonStateStyleBuilder().apply(builder).build()
+): IconButtonStateStyle = IconButtonStateStyleBuilder().apply(builder).buildStateStyle()
 
 internal fun IconButtonStateStyle(
     color: Token<Color>? = null,

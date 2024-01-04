@@ -1,25 +1,15 @@
 package com.moriatsushi.compose.stylesheet.button
 
-import androidx.compose.ui.graphics.Color
 import com.moriatsushi.compose.stylesheet.StyleBuilder
 import com.moriatsushi.compose.stylesheet.StyleSheetBuilderMarker
-import com.moriatsushi.compose.stylesheet.component.ComponentCommonStyleBuilder
-import com.moriatsushi.compose.stylesheet.component.ComponentCommonStyleHelper
 import com.moriatsushi.compose.stylesheet.indication.IndicationSetter
-import com.moriatsushi.compose.stylesheet.token.TokenSetter
 
 /**
  * A builder for [IconButtonStyle].
  */
 @StyleSheetBuilderMarker
-class IconButtonStyleBuilder internal constructor(
-    private val commonStyleHelper: ComponentCommonStyleHelper = ComponentCommonStyleHelper(),
-) : StyleBuilder<IconButtonStyle>, ComponentCommonStyleBuilder by commonStyleHelper {
-    /**
-     * A color of the icon.
-     */
-    val color = TokenSetter<Color>()
-
+class IconButtonStyleBuilder internal constructor() :
+    IconButtonStateStyleBuilder(), StyleBuilder<IconButtonStyle> {
     /**
      * An indication representing visual effects that occur when certain interactions happen, such
      * as pressing.
@@ -53,9 +43,8 @@ class IconButtonStyleBuilder internal constructor(
     val disabled = IconButtonStateStyleBuilder()
 
     override fun plusAssign(other: IconButtonStyle) {
-        color += other.color
         indication += other.indication
-        this += other.commonStyle
+        this += other.defaultStyle
         pressed += other.pressedStyle
         hovered += other.hoveredStyle
         focused += other.focusedStyle
@@ -63,12 +52,11 @@ class IconButtonStyleBuilder internal constructor(
     }
 
     override fun build(): IconButtonStyle = IconButtonStyle(
-        color = color.token,
         indication = indication.value,
-        commonStyle = commonStyleHelper.buildCommonStyle(),
-        pressedStyle = pressed.build(),
-        hoveredStyle = hovered.build(),
-        focusedStyle = focused.build(),
-        disabledStyle = disabled.build(),
+        defaultStyle = buildStateStyle(),
+        pressedStyle = pressed.buildStateStyle(),
+        hoveredStyle = hovered.buildStateStyle(),
+        focusedStyle = focused.buildStateStyle(),
+        disabledStyle = disabled.buildStateStyle(),
     )
 }

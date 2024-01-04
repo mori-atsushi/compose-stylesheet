@@ -10,30 +10,24 @@ import com.moriatsushi.compose.stylesheet.token.TokenSetter
  * A builder for [IconButtonStateStyle].
  */
 @StyleSheetBuilderMarker
-class IconButtonStateStyleBuilder internal constructor(
+open class IconButtonStateStyleBuilder internal constructor(
     private val commonStyleHelper: ComponentCommonStyleHelper = ComponentCommonStyleHelper(),
 ) : ComponentCommonStyleBuilder by commonStyleHelper {
-
     /**
      * A color of the icon.
      */
     val color = TokenSetter<Color>()
 
-    operator fun plusAssign(other: IconButtonStateStyle) {
-        color += other.color
-        this += other.commonStyle
-    }
-
-    internal operator fun plusAssign(iconButtonStyle: IconButtonStyle) {
-        color += iconButtonStyle.color
-        this += iconButtonStyle.commonStyle
-    }
-
     operator fun invoke(builder: IconButtonStateStyleBuilder.() -> Unit) {
         builder()
     }
 
-    fun build(): IconButtonStateStyle = IconButtonStateStyle(
+    internal operator fun plusAssign(other: IconButtonStateStyle) {
+        color += other.color
+        this += other.commonStyle
+    }
+
+    internal fun buildStateStyle(): IconButtonStateStyle = IconButtonStateStyle(
         color = color.token,
         commonStyle = commonStyleHelper.buildCommonStyle(),
     )
