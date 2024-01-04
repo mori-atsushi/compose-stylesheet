@@ -21,8 +21,10 @@ import androidx.compose.ui.text.style.TextIndent
 import androidx.compose.ui.text.style.TextMotion
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.TextUnit
+import com.moriatsushi.compose.stylesheet.StyleBuilder
 import com.moriatsushi.compose.stylesheet.StyleSheetBuilderMarker
-import com.moriatsushi.compose.stylesheet.component.ComponentStyleBuilder
+import com.moriatsushi.compose.stylesheet.component.ComponentCommonStyleBuilder
+import com.moriatsushi.compose.stylesheet.component.ComponentCommonStyleHelper
 import com.moriatsushi.compose.stylesheet.content.ContentStyle
 import com.moriatsushi.compose.stylesheet.token.TokenSetter
 
@@ -30,7 +32,9 @@ import com.moriatsushi.compose.stylesheet.token.TokenSetter
  * A builder for [TextStyle].
  */
 @StyleSheetBuilderMarker
-class TextStyleBuilder internal constructor() : ComponentStyleBuilder<TextStyle>() {
+class TextStyleBuilder internal constructor(
+    private val commonStyleHelper: ComponentCommonStyleHelper = ComponentCommonStyleHelper(),
+) : StyleBuilder<TextStyle>, ComponentCommonStyleBuilder by commonStyleHelper {
     val color: TokenSetter<Color> = TokenSetter()
     val fontSize: TokenSetter<TextUnit> = TokenSetter()
     val fontWeight: TokenSetter<FontWeight?> = TokenSetter()
@@ -148,6 +152,6 @@ class TextStyleBuilder internal constructor() : ComponentStyleBuilder<TextStyle>
         softWrap = softWrap.token,
         maxLines = maxLines.token,
         minLines = minLines.token,
-        commonStyle = buildCommonStyle(),
+        commonStyle = commonStyleHelper.buildCommonStyle(),
     )
 }

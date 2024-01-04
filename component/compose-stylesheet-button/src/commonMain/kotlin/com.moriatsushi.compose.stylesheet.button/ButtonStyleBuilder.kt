@@ -1,7 +1,9 @@
 package com.moriatsushi.compose.stylesheet.button
 
+import com.moriatsushi.compose.stylesheet.StyleBuilder
 import com.moriatsushi.compose.stylesheet.StyleSheetBuilderMarker
-import com.moriatsushi.compose.stylesheet.component.ComponentStyleBuilder
+import com.moriatsushi.compose.stylesheet.component.ComponentCommonStyleBuilder
+import com.moriatsushi.compose.stylesheet.component.ComponentCommonStyleHelper
 import com.moriatsushi.compose.stylesheet.content.ContentStyleBuilder
 import com.moriatsushi.compose.stylesheet.indication.IndicationSetter
 
@@ -9,7 +11,9 @@ import com.moriatsushi.compose.stylesheet.indication.IndicationSetter
  * A builder for [ButtonStyle].
  */
 @StyleSheetBuilderMarker
-class ButtonStyleBuilder internal constructor() : ComponentStyleBuilder<ButtonStyle>() {
+class ButtonStyleBuilder internal constructor(
+    private val commonStyleHelper: ComponentCommonStyleHelper = ComponentCommonStyleHelper(),
+) : StyleBuilder<ButtonStyle>, ComponentCommonStyleBuilder by commonStyleHelper {
     /**
      * A layout of the button.
      */
@@ -66,7 +70,7 @@ class ButtonStyleBuilder internal constructor() : ComponentStyleBuilder<ButtonSt
     override fun build(): ButtonStyle = ButtonStyle(
         layout = layout.build(),
         indication = indication.value,
-        commonStyle = buildCommonStyle(),
+        commonStyle = commonStyleHelper.buildCommonStyle(),
         contentStyle = content.build(),
         pressedStyle = pressed.build(),
         hoveredStyle = hovered.build(),

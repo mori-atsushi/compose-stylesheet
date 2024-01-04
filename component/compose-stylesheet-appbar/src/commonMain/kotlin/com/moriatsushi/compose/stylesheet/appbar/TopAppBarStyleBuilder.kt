@@ -1,12 +1,16 @@
 package com.moriatsushi.compose.stylesheet.appbar
 
-import com.moriatsushi.compose.stylesheet.component.ComponentStyleBuilder
+import com.moriatsushi.compose.stylesheet.StyleBuilder
+import com.moriatsushi.compose.stylesheet.component.ComponentCommonStyleBuilder
+import com.moriatsushi.compose.stylesheet.component.ComponentCommonStyleHelper
 import com.moriatsushi.compose.stylesheet.content.ContentStyleBuilder
 
 /**
  * A builder for [TopAppBarStyle].
  */
-class TopAppBarStyleBuilder internal constructor() : ComponentStyleBuilder<TopAppBarStyle>() {
+class TopAppBarStyleBuilder internal constructor(
+    private val commonStyleHelper: ComponentCommonStyleHelper = ComponentCommonStyleHelper(),
+) : StyleBuilder<TopAppBarStyle>, ComponentCommonStyleBuilder by commonStyleHelper {
     /**
      * A layout of the top app bar.
      */
@@ -25,7 +29,7 @@ class TopAppBarStyleBuilder internal constructor() : ComponentStyleBuilder<TopAp
 
     override fun build(): TopAppBarStyle = TopAppBarStyle(
         layout = layout.build(),
-        commonStyle = buildCommonStyle(),
+        commonStyle = commonStyleHelper.buildCommonStyle(),
         contentStyle = content.build(),
     )
 }
