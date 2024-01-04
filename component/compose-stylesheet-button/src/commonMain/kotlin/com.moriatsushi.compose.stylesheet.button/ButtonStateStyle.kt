@@ -21,7 +21,7 @@ sealed interface ButtonStateStyle {
 }
 
 internal fun ButtonStateStyle(builder: ButtonStateStyleBuilder.() -> Unit): ButtonStateStyle =
-    ButtonStateStyleBuilder().apply(builder).build()
+    ButtonStateStyleBuilder().apply(builder).buildStateStyle()
 
 internal fun ButtonStateStyle(
     commonStyle: ComponentCommonStyle = ComponentCommonStyle.Default,

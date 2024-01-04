@@ -2,18 +2,14 @@ package com.moriatsushi.compose.stylesheet.button
 
 import com.moriatsushi.compose.stylesheet.StyleBuilder
 import com.moriatsushi.compose.stylesheet.StyleSheetBuilderMarker
-import com.moriatsushi.compose.stylesheet.component.ComponentCommonStyleBuilder
-import com.moriatsushi.compose.stylesheet.component.ComponentCommonStyleHelper
-import com.moriatsushi.compose.stylesheet.content.ContentStyleBuilder
 import com.moriatsushi.compose.stylesheet.indication.IndicationSetter
 
 /**
  * A builder for [ButtonStyle].
  */
 @StyleSheetBuilderMarker
-class ButtonStyleBuilder internal constructor(
-    private val commonStyleHelper: ComponentCommonStyleHelper = ComponentCommonStyleHelper(),
-) : StyleBuilder<ButtonStyle>, ComponentCommonStyleBuilder by commonStyleHelper {
+class ButtonStyleBuilder internal constructor() :
+    ButtonStateStyleBuilder(), StyleBuilder<ButtonStyle> {
     /**
      * A layout of the button.
      */
@@ -30,11 +26,6 @@ class ButtonStyleBuilder internal constructor(
      * ```
      */
     val indication: IndicationSetter = IndicationSetter()
-
-    /**
-     * A content style.
-     */
-    val content: ContentStyleBuilder = ContentStyleBuilder()
 
     /**
      * A pressed style.
@@ -59,8 +50,7 @@ class ButtonStyleBuilder internal constructor(
     override fun plusAssign(other: ButtonStyle) {
         layout += other.layout
         indication += other.indication
-        this += other.commonStyle
-        content += other.contentStyle
+        this += other.defaultStyle
         pressed += other.pressedStyle
         hovered += other.hoveredStyle
         focused += other.focusedStyle
@@ -70,11 +60,10 @@ class ButtonStyleBuilder internal constructor(
     override fun build(): ButtonStyle = ButtonStyle(
         layout = layout.build(),
         indication = indication.value,
-        commonStyle = commonStyleHelper.buildCommonStyle(),
-        contentStyle = content.build(),
-        pressedStyle = pressed.build(),
-        hoveredStyle = hovered.build(),
-        focusedStyle = focused.build(),
-        disabledStyle = disabled.build(),
+        defaultStyle = buildStateStyle(),
+        pressedStyle = pressed.buildStateStyle(),
+        hoveredStyle = hovered.buildStateStyle(),
+        focusedStyle = focused.buildStateStyle(),
+        disabledStyle = disabled.buildStateStyle(),
     )
 }

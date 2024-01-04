@@ -1,8 +1,6 @@
 package com.moriatsushi.compose.stylesheet.button
 
 import androidx.compose.runtime.Immutable
-import com.moriatsushi.compose.stylesheet.component.ComponentCommonStyle
-import com.moriatsushi.compose.stylesheet.content.ContentStyle
 import com.moriatsushi.compose.stylesheet.indication.IndicationStyle
 
 /**
@@ -12,8 +10,7 @@ import com.moriatsushi.compose.stylesheet.indication.IndicationStyle
 sealed interface ButtonStyle {
     val layout: ButtonLayout
     val indication: IndicationStyle?
-    val commonStyle: ComponentCommonStyle
-    val contentStyle: ContentStyle
+    val defaultStyle: ButtonStateStyle
     val pressedStyle: ButtonStateStyle
     val hoveredStyle: ButtonStateStyle
     val focusedStyle: ButtonStateStyle
@@ -36,8 +33,7 @@ fun ButtonStyle(builder: ButtonStyleBuilder.() -> Unit): ButtonStyle =
 internal fun ButtonStyle(
     layout: ButtonLayout = ButtonLayout.Default,
     indication: IndicationStyle? = null,
-    commonStyle: ComponentCommonStyle = ComponentCommonStyle.Default,
-    contentStyle: ContentStyle = ContentStyle.Default,
+    defaultStyle: ButtonStateStyle = ButtonStateStyle.Default,
     pressedStyle: ButtonStateStyle = ButtonStateStyle.Default,
     hoveredStyle: ButtonStateStyle = ButtonStateStyle.Default,
     focusedStyle: ButtonStateStyle = ButtonStateStyle.Default,
@@ -45,8 +41,7 @@ internal fun ButtonStyle(
 ): ButtonStyle = ButtonStyleImpl(
     layout = layout,
     indication = indication,
-    commonStyle = commonStyle,
-    contentStyle = contentStyle,
+    defaultStyle = defaultStyle,
     pressedStyle = pressedStyle,
     hoveredStyle = hoveredStyle,
     focusedStyle = focusedStyle,
@@ -61,8 +56,7 @@ internal fun ButtonStyle.getStyleForState(
 ): ButtonStateStyle {
     val buttonStyle = this
     return ButtonStateStyle {
-        this += buttonStyle.commonStyle
-        content += buttonStyle.contentStyle
+        this += buttonStyle.defaultStyle
 
         if (isFocused) {
             this += buttonStyle.focusedStyle
@@ -86,8 +80,7 @@ internal fun ButtonStyle.getStyleForState(
 private data class ButtonStyleImpl(
     override val layout: ButtonLayout,
     override val indication: IndicationStyle?,
-    override val commonStyle: ComponentCommonStyle,
-    override val contentStyle: ContentStyle,
+    override val defaultStyle: ButtonStateStyle,
     override val pressedStyle: ButtonStateStyle,
     override val hoveredStyle: ButtonStateStyle,
     override val focusedStyle: ButtonStateStyle,
