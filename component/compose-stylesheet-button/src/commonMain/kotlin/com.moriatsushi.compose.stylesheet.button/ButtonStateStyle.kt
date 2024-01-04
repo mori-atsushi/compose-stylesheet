@@ -2,15 +2,15 @@ package com.moriatsushi.compose.stylesheet.button
 
 import androidx.compose.runtime.Immutable
 import com.moriatsushi.compose.stylesheet.component.ComponentCommonStyle
-import com.moriatsushi.compose.stylesheet.component.ComponentStyle
 import com.moriatsushi.compose.stylesheet.content.ContentStyle
 
 /**
  * A style for each [Button] state, such as pressed, focused, etc.
  */
 @Immutable
-sealed interface ButtonStateStyle : ComponentStyle {
+sealed interface ButtonStateStyle {
     val contentStyle: ContentStyle
+    val commonStyle: ComponentCommonStyle
 
     companion object {
         /**

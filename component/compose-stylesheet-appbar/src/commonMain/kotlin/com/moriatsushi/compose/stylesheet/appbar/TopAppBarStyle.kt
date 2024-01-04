@@ -2,16 +2,16 @@ package com.moriatsushi.compose.stylesheet.appbar
 
 import androidx.compose.runtime.Immutable
 import com.moriatsushi.compose.stylesheet.component.ComponentCommonStyle
-import com.moriatsushi.compose.stylesheet.component.ComponentStyle
 import com.moriatsushi.compose.stylesheet.content.ContentStyle
 
 /**
  * A style for [TopAppBar].
  */
 @Immutable
-sealed interface TopAppBarStyle : ComponentStyle {
+sealed interface TopAppBarStyle {
     val layout: TopAppBarLayout
     val contentStyle: ContentStyle
+    val commonStyle: ComponentCommonStyle
 
     companion object {
         /**

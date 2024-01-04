@@ -3,7 +3,7 @@ package com.moriatsushi.compose.stylesheet.component
 import com.moriatsushi.compose.stylesheet.StyleBuilder
 import com.moriatsushi.compose.stylesheet.tag.Tag
 
-internal class ComponentStyleSetBuilder<T : ComponentStyle>(
+internal class ComponentStyleSetBuilder<T : Any>(
     val commonStyleBuilder: StyleBuilder<T>,
     val tagStyles: MutableMap<Tag<T>, StyleBuilder<T>>,
 ) {
@@ -14,7 +14,7 @@ internal class ComponentStyleSetBuilder<T : ComponentStyle>(
         )
 
     companion object {
-        fun <T : ComponentStyle> create(
+        fun <T : Any> create(
             commonStyleBuilder: StyleBuilder<T>,
         ): ComponentStyleSetBuilder<T> =
             ComponentStyleSetBuilder(

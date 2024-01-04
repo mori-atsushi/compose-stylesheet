@@ -1,14 +1,18 @@
 package com.moriatsushi.compose.stylesheet.surface
 
+import com.moriatsushi.compose.stylesheet.StyleBuilder
 import com.moriatsushi.compose.stylesheet.StyleSheetBuilderMarker
-import com.moriatsushi.compose.stylesheet.component.ComponentStyleBuilder
+import com.moriatsushi.compose.stylesheet.component.ComponentCommonStyleBuilder
+import com.moriatsushi.compose.stylesheet.component.ComponentCommonStyleHelper
 import com.moriatsushi.compose.stylesheet.content.ContentStyleBuilder
 
 /**
  * A builder for [SurfaceStyle].
  */
 @StyleSheetBuilderMarker
-class SurfaceStyleBuilder internal constructor() : ComponentStyleBuilder<SurfaceStyle>() {
+class SurfaceStyleBuilder internal constructor(
+    private val commonStyleHelper: ComponentCommonStyleHelper = ComponentCommonStyleHelper(),
+) : StyleBuilder<SurfaceStyle>, ComponentCommonStyleBuilder by commonStyleHelper {
     /**
      * A content style.
      */
@@ -20,7 +24,7 @@ class SurfaceStyleBuilder internal constructor() : ComponentStyleBuilder<Surface
     }
 
     override fun build(): SurfaceStyle = SurfaceStyle(
-        commonStyle = buildCommonStyle(),
+        commonStyle = commonStyleHelper.buildCommonStyle(),
         contentStyle = content.build(),
     )
 }

@@ -3,7 +3,6 @@ package com.moriatsushi.compose.stylesheet
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import com.moriatsushi.compose.stylesheet.component.Component
-import com.moriatsushi.compose.stylesheet.component.ComponentStyle
 import com.moriatsushi.compose.stylesheet.component.ComponentStyleSet
 import com.moriatsushi.compose.stylesheet.content.ContentStyle
 import com.moriatsushi.compose.stylesheet.tag.TagModifier
@@ -38,7 +37,7 @@ class StyleSheet internal constructor(
     }
 
     @Suppress("UNCHECKED_CAST")
-    internal fun <CS : ComponentStyle, SB : StyleBuilder<CS>> getStyle(
+    internal fun <CS : Any, SB : StyleBuilder<CS>> getStyle(
         component: Component<CS, SB>,
         tags: TagModifier<CS> = TagModifier(),
     ): CS {
@@ -109,7 +108,7 @@ class StyleSheet internal constructor(
          * Returns the [component] style, which is merged with the given [tags].
          */
         @Composable
-        fun <CS : ComponentStyle, SB : StyleBuilder<CS>> getStyle(
+        fun <CS : Any, SB : StyleBuilder<CS>> getStyle(
             component: Component<CS, SB>,
             tags: TagModifier<CS> = TagModifier(),
         ): CS = LocalStyleSheet.current.getStyle(component, tags)

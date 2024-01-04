@@ -5,7 +5,7 @@ import com.moriatsushi.compose.stylesheet.component.StyleSheetComponentApi
 /**
  * An interface for building a [style][T].
  */
-interface StyleBuilder<T> {
+interface StyleBuilder<T : Any> {
     /**
      * Merges this style with the given [other] style.
      */

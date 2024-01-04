@@ -1,8 +1,10 @@
 package com.moriatsushi.compose.stylesheet.button
 
 import androidx.compose.ui.graphics.Color
+import com.moriatsushi.compose.stylesheet.StyleBuilder
 import com.moriatsushi.compose.stylesheet.StyleSheetBuilderMarker
-import com.moriatsushi.compose.stylesheet.component.ComponentStyleBuilder
+import com.moriatsushi.compose.stylesheet.component.ComponentCommonStyleBuilder
+import com.moriatsushi.compose.stylesheet.component.ComponentCommonStyleHelper
 import com.moriatsushi.compose.stylesheet.indication.IndicationSetter
 import com.moriatsushi.compose.stylesheet.token.TokenSetter
 
@@ -10,7 +12,9 @@ import com.moriatsushi.compose.stylesheet.token.TokenSetter
  * A builder for [IconButtonStyle].
  */
 @StyleSheetBuilderMarker
-class IconButtonStyleBuilder internal constructor() : ComponentStyleBuilder<IconButtonStyle>() {
+class IconButtonStyleBuilder internal constructor(
+    private val commonStyleHelper: ComponentCommonStyleHelper = ComponentCommonStyleHelper(),
+) : StyleBuilder<IconButtonStyle>, ComponentCommonStyleBuilder by commonStyleHelper {
     /**
      * A color of the icon.
      */
@@ -61,7 +65,7 @@ class IconButtonStyleBuilder internal constructor() : ComponentStyleBuilder<Icon
     override fun build(): IconButtonStyle = IconButtonStyle(
         color = color.token,
         indication = indication.value,
-        commonStyle = buildCommonStyle(),
+        commonStyle = commonStyleHelper.buildCommonStyle(),
         pressedStyle = pressed.build(),
         hoveredStyle = hovered.build(),
         focusedStyle = focused.build(),

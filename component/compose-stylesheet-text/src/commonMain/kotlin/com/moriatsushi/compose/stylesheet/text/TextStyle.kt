@@ -24,14 +24,13 @@ import androidx.compose.ui.text.style.TextMotion
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.TextUnit
 import com.moriatsushi.compose.stylesheet.component.ComponentCommonStyle
-import com.moriatsushi.compose.stylesheet.component.ComponentStyle
 import com.moriatsushi.compose.stylesheet.token.Token
 
 /**
  * A style for [Text].
  */
 @Stable
-sealed interface TextStyle : ComponentStyle {
+sealed interface TextStyle {
     val color: Token<Color>?
     val fontSize: Token<TextUnit>?
     val fontWeight: Token<FontWeight?>?
@@ -60,6 +59,7 @@ sealed interface TextStyle : ComponentStyle {
     val softWrap: Token<Boolean?>?
     val maxLines: Token<Int?>?
     val minLines: Token<Int?>?
+    val commonStyle: ComponentCommonStyle
 
     companion object {
         /**

@@ -4,24 +4,20 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.moriatsushi.compose.stylesheet.StyleBuilder
 import com.moriatsushi.compose.stylesheet.border.BorderSetter
 import com.moriatsushi.compose.stylesheet.component.padding.ComponentPadding
 import com.moriatsushi.compose.stylesheet.component.padding.PaddingSetter
 import com.moriatsushi.compose.stylesheet.component.size.ComponentFillSize
 import com.moriatsushi.compose.stylesheet.component.size.ComponentMinMaxSizeSetter
-import com.moriatsushi.compose.stylesheet.component.size.ComponentSize
 import com.moriatsushi.compose.stylesheet.component.size.ComponentSizeSetter
 import com.moriatsushi.compose.stylesheet.component.size.ComponentSizeValueSetter
 import com.moriatsushi.compose.stylesheet.token.Token
 import com.moriatsushi.compose.stylesheet.token.TokenSetter
 
 /**
- * A builder for [ComponentStyle].
+ * A builder for [ComponentCommonStyle].
  */
-abstract class ComponentStyleBuilder<T : ComponentStyle> : StyleBuilder<T> {
-    private var _size: ComponentSize = ComponentSize.Default
-
+interface ComponentCommonStyleBuilder {
     /**
      * A size of the component.
      *
@@ -34,12 +30,7 @@ abstract class ComponentStyleBuilder<T : ComponentStyle> : StyleBuilder<T> {
      * size += DpSize.Unspecified // Clear size
      * ```
      */
-    val size: ComponentSizeSetter = ComponentSizeSetter {
-        _size = ComponentSize(
-            width = it.width ?: _size.width,
-            height = it.height ?: _size.height,
-        )
-    }
+    val size: ComponentSizeSetter
 
     /**
      * A minimum size of the component.
@@ -50,9 +41,7 @@ abstract class ComponentStyleBuilder<T : ComponentStyle> : StyleBuilder<T> {
      * minSize += sizeToken // Token<Dp>
      * ```
      */
-    val minSize: ComponentMinMaxSizeSetter = ComponentMinMaxSizeSetter {
-        _size = _size.copy(minWidth = it, minHeight = it)
-    }
+    val minSize: ComponentMinMaxSizeSetter
 
     /**
      * A maximum size of the component.
@@ -63,9 +52,7 @@ abstract class ComponentStyleBuilder<T : ComponentStyle> : StyleBuilder<T> {
      * maxSize += sizeToken // Token<Dp>
      * ```
      */
-    val maxSize: ComponentMinMaxSizeSetter = ComponentMinMaxSizeSetter {
-        _size = _size.copy(maxWidth = it, maxHeight = it)
-    }
+    val maxSize: ComponentMinMaxSizeSetter
 
     /**
      * A width of the component.
@@ -78,9 +65,7 @@ abstract class ComponentStyleBuilder<T : ComponentStyle> : StyleBuilder<T> {
      * width += Dp.Unspecified // Clear width
      * ```
      */
-    val width: ComponentSizeValueSetter = ComponentSizeValueSetter {
-        _size = _size.copy(width = it)
-    }
+    val width: ComponentSizeValueSetter
 
     /**
      * A minimum width of the component.
@@ -91,9 +76,7 @@ abstract class ComponentStyleBuilder<T : ComponentStyle> : StyleBuilder<T> {
      * minWidth += sizeToken // Token<Dp>
      * ```
      */
-    val minWidth: ComponentMinMaxSizeSetter = ComponentMinMaxSizeSetter {
-        _size = _size.copy(minWidth = it)
-    }
+    val minWidth: ComponentMinMaxSizeSetter
 
     /**
      * A maximum width of the component.
@@ -104,9 +87,7 @@ abstract class ComponentStyleBuilder<T : ComponentStyle> : StyleBuilder<T> {
      * maxWidth += sizeToken // Token<Dp>
      * ```
      */
-    val maxWidth: ComponentMinMaxSizeSetter = ComponentMinMaxSizeSetter {
-        _size = _size.copy(maxWidth = it)
-    }
+    val maxWidth: ComponentMinMaxSizeSetter
 
     /**
      * A height of the component.
@@ -119,9 +100,7 @@ abstract class ComponentStyleBuilder<T : ComponentStyle> : StyleBuilder<T> {
      * height += Dp.Unspecified // Clear height
      * ```
      */
-    val height: ComponentSizeValueSetter = ComponentSizeValueSetter {
-        _size = _size.copy(height = it)
-    }
+    val height: ComponentSizeValueSetter
 
     /**
      * A minimum height of the component.
@@ -132,9 +111,7 @@ abstract class ComponentStyleBuilder<T : ComponentStyle> : StyleBuilder<T> {
      * minHeight += sizeToken // Token<Dp>
      * ```
      */
-    val minHeight: ComponentMinMaxSizeSetter = ComponentMinMaxSizeSetter {
-        _size = _size.copy(minHeight = it)
-    }
+    val minHeight: ComponentMinMaxSizeSetter
 
     /**
      * A maximum height of the component.
@@ -145,9 +122,7 @@ abstract class ComponentStyleBuilder<T : ComponentStyle> : StyleBuilder<T> {
      * maxHeight += sizeToken // Token<Dp>
      * ```
      */
-    val maxHeight: ComponentMinMaxSizeSetter = ComponentMinMaxSizeSetter {
-        _size = _size.copy(maxHeight = it)
-    }
+    val maxHeight: ComponentMinMaxSizeSetter
 
     /**
      * A padding of the component.
@@ -165,17 +140,17 @@ abstract class ComponentStyleBuilder<T : ComponentStyle> : StyleBuilder<T> {
      * padding.horizontal += 10.dp
      * ```
      */
-    val padding: PaddingSetter = PaddingSetter()
+    val padding: PaddingSetter
 
     /**
      * A background color.
      */
-    val background: TokenSetter<Color> = TokenSetter()
+    val background: TokenSetter<Color>
 
     /**
      * A shape for clipping the component.
      */
-    val shape: TokenSetter<Shape?> = TokenSetter()
+    val shape: TokenSetter<Shape?>
 
     /**
      * An inner border for the component.
@@ -189,7 +164,7 @@ abstract class ComponentStyleBuilder<T : ComponentStyle> : StyleBuilder<T> {
      * border.brush += Brush.horizontalGradient(listOf(Color.Red, Color.Blue))
      * ```
      */
-    val border: BorderSetter = BorderSetter()
+    val border: BorderSetter
 
     /**
      * An outer border for the component. This is not included in the size of the component.
@@ -203,12 +178,15 @@ abstract class ComponentStyleBuilder<T : ComponentStyle> : StyleBuilder<T> {
      * outline.brush += Brush.horizontalGradient(listOf(Color.Red, Color.Blue))
      * ```
      */
-    val outline: BorderSetter = BorderSetter()
+    val outline: BorderSetter
 
     /**
      * A value for filling the component.
      */
-    val fill: ComponentFillSize = ComponentFillSize.instance
+    val fill: ComponentFillSize get() = ComponentFillSize.instance
+
+    @StyleSheetComponentApi
+    operator fun plusAssign(other: ComponentCommonStyle)
 
     fun padding(
         horizontal: Token<Dp> = Token(0.dp),
@@ -267,25 +245,5 @@ abstract class ComponentStyleBuilder<T : ComponentStyle> : StyleBuilder<T> {
         top = Token(top),
         right = Token(right),
         bottom = Token(bottom),
-    )
-
-    @StyleSheetComponentApi
-    operator fun plusAssign(other: ComponentCommonStyle) {
-        _size = _size.merge(other.size)
-        padding += other.padding
-        background += other.background
-        shape += other.shape
-        border += other.border
-        outline += other.outline
-    }
-
-    @StyleSheetComponentApi
-    protected fun buildCommonStyle(): ComponentCommonStyle = ComponentCommonStyle(
-        size = _size,
-        padding = padding.value,
-        background = background.token,
-        shape = shape.token,
-        border = border.value,
-        outline = outline.value,
     )
 }

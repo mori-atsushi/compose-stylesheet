@@ -1,7 +1,6 @@
 package com.moriatsushi.compose.stylesheet
 
 import com.moriatsushi.compose.stylesheet.component.Component
-import com.moriatsushi.compose.stylesheet.component.ComponentStyle
 import com.moriatsushi.compose.stylesheet.component.ComponentStyleSet
 import com.moriatsushi.compose.stylesheet.component.ComponentStyleSetBuilder
 import com.moriatsushi.compose.stylesheet.content.ContentStyleBuilder
@@ -51,7 +50,7 @@ class StyleSheetBuilder internal constructor() {
      * Defines a common style for the given component.
      */
     @Suppress("UNCHECKED_CAST")
-    operator fun <CS : ComponentStyle, SB : StyleBuilder<CS>> Component<CS, SB>.invoke(
+    operator fun <CS : Any, SB : StyleBuilder<CS>> Component<CS, SB>.invoke(
         builder: SB.() -> Unit,
     ) {
         val componentStyleSet = getOrPutComponentStyleSet(this)
@@ -63,7 +62,7 @@ class StyleSheetBuilder internal constructor() {
      * Defines a style for the given component and tag.
      */
     @Suppress("UNCHECKED_CAST")
-    operator fun <CS : ComponentStyle, SB : StyleBuilder<CS>> Component<CS, SB>.invoke(
+    operator fun <CS : Any, SB : StyleBuilder<CS>> Component<CS, SB>.invoke(
         tag: Tag<CS>,
         builder: SB.() -> Unit,
     ) {
@@ -73,7 +72,7 @@ class StyleSheetBuilder internal constructor() {
     }
 
     @Suppress("UNCHECKED_CAST")
-    private fun <CS : ComponentStyle, SB : StyleBuilder<CS>> getOrPutComponentStyleSet(
+    private fun <CS : Any, SB : StyleBuilder<CS>> getOrPutComponentStyleSet(
         component: Component<CS, SB>,
     ): ComponentStyleSetBuilder<CS> =
         componentStyleSet.getOrPut(component) {
@@ -83,8 +82,8 @@ class StyleSheetBuilder internal constructor() {
     @Suppress("UNCHECKED_CAST")
     private operator fun Component<*, *>.plusAssign(componentStyleSet: ComponentStyleSet<*>) {
         val component = this
-        component as Component<ComponentStyle, StyleBuilder<ComponentStyle>>
-        componentStyleSet as ComponentStyleSet<ComponentStyle>
+        component as Component<Any, StyleBuilder<Any>>
+        componentStyleSet as ComponentStyleSet<Any>
 
         component { this += componentStyleSet.commonStyle }
         for ((tag, style) in componentStyleSet.tagStyles) {

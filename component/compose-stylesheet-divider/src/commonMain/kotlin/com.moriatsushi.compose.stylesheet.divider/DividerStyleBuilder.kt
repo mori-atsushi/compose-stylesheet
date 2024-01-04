@@ -2,16 +2,20 @@ package com.moriatsushi.compose.stylesheet.divider
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
+import com.moriatsushi.compose.stylesheet.StyleBuilder
 import com.moriatsushi.compose.stylesheet.StyleBuilder.ValueSetter
 import com.moriatsushi.compose.stylesheet.StyleSheetBuilderMarker
-import com.moriatsushi.compose.stylesheet.component.ComponentStyleBuilder
+import com.moriatsushi.compose.stylesheet.component.ComponentCommonStyleBuilder
+import com.moriatsushi.compose.stylesheet.component.ComponentCommonStyleHelper
 import com.moriatsushi.compose.stylesheet.token.TokenSetter
 
 /**
  * A builder for [DividerStyle].
  */
 @StyleSheetBuilderMarker
-class DividerStyleBuilder internal constructor() : ComponentStyleBuilder<DividerStyle>() {
+class DividerStyleBuilder internal constructor(
+    private val commonStyleHelper: ComponentCommonStyleHelper = ComponentCommonStyleHelper(),
+) : StyleBuilder<DividerStyle>, ComponentCommonStyleBuilder by commonStyleHelper {
     /**
      * A thickness of the divider.
      */
@@ -38,6 +42,6 @@ class DividerStyleBuilder internal constructor() : ComponentStyleBuilder<Divider
         thickness = thickness.token,
         color = color.token,
         orientation = orientation.value,
-        commonStyle = buildCommonStyle(),
+        commonStyle = commonStyleHelper.buildCommonStyle(),
     )
 }

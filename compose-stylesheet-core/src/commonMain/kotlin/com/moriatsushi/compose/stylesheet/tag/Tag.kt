@@ -2,13 +2,12 @@ package com.moriatsushi.compose.stylesheet.tag
 
 import androidx.compose.runtime.Immutable
 import com.moriatsushi.compose.stylesheet.component.Component
-import com.moriatsushi.compose.stylesheet.component.ComponentStyle
 
 /**
  * A symbol for decorating a [Component].
  */
 @Immutable
-class Tag<CS : ComponentStyle> internal constructor(
+class Tag<CS : Any> internal constructor(
     private val name: String,
     private val componentName: String,
 ) : TagModifier<CS> {
@@ -17,5 +16,5 @@ class Tag<CS : ComponentStyle> internal constructor(
     override fun toString(): String = "Tag($name, component=$componentName)"
 }
 
-fun <CS : ComponentStyle> Tag(name: String, component: Component<CS, *>): Tag<CS> =
+fun <CS : Any> Tag(name: String, component: Component<CS, *>): Tag<CS> =
     Tag(name, component.name)

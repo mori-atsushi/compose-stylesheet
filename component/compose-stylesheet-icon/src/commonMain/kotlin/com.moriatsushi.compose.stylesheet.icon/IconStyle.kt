@@ -4,15 +4,15 @@ import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.graphics.Color
 import com.moriatsushi.compose.stylesheet.component.ComponentCommonStyle
-import com.moriatsushi.compose.stylesheet.component.ComponentStyle
 import com.moriatsushi.compose.stylesheet.token.Token
 
 /**
  * A style for [Icon].
  */
 @Stable
-sealed interface IconStyle : ComponentStyle {
+sealed interface IconStyle {
     val color: Token<Color>?
+    val commonStyle: ComponentCommonStyle
 
     companion object {
         /**
