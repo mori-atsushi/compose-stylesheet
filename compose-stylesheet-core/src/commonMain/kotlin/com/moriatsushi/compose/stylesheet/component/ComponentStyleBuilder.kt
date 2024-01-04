@@ -17,9 +17,9 @@ import com.moriatsushi.compose.stylesheet.token.Token
 import com.moriatsushi.compose.stylesheet.token.TokenSetter
 
 /**
- * A builder for [ComponentStyle].
+ * A builder for a component style.
  */
-abstract class ComponentStyleBuilder<T : ComponentStyle> : StyleBuilder<T> {
+abstract class ComponentStyleBuilder<T : Any> : StyleBuilder<T> {
     private var _size: ComponentSize = ComponentSize.Default
 
     /**

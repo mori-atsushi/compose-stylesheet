@@ -3,15 +3,15 @@ package com.moriatsushi.compose.stylesheet.button
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Color
 import com.moriatsushi.compose.stylesheet.component.ComponentCommonStyle
-import com.moriatsushi.compose.stylesheet.component.ComponentStyle
 import com.moriatsushi.compose.stylesheet.token.Token
 
 /**
  * A style for each [IconButton] state, such as pressed, focused, etc.
  */
 @Immutable
-sealed interface IconButtonStateStyle : ComponentStyle {
+sealed interface IconButtonStateStyle {
     val color: Token<Color>?
+    val commonStyle: ComponentCommonStyle
 
     companion object {
         /**

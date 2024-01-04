@@ -5,7 +5,7 @@ import com.moriatsushi.compose.stylesheet.StyleBuilder
 /**
  * A symbol of a component, which has a style and a style builder.
  */
-interface Component<CS : ComponentStyle, SB : StyleBuilder<CS>> {
+interface Component<CS : Any, SB : StyleBuilder<CS>> {
     val name: String
     val defaultStyle: CS
     fun createBuilder(): SB
@@ -15,13 +15,13 @@ interface Component<CS : ComponentStyle, SB : StyleBuilder<CS>> {
  * Creates a symbol of a component.
  */
 @StyleSheetComponentApi
-fun <CS : ComponentStyle, SB : StyleBuilder<CS>> Component(
+fun <CS : Any, SB : StyleBuilder<CS>> Component(
     name: String,
     defaultStyle: CS,
     createBuilder: () -> SB,
 ): Component<CS, SB> = ComponentImpl(name, defaultStyle, createBuilder)
 
-private class ComponentImpl<CS : ComponentStyle, SB : StyleBuilder<CS>>(
+private class ComponentImpl<CS : Any, SB : StyleBuilder<CS>>(
     override val name: String,
     override val defaultStyle: CS,
     private val builder: () -> SB,

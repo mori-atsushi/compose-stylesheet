@@ -2,7 +2,6 @@ package com.moriatsushi.compose.stylesheet.button
 
 import androidx.compose.runtime.Immutable
 import com.moriatsushi.compose.stylesheet.component.ComponentCommonStyle
-import com.moriatsushi.compose.stylesheet.component.ComponentStyle
 import com.moriatsushi.compose.stylesheet.content.ContentStyle
 import com.moriatsushi.compose.stylesheet.indication.IndicationStyle
 
@@ -10,9 +9,10 @@ import com.moriatsushi.compose.stylesheet.indication.IndicationStyle
  * A style for [Button].
  */
 @Immutable
-sealed interface ButtonStyle : ComponentStyle {
+sealed interface ButtonStyle {
     val layout: ButtonLayout
     val indication: IndicationStyle?
+    val commonStyle: ComponentCommonStyle
     val contentStyle: ContentStyle
     val pressedStyle: ButtonStateStyle
     val hoveredStyle: ButtonStateStyle

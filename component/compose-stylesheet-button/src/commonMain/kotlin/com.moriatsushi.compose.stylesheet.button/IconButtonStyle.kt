@@ -3,7 +3,6 @@ package com.moriatsushi.compose.stylesheet.button
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Color
 import com.moriatsushi.compose.stylesheet.component.ComponentCommonStyle
-import com.moriatsushi.compose.stylesheet.component.ComponentStyle
 import com.moriatsushi.compose.stylesheet.indication.IndicationStyle
 import com.moriatsushi.compose.stylesheet.token.Token
 
@@ -11,9 +10,10 @@ import com.moriatsushi.compose.stylesheet.token.Token
  * A style for [IconButton].
  */
 @Immutable
-sealed interface IconButtonStyle : ComponentStyle {
+sealed interface IconButtonStyle {
     val color: Token<Color>?
     val indication: IndicationStyle?
+    val commonStyle: ComponentCommonStyle
     val pressedStyle: IconButtonStateStyle
     val hoveredStyle: IconButtonStateStyle
     val focusedStyle: IconButtonStateStyle
