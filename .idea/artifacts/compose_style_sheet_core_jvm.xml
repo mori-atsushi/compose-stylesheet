@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="jar" name="compose-style-sheet-core-jvm">
-    <output-path>$PROJECT_DIR$/compose-style-sheet-core/build/libs</output-path>
-    <root id="archive" name="compose-style-sheet-core-jvm.jar">
-      <element id="module-output" name="compose-style-sheet.compose-style-sheet-core.jvmMain" />
-    </root>
-  </artifact>
-</component>
