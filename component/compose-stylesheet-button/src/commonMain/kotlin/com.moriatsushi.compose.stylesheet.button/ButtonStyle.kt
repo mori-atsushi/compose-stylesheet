@@ -1,15 +1,12 @@
 package com.moriatsushi.compose.stylesheet.button
 
 import androidx.compose.runtime.Immutable
-import com.moriatsushi.compose.stylesheet.indication.IndicationStyle
 
 /**
  * A style for [Button].
  */
 @Immutable
 sealed interface ButtonStyle {
-    val layout: ButtonLayout
-    val indication: IndicationStyle?
     val defaultStyle: ButtonStateStyle
     val pressedStyle: ButtonStateStyle
     val hoveredStyle: ButtonStateStyle
@@ -31,16 +28,12 @@ fun ButtonStyle(builder: ButtonStyleBuilder.() -> Unit): ButtonStyle =
     ButtonStyleBuilder().apply(builder).build()
 
 internal fun ButtonStyle(
-    layout: ButtonLayout = ButtonLayout.Default,
-    indication: IndicationStyle? = null,
     defaultStyle: ButtonStateStyle = ButtonStateStyle.Default,
     pressedStyle: ButtonStateStyle = ButtonStateStyle.Default,
     hoveredStyle: ButtonStateStyle = ButtonStateStyle.Default,
     focusedStyle: ButtonStateStyle = ButtonStateStyle.Default,
     disabledStyle: ButtonStateStyle = ButtonStateStyle.Default,
 ): ButtonStyle = ButtonStyleImpl(
-    layout = layout,
-    indication = indication,
     defaultStyle = defaultStyle,
     pressedStyle = pressedStyle,
     hoveredStyle = hoveredStyle,
@@ -78,8 +71,6 @@ internal fun ButtonStyle.getStyleForState(
 
 @Immutable
 private data class ButtonStyleImpl(
-    override val layout: ButtonLayout,
-    override val indication: IndicationStyle?,
     override val defaultStyle: ButtonStateStyle,
     override val pressedStyle: ButtonStateStyle,
     override val hoveredStyle: ButtonStateStyle,
