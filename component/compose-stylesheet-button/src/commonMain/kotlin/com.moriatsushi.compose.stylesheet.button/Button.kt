@@ -46,18 +46,20 @@ fun Button(
     val mergedStyle = ButtonStyle {
         this += localStyle
         this += buttonStyle
-
-        layout.iconPosition += iconPosition
     }
     val isPressed by interactionSource.collectIsPressedAsState()
     val isHovered by interactionSource.collectIsHoveredAsState()
     val isFocused by interactionSource.collectIsFocusedAsState()
-    val stateStyle = mergedStyle.getStyleForState(
-        isEnabled = enabled,
-        isPressed = isPressed,
-        isHovered = isHovered,
-        isFocused = isFocused,
-    )
+    val stateStyle = ButtonStateStyle {
+        this += mergedStyle.getStyleForState(
+            isEnabled = enabled,
+            isPressed = isPressed,
+            isHovered = isHovered,
+            isFocused = isFocused,
+        )
+
+        layout.iconPosition += iconPosition
+    }
 
     ButtonContent(
         modifier = modifier
@@ -65,14 +67,14 @@ fun Button(
             .componentCommonStyle(stateStyle.commonStyle, includePadding = false)
             .clickable(
                 interactionSource = interactionSource,
-                indication = mergedStyle.indication?.value,
+                indication = stateStyle.indication?.value,
                 onClick = onClick,
                 enabled = enabled,
             )
             .componentPadding(stateStyle.commonStyle.padding),
         contentStyle = stateStyle.contentStyle,
         icon = icon,
-        layout = mergedStyle.layout,
+        layout = stateStyle.layout,
         content = content,
     )
 }

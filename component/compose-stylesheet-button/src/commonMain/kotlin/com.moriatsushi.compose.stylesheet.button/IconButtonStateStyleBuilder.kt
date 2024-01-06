@@ -4,37 +4,46 @@ import androidx.compose.ui.graphics.Color
 import com.moriatsushi.compose.stylesheet.StyleSheetBuilderMarker
 import com.moriatsushi.compose.stylesheet.component.ComponentCommonStyleBuilder
 import com.moriatsushi.compose.stylesheet.component.ComponentCommonStyleHelper
+import com.moriatsushi.compose.stylesheet.indication.IndicationSetter
 import com.moriatsushi.compose.stylesheet.token.TokenSetter
 
 /**
  * A builder for [IconButtonStateStyle].
  */
 @StyleSheetBuilderMarker
-class IconButtonStateStyleBuilder internal constructor(
+open class IconButtonStateStyleBuilder internal constructor(
     private val commonStyleHelper: ComponentCommonStyleHelper = ComponentCommonStyleHelper(),
 ) : ComponentCommonStyleBuilder by commonStyleHelper {
-
     /**
      * A color of the icon.
      */
     val color = TokenSetter<Color>()
 
-    operator fun plusAssign(other: IconButtonStateStyle) {
-        color += other.color
-        this += other.commonStyle
-    }
-
-    internal operator fun plusAssign(iconButtonStyle: IconButtonStyle) {
-        color += iconButtonStyle.color
-        this += iconButtonStyle.commonStyle
-    }
+    /**
+     * An indication representing visual effects that occur when certain interactions happen, such
+     * as pressing.
+     *
+     * Example:
+     * ```
+     * indication += SampleIndication()
+     * indication += { rememberRipple() }
+     * ```
+     */
+    val indication: IndicationSetter = IndicationSetter()
 
     operator fun invoke(builder: IconButtonStateStyleBuilder.() -> Unit) {
         builder()
     }
 
-    fun build(): IconButtonStateStyle = IconButtonStateStyle(
+    internal operator fun plusAssign(other: IconButtonStateStyle) {
+        color += other.color
+        indication += other.indication
+        this += other.commonStyle
+    }
+
+    internal fun buildStateStyle(): IconButtonStateStyle = IconButtonStateStyle(
         color = color.token,
+        indication = indication.value,
         commonStyle = commonStyleHelper.buildCommonStyle(),
     )
 }
