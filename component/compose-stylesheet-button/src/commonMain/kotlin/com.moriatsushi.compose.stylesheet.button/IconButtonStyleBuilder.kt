@@ -2,7 +2,6 @@ package com.moriatsushi.compose.stylesheet.button
 
 import com.moriatsushi.compose.stylesheet.StyleBuilder
 import com.moriatsushi.compose.stylesheet.StyleSheetBuilderMarker
-import com.moriatsushi.compose.stylesheet.indication.IndicationSetter
 
 /**
  * A builder for [IconButtonStyle].
@@ -10,18 +9,6 @@ import com.moriatsushi.compose.stylesheet.indication.IndicationSetter
 @StyleSheetBuilderMarker
 class IconButtonStyleBuilder internal constructor() :
     IconButtonStateStyleBuilder(), StyleBuilder<IconButtonStyle> {
-    /**
-     * An indication representing visual effects that occur when certain interactions happen, such
-     * as pressing.
-     *
-     * Example:
-     * ```
-     * indication += SampleIndication()
-     * indication += { rememberRipple() }
-     * ```
-     */
-    val indication: IndicationSetter = IndicationSetter()
-
     /**
      * A pressed style.
      */
@@ -43,7 +30,6 @@ class IconButtonStyleBuilder internal constructor() :
     val disabled = IconButtonStateStyleBuilder()
 
     override fun plusAssign(other: IconButtonStyle) {
-        indication += other.indication
         this += other.defaultStyle
         pressed += other.pressedStyle
         hovered += other.hoveredStyle
@@ -52,7 +38,6 @@ class IconButtonStyleBuilder internal constructor() :
     }
 
     override fun build(): IconButtonStyle = IconButtonStyle(
-        indication = indication.value,
         defaultStyle = buildStateStyle(),
         pressedStyle = pressed.buildStateStyle(),
         hoveredStyle = hovered.buildStateStyle(),

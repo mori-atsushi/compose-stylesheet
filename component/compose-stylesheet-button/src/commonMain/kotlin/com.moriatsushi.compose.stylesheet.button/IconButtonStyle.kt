@@ -1,14 +1,12 @@
 package com.moriatsushi.compose.stylesheet.button
 
 import androidx.compose.runtime.Immutable
-import com.moriatsushi.compose.stylesheet.indication.IndicationStyle
 
 /**
  * A style for [IconButton].
  */
 @Immutable
 sealed interface IconButtonStyle {
-    val indication: IndicationStyle?
     val defaultStyle: IconButtonStateStyle
     val pressedStyle: IconButtonStateStyle
     val hoveredStyle: IconButtonStateStyle
@@ -30,14 +28,12 @@ fun IconButtonStyle(builder: IconButtonStyleBuilder.() -> Unit): IconButtonStyle
     IconButtonStyleBuilder().apply(builder).build()
 
 internal fun IconButtonStyle(
-    indication: IndicationStyle? = null,
     defaultStyle: IconButtonStateStyle = IconButtonStateStyle.Default,
     pressedStyle: IconButtonStateStyle = IconButtonStateStyle.Default,
     hoveredStyle: IconButtonStateStyle = IconButtonStateStyle.Default,
     focusedStyle: IconButtonStateStyle = IconButtonStateStyle.Default,
     disabledStyle: IconButtonStateStyle = IconButtonStateStyle.Default,
 ): IconButtonStyle = IconButtonStyleImpl(
-    indication = indication,
     defaultStyle = defaultStyle,
     pressedStyle = pressedStyle,
     hoveredStyle = hoveredStyle,
@@ -72,7 +68,6 @@ fun IconButtonStyle.getStyleForState(
 
 @Immutable
 private data class IconButtonStyleImpl(
-    override val indication: IndicationStyle?,
     override val defaultStyle: IconButtonStateStyle,
     override val pressedStyle: IconButtonStateStyle,
     override val hoveredStyle: IconButtonStateStyle,

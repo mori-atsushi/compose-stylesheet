@@ -59,7 +59,7 @@ fun IconButton(
             .componentCommonStyle(stateStyle.commonStyle, includePadding = false)
             .clickable(
                 interactionSource = interactionSource,
-                indication = mergedStyle.indication?.value,
+                indication = stateStyle.indication?.value,
                 onClick = onClick,
                 enabled = enabled,
             )

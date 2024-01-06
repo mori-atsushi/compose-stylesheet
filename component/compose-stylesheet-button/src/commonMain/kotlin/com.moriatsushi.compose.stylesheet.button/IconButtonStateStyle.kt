@@ -3,6 +3,7 @@ package com.moriatsushi.compose.stylesheet.button
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Color
 import com.moriatsushi.compose.stylesheet.component.ComponentCommonStyle
+import com.moriatsushi.compose.stylesheet.indication.IndicationStyle
 import com.moriatsushi.compose.stylesheet.token.Token
 
 /**
@@ -11,6 +12,7 @@ import com.moriatsushi.compose.stylesheet.token.Token
 @Immutable
 sealed interface IconButtonStateStyle {
     val color: Token<Color>?
+    val indication: IndicationStyle?
     val commonStyle: ComponentCommonStyle
 
     companion object {
@@ -27,8 +29,10 @@ internal fun IconButtonStateStyle(
 
 internal fun IconButtonStateStyle(
     color: Token<Color>? = null,
+    indication: IndicationStyle? = null,
     commonStyle: ComponentCommonStyle = ComponentCommonStyle.Default,
 ): IconButtonStateStyle = IconButtonStateStyleImpl(
+    indication = indication,
     color = color,
     commonStyle = commonStyle,
 )
@@ -36,5 +40,6 @@ internal fun IconButtonStateStyle(
 @Immutable
 private data class IconButtonStateStyleImpl(
     override val color: Token<Color>?,
+    override val indication: IndicationStyle?,
     override val commonStyle: ComponentCommonStyle,
 ) : IconButtonStateStyle
